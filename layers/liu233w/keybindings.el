@@ -44,4 +44,4 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-(global-set-key (kbd "M-j") 'yas-expand)
+(global-set-key (kbd "C-q") 'yas-expand)
