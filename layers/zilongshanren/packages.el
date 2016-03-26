@@ -14,7 +14,7 @@
 (setq zilongshanren-packages
       '(
         ;;css-mode
-        lispy
+        ;; lispy
         company
         cmake-font-lock
         cmake-mode
@@ -498,20 +498,20 @@ open and unsaved."
 (defun zilongshanren/init-flycheck-package ()
   (use-package flycheck-package))
 
-(defun zilongshanren/init-lispy ()
-  "Initialize lispy"
-  (use-package lispy
-    :defer t
-    :diminish (lispy-mode)
-    :init
-    (progn
-      (add-hook 'lispy-mode-hook 'spacemacs/toggle-aggressive-indent-on)
-      (add-hook 'eval-expression-minibuffer-setup-hook 'lispy-mode)
-      (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
-      (add-hook 'spacemacs-mode-hook (lambda () (lispy-mode 1)))
-      (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
-      (add-hook 'scheme-mode-hook (lambda () (lispy-mode 1)))
-      (add-hook 'cider-repl-mode-hook (lambda () (lispy-mode 1))))))
+;; (defun zilongshanren/init-lispy ()
+;;   "Initialize lispy"
+;;   (use-package lispy
+;;     :defer t
+;;     :diminish (lispy-mode)
+;;     :init
+;;     (progn
+;;       (add-hook 'lispy-mode-hook 'spacemacs/toggle-aggressive-indent-on)
+;;       (add-hook 'eval-expression-minibuffer-setup-hook 'lispy-mode)
+;;       (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+;;       (add-hook 'spacemacs-mode-hook (lambda () (lispy-mode 1)))
+;;       (add-hook 'clojure-mode-hook (lambda () (lispy-mode 1)))
+;;       (add-hook 'scheme-mode-hook (lambda () (lispy-mode 1)))
+;;       (add-hook 'cider-repl-mode-hook (lambda () (lispy-mode 1))))))
 
 
 (defun zilongshanren/post-init-company ()
