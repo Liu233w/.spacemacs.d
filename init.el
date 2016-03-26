@@ -313,8 +313,8 @@ you should place you code here."
  ((spacemacs/system-is-linux)
   (set-default-font "文泉驿等宽微米黑-18"))
  )
+
+(display-time-mode 1)
 )
-(setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
-(load custom-file 'no-error 'no-message)
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
