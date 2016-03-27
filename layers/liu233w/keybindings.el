@@ -45,3 +45,5 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (global-set-key (kbd "C-q") 'yas-expand)
+
+(evil-leader/set-key "cs" 'smart-compile)

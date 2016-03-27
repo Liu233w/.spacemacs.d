@@ -33,8 +33,8 @@
   '(
     clang-format
     multiple-cursors
+    smart-compile
     )
- ) 
   "The list of Lisp packages required by the liu233w layer.
 
 Each entry is either:
@@ -60,7 +60,11 @@ Each entry is either:
         `./local/PACKAGE/PACKAGE.el'
 
       - A list beginning with the symbol `recipe' is a melpa
-        recipe.  See: https://github.com/milkypostman/melpa#recipe-format"
+        recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
+(defun liu233w/init-smart-compile ()
+  (use-package smart-compile))
 
+(defun liu233w/init-multiple-cursors ()
+  (use-package multiple-cursors))
 
 ;;; packages.el ends here
