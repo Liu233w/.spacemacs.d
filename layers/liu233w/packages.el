@@ -34,6 +34,7 @@
     clang-format
     multiple-cursors
     smart-compile
+    slime
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -66,5 +67,13 @@ Each entry is either:
 
 (defun liu233w/init-multiple-cursors ()
   (use-package multiple-cursors))
+
+(defun liu233w/post-init-slime ()
+  (setq inferior-lisp-program (cond
+                               ((spacemacs/system-is-mswindows) "wx86cl64")
+                               ((spacemacs/system-is-linux) "sbcl")
+                               (t "sbcl")
+                               ))
+  )
 
 ;;; packages.el ends here

@@ -1,8 +1,3 @@
-(setq inferior-lisp-program (cond
-                             ((spacemacs/system-is-mswindows) "wx86cl64")
-                             ((spacemacs/system-is-linux) "sbcl")
-                             (t "sbcl")
-                             ))
 
 ;; For my language code setting (UTF-8)
 (set-language-environment "chinese-GBK")
