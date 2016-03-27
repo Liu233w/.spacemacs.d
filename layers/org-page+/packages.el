@@ -68,7 +68,7 @@ Each entry is either:
 
 (defun org-page+/init-org-page ()
   (use-package "org-page")
-  (setq op/repository-directory "d:/Sources/personalblog/"
+  (setq op/repository-directory "~/documents/blog/"
         op/site-domain "http://liu233w.github.io/"
         op/personal-disqus-shortname "liu233w"
         op/site-main-title "科学君的不科学博客"
