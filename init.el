@@ -68,6 +68,7 @@ values."
               chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
      org-page+
+     java
      zilongshanren
      liu233w
      )

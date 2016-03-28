@@ -27,3 +27,7 @@
  )
 
 (display-time-mode 1)
+
+(when (spacemacs/system-is-mswindows)
+  (setq eclim-eclipse-dirs "c:/Software/clipse"
+        eclim-executable "c:/Software/clipse"))
