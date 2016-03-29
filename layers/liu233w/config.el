@@ -29,5 +29,6 @@
 (display-time-mode 1)
 
 (when (spacemacs/system-is-mswindows)
-  (setq eclim-eclipse-dirs "c:/Software/clipse"
-        eclim-executable "c:/Software/clipse"))
+  (setq eclim-eclipse-dirs "c:/Software/eclipse"
+        eclim-executable "c:/Software/eclipse/eclim.bat")
+  (add-to-list 'eclim--file-coding-system-mapping '("utf-8-auto-dos" . "utf-8")))

@@ -47,3 +47,5 @@
 (global-set-key (kbd "C-q") 'yas-expand)
 
 (evil-leader/set-key "cs" 'smart-compile)
+
+(evil-leader/set-key "oe" 'eclim-project-mode)
