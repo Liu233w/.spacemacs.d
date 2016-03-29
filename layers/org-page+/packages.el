@@ -68,6 +68,7 @@ Each entry is either:
 
 (defun org-page+/init-org-page ()
   (use-package "org-page")
+  (require 'org-page)
   (setq op/repository-directory "~/documents/blog/"
         op/site-domain "http://liu233w.github.io/"
         op/personal-disqus-shortname "liu233w"

@@ -69,6 +69,7 @@ values."
               chinese-enable-youdao-dict t)
      org-page+
      java
+     emoji
      zilongshanren
      liu233w
      )
