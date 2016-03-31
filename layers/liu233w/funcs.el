@@ -1,0 +1,5 @@
+(defun semi-clang-format (args)
+  (interactive "*P")
+  (c-electric-semi&comma args)
+  (clang-format-region (line-beginning-position 0) (line-beginning-position 2))
+  )

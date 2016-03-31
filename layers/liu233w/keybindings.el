@@ -7,10 +7,8 @@
               ;;使用clang-format作为默认排版工具
               (local-set-key (kbd "C-M-\\") 'clang-format)
               ;;当插入分号时自动对当前行排版
-              (local-set-key (kbd "RET")
-                             '(lambda () (interactive)
-                                (clang-format-region (line-beginning-position -1) (point))
-                                (newline-and-indent))))))
+              (local-set-key (kbd ";")
+                             'semi-clang-format))))
 
 ;;光标在行首时注释此行
 ;;说明见http://cmdblock.blog.51cto.com/415170/557978/
