@@ -1,5 +1,3 @@
-
-
 ;;add clang-format support
 (add-hook 'c++-mode-hook
           (lambda ()
@@ -36,14 +34,6 @@
 (define-key evil-normal-state-map (kbd "C-S-o")
   '(lambda () (interactive) (save-excursion (evil-open-below 1) (evil-normal-state))))
 
-;;mc-multiple-cursors
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
 (global-set-key (kbd "C-q") 'yas-expand)
-
-(evil-leader/set-key "cs" 'smart-compile)
 
 (evil-leader/set-key "oe" 'eclim-project-mode)

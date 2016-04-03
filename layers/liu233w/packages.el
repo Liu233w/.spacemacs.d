@@ -64,10 +64,16 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 (defun liu233w/init-smart-compile ()
-  (use-package smart-compile))
+  (use-package smart-compile
+    :init (evil-leader/set-key "cs" 'smart-compile)))
 
 (defun liu233w/init-multiple-cursors ()
-  (use-package multiple-cursors))
+  (use-package multiple-cursors
+    :init
+    (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)))
 
 (defun liu233w/post-init-slime ()
   (setq inferior-lisp-program (cond
