@@ -15,16 +15,17 @@
 (cond
  ((spacemacs/system-is-mswindows)
   ;; Setting English Font
-  (set-face-attribute
-   'default nil :font "Consolas 18")
+  (require 'cl-lib)
+  (unless (search "Source Code Pro" (frame-parameter nil 'font))
+    (set-face-attribute
+     'default nil :font "Consolas 18"))
   ;; Chinese Font
   (dolist (charset '(kana han cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
                       charset
-                      (font-spec :family "Microsoft Yahei" :size 19))))
+                      (font-spec :family "Microsoft Yahei" :size 22))))
  ((spacemacs/system-is-linux)
   (set-default-font "文泉驿等宽微米黑-18"))
  )
 
 (display-time-mode 1)
-
