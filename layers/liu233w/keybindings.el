@@ -34,6 +34,4 @@
 (define-key evil-normal-state-map (kbd "C-S-o")
   '(lambda () (interactive) (save-excursion (evil-open-below 1) (evil-normal-state))))
 
-(global-set-key (kbd "C-q") 'yas-expand)
-
 (evil-leader/set-key "oe" 'eclim-project-mode)
