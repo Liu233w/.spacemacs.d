@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: acm
+# key: acm
+# --
+* 题目：
+
+$1
+
+* 代码：
+
+#+begin_src c++
+ $2
+#+end_src
+
+* 解析&吐槽：
+
+$0
