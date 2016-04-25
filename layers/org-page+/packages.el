@@ -31,12 +31,6 @@
 
 (defconst org-page+-packages
   '(
-    ;; mustache
-    ;; htmlize
-    ;; dash
-    ;; ht
-    ;; simple-httpd
-    ;; git
     org-page
     )
   "The list of Lisp packages required by the org-page+ layer.
@@ -74,7 +68,9 @@ Each entry is either:
         op/personal-disqus-shortname "liu233w"
         op/site-main-title "科学君的不科学博客"
         op/site-sub-title "by 不科学的科学君"
-        op/personal-github-link "https://github.com/liu233w")
+        op/personal-github-link "https://github.com/liu233w"
+        op/personal-avatar "https://raw.githubusercontent.com/Liu233w/liu233w.github.io/source/avatar.jpg"
+       )
   )
 
 ;;; packages.el ends here

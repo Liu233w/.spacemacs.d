@@ -70,6 +70,8 @@ values."
      org-page+
      java
      emoji
+     (python :variables python-enable-yapf-format-on-save t)
+     markdown
      zilongshanren
      liu233w
      )
