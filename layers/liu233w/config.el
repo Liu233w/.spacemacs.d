@@ -29,3 +29,6 @@
  )
 
 (display-time-mode 1)
+(setq display-time-24hr-format t)
+;;显示时间的格式
+(setq display-time-format "%H:%M")
