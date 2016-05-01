@@ -49,8 +49,8 @@ values."
      (spacemacs-layouts :variables layouts-enable-autosave t
                         layouts-autosave-delay 300)
      ;; eyebrowse
-     (colors :variables
-             colors-enable-nyan-cat-progress-bar t)
+     ;; (colors :variables
+     ;;         colors-enable-nyan-cat-progress-bar t)
      (git :variables
           git-magit-status-fullscreen t
           magit-push-always-verify nil
@@ -68,7 +68,7 @@ values."
               chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
      org-page+
-     java
+     ;; java
      emoji
      (python :variables python-enable-yapf-format-on-save t)
      markdown
@@ -293,12 +293,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place you code here."
+
 ;;eclim option
-(when (spacemacs/system-is-mswindows)
-  (use-package "eclim")
-  (setq eclim-eclipse-dirs "c:/Software/eclipse"
-        eclim-executable "c:/Software/eclipse/eclim.bat")
-  (add-to-list 'eclim--file-coding-system-mapping '("utf-8-auto-dos" . "utf-8")))
+;; (when (spacemacs/system-is-mswindows)
+;;   (use-package "eclim")
+;;   (setq eclim-eclipse-dirs "c:/Software/eclipse"
+;;         eclim-executable "c:/Software/eclipse/eclim.bat")
+;;   (add-to-list 'eclim--file-coding-system-mapping '("utf-8-auto-dos" . "utf-8")))
 
 ;;读取在不同系统之下的配置
 (if (file-exists-p "~/.myemacs.el")
