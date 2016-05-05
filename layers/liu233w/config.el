@@ -1,21 +1,21 @@
+(require 'cl-lib)
 
 ;; For my language code setting (UTF-8)
 (set-language-environment "chinese-GBK")
 (prefer-coding-system 'utf-8-auto)
 
 ;;设置窗口大小
-(when (spacemacs/system-is-mswindows)
-  (defun reset-frame-size ()
-    (interactive)
-    (set-frame-width (selected-frame) 80)
-    (set-frame-height (selected-frame) 20))
-  (reset-frame-size))
+;; (when (spacemacs/system-is-mswindows)
+;;   (defun reset-frame-size ()
+;;     (interactive)
+;;     (set-frame-width (selected-frame) 80)
+;;     (set-frame-height (selected-frame) 20))
+;;   (reset-frame-size))
 
 ;;setting Font
 (cond
  ((spacemacs/system-is-mswindows)
   ;; Setting English Font
-  (require 'cl-lib)
   (unless (search "Source Code Pro" (frame-parameter nil 'font))
     (set-face-attribute
      'default nil :font "Consolas 18"))
@@ -32,3 +32,4 @@
 (setq display-time-24hr-format t)
 ;;显示时间的格式
 (setq display-time-format "%H:%M")
+

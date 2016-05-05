@@ -67,11 +67,12 @@ values."
      (chinese :variables chinese-default-input-method 'pyim
               chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
-     org-page+
+     ;; org-page+
      ;; java
      emoji
      (python :variables python-enable-yapf-format-on-save t)
      markdown
+     githubblog
      zilongshanren
      liu233w
      )
@@ -284,6 +285,11 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+;;将melpa源替换成popkit源，便于国内使用
+;;(setq package-archives
+;;      (delete-if '(lambda (it) (string= (car it) "melpa")) package-archives))
+;;(add-to-list 'package-archives
+;;             '("popkit" . "http://elpa.popkit.org/packages/"))
   )
 
 (defun dotspacemacs/user-config ()
