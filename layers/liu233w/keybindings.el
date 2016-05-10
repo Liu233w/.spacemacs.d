@@ -36,4 +36,5 @@
 (define-key evil-normal-state-map (kbd "C-S-o")
   '(lambda () (interactive) (save-excursion (evil-open-below 1) (evil-normal-state))))
 
-(evil-leader/set-key "oe" 'eclim-project-mode)
+;; don't need it anymore
+;; (evil-leader/set-key "oe" 'eclim-project-mode)

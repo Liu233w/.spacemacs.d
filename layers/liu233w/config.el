@@ -5,12 +5,12 @@
 (prefer-coding-system 'utf-8-auto)
 
 ;;设置窗口大小
-;; (when (spacemacs/system-is-mswindows)
-;;   (defun reset-frame-size ()
-;;     (interactive)
-;;     (set-frame-width (selected-frame) 80)
-;;     (set-frame-height (selected-frame) 20))
-;;   (reset-frame-size))
+ (when (spacemacs/system-is-mswindows)
+   (defun reset-frame-size ()
+     (interactive)
+     (set-frame-width (selected-frame) 80)
+     (set-frame-height (selected-frame) 30))
+   (reset-frame-size))
 
 ;;setting Font
 (cond
