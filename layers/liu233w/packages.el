@@ -3,7 +3,7 @@
 ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
 ;;
 ;; Author:  <wwwlsmcom@DESKTOP-1V4DLJV>
-;; URL: https://github.com/syl20bnr/spacemacs
+;; URL: https://github.com/liu233w/.spacemacs.d
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -36,6 +36,7 @@
     smart-compile
     slime
     paredit
+    ace-mc
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -63,6 +64,7 @@ Each entry is either:
 
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
+
 (defun liu233w/init-smart-compile ()
   (use-package smart-compile
     :init (evil-leader/set-key "cs" 'smart-compile)))
@@ -73,7 +75,11 @@ Each entry is either:
     (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
     (global-set-key (kbd "C->") 'mc/mark-next-like-this)
     (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)))
+    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+    (define-key evil-visual-state-map (kbd "mn") 'mc/mark-next-like-this)
+    (define-key evil-visual-state-map (kbd "ma") 'mc/mark-all-like-this)
+    ))
 
 (defun liu233w/post-init-slime ()
   (setq inferior-lisp-program (cond
@@ -100,5 +106,11 @@ Each entry is either:
       (read-kbd-macro paredit-backward-delete-key) nil))
   (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
   )
+
+(defun liu233w/init-ace-mc ()
+  (use-package ace-mc
+    :init
+    (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
+    (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor)))
 
 ;;; packages.el ends here
