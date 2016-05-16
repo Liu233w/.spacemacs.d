@@ -38,3 +38,6 @@
 
 ;; don't need it anymore
 ;; (evil-leader/set-key "oe" 'eclim-project-mode)
+
+;;使用occur搜索
+(evil-leader/set-key "so" 'occur)
