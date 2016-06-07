@@ -285,11 +285,12 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-;;将melpa源替换成popkit源，便于国内使用
-;;(setq package-archives
-;;      (delete-if '(lambda (it) (string= (car it) "melpa")) package-archives))
-;;(add-to-list 'package-archives
-;;             '("popkit" . "http://elpa.popkit.org/packages/"))
+;;清华大学的国内源：https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
+(setq configuration-layer--elpa-archives
+    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
   )
 
 (defun dotspacemacs/user-config ()
