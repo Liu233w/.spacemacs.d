@@ -99,3 +99,8 @@ Single Capitals as you type."
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
+
+(menu-bar-mode t)
+
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
