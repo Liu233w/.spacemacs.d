@@ -73,7 +73,7 @@ values."
      (python :variables python-enable-yapf-format-on-save t)
      markdown
      githubblog
-     zilongshanren
+     ;;zilongshanren
      liu233w
      )
    ;; List of additional packages that will be installed without being

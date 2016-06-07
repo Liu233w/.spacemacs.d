@@ -37,6 +37,7 @@
     slime
     paredit
     ace-mc
+    evil-vimish-fold
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -112,5 +113,17 @@ Each entry is either:
     :init
     (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
     (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor)))
+
+(defun liu233w/init-evil-vimish-fold ()
+  ;;from zilongshanren
+  (use-package evil-vimish-fold
+    :init
+    (vimish-fold-global-mode 1)
+    :config
+    (progn
+      (define-key evil-normal-state-map (kbd "zf") 'vimish-fold)
+      (define-key evil-visual-state-map (kbd "zf") 'vimish-fold)
+      (define-key evil-normal-state-map (kbd "zd") 'vimish-fold-delete)
+      (define-key evil-normal-state-map (kbd "za") 'vimish-fold-toggle))))
 
 ;;; packages.el ends here

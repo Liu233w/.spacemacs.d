@@ -87,14 +87,14 @@
       (backward-char)
       (sp-forward-slurp-sexp))
 
-    (global-set-key (kbd "C-(") 'wrap-sexp-with-new-round-parens)
+    ((global-set-key (kbd "C-(") 'wrap-sexp-with-new-round-parens)
 
-    (with-eval-after-load 'smartparens
-      (evil-define-key 'normal sp-keymap
-        (kbd ")>") 'sp-forward-slurp-sexp
-        (kbd ")<") 'sp-forward-barf-sexp
-        (kbd "(>") 'sp-backward-barf-sexp
-        (kbd "(<") 'sp-backward-slurp-sexp))
+     with-eval-after-load 'smartparens
+     (evil-define-key 'normal sp-keymap
+       (kbd ")>") 'sp-forward-slurp-sexp
+       (kbd ")<") 'sp-forward-barf-sexp
+       (kbd "(>") 'sp-backward-barf-sexp
+       (kbd "(<") 'sp-backward-slurp-sexp))
 
     ))
 
