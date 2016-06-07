@@ -104,3 +104,14 @@ Single Capitals as you type."
 
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+
+;;c++缩进
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (interactive)
+             (setq default-tab-width 4)
+             (setq-default indent-tabs-mode nil)
+             (setq c-basic-offset 4)
+
+             (c-set-style "google")
+                         ))

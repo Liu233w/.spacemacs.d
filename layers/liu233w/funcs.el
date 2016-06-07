@@ -1,7 +1,20 @@
-(defun semi-clang-format (args)
+(defun liu233w/semi-clang-format (args)
+  "format by clang-format when enter ';'"
   (interactive "*P")
   (c-electric-semi&comma args)
   (clang-format-region (line-beginning-position 0) (line-beginning-position 2))
+  )
+
+(defun liu233w/brace-clang-format (args)
+  "format by clang-format when enter '}'"
+  (interactive "*P")
+  (c-electric-brace args)
+  ;; (let ((end-position (point))
+  ;;       begin-position)
+  ;;   (save-excursion
+  ;;     (evil-jump-item)
+  ;;     (setf begin-position (point)))
+  ;;   (clang-format-region begin-position end-position))
   )
 
 ;; remove all the duplicated emplies in current buffer
