@@ -115,3 +115,9 @@ Single Capitals as you type."
 
              (c-set-style "google")
                          ))
+
+;;When enter the shell buffer, evil state will be switched to emacs-state,
+;;C-z can switch between emacs-mode and normal-mode
+(add-hook 'shell-mode-hook '(lambda ()
+                              (evil-normal-state)
+                              (evil-emacs-state)))
