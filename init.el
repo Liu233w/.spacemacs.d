@@ -312,8 +312,6 @@ you should place you code here."
     (load-file "~/.myemacs.el"))
 
 (server-start)
-
-(setq gdb-many-windows nil)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
