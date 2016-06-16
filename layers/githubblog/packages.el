@@ -117,9 +117,6 @@ Each entry is either:
           :category-index nil)
          ))
 
-  (setf ego--category-show-list
-        '("blog" "acm"))
-
   (evil-leader/set-key
     "opp" 'ego-do-publication
     "opn" 'ego-new-post)
