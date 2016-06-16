@@ -44,3 +44,6 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;;使用occur搜索
 (evil-leader/set-key "so" 'occur)
+
+;;在插入模式下使用C-d删除光标后的内容（<delete>）
+(define-key evil-insert-state-map (kbd "C-d") 'delete-char)

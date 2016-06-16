@@ -9,12 +9,12 @@
   "format by clang-format when enter '}'"
   (interactive "*P")
   (c-electric-brace args)
-  ;; (let ((end-position (point))
-  ;;       begin-position)
-  ;;   (save-excursion
-  ;;     (evil-jump-item)
-  ;;     (setf begin-position (point)))
-  ;;   (clang-format-region begin-position end-position))
+  (let ((end-position (point))
+        begin-position)
+    (save-excursion
+      (evil-jump-item)
+      (setf begin-position (point)))
+    (clang-format-region begin-position end-position))
   )
 
 ;; remove all the duplicated emplies in current buffer
