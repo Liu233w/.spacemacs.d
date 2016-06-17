@@ -38,6 +38,7 @@
     paredit
     ace-mc
     evil-vimish-fold
+    ahk-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -125,5 +126,8 @@ Each entry is either:
       (define-key evil-visual-state-map (kbd "zf") 'vimish-fold)
       (define-key evil-normal-state-map (kbd "zd") 'vimish-fold-delete)
       (define-key evil-normal-state-map (kbd "za") 'vimish-fold-toggle))))
+
+(defun liu233w/init-ahk-mode ()
+  (use-package ahk-mode))
 
 ;;; packages.el ends here
