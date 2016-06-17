@@ -39,6 +39,7 @@
     ace-mc
     evil-vimish-fold
     ahk-mode
+    fcitx
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -129,5 +130,15 @@ Each entry is either:
 
 (defun liu233w/init-ahk-mode ()
   (use-package ahk-mode))
+
+(defun liu233w/init-fcitx ()
+  "可以在输入快捷键时自动切换输入法"
+  (use-package fcitx)
+  (setq w32-pass-lwindow-to-system nil)
+  (setq w32-lwindow-modifier 'super)
+  (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
+  (fcitx-aggressive-setup)
+  (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
+  )
 
 ;;; packages.el ends here

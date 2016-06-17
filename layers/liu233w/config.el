@@ -112,3 +112,13 @@ Single Capitals as you type."
 (add-hook 'shell-mode-hook '(lambda ()
                               (evil-normal-state)
                               (evil-emacs-state)))
+
+;;在dired中使用enter时只使用同一个缓冲区
+(put 'dired-find-alternate-file 'disabled nil)
+;; 延迟加载
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+
+;; (add-hook 'c++-mode-hook '(lambda ()
+;;                             (semantic-add-system-include
+;;                              "c:/Software/LLVM/include/")))
