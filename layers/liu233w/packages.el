@@ -138,6 +138,8 @@ Each entry is either:
   (setq w32-lwindow-modifier 'super)
   (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
   (fcitx-aggressive-setup)
+  (fcitx-shell-command-turn-on)
+  (fcitx-eval-expression-turn-on)
   (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
   )
 
