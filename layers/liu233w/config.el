@@ -154,3 +154,7 @@ Single Capitals as you type."
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
   )
+
+;; hungry delete mode
+(eval-after-load 'hungry-delete
+  (global-hungry-delete-mode t))

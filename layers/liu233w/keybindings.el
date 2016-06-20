@@ -47,3 +47,6 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;;在插入模式下使用C-d删除光标后的内容（<delete>）
 (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
+
+;; from zilongshanren
+(global-set-key (kbd "C-S-y") 'helm-show-kill-ring)
