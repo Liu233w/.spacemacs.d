@@ -71,8 +71,8 @@ values."
      emoji
      (python :variables python-enable-yapf-format-on-save t)
      markdown
-     githubblog
      liu233w
+     org-config
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
