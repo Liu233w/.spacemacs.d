@@ -33,12 +33,22 @@
       (org-map-entries
        (lambda ()
          (when (not (string= head-name (org-find-top-headline)))
-           (org-refile)
            ;; 有没有办法让这个函数不提示而是直接进行操作？
+           (org-refile)
            )
          ;; (setq org-map-continue-from (outline-previous-heading))
          )
        (format "/%s" prefix) 'file)))
+
+  ;; 表示归类内容的时候会查找的todo keywords
+  (defvar org-config//org-refile-tasks-list
+    '("TODO" "NEXT" "WAITTING" "SOMEDAY" "DONE" "ABORT"))
+
+  (require 'cl-lib)
+  (defun org-config/org-refile-all-tasks ()
+    (interactive)
+    (loop for keys in org-config//org-refile-tasks-list
+          do (org-config//org-refile-tasks keys)))
 
 )
 
