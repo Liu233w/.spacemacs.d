@@ -166,8 +166,17 @@ Each entry is either:
       ':group 'org-mobile
       ' :type 'string)
 
+  ;;org的捕获列表
+  (setq org-capture-templates
+        '(("t" "TODO" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_TODO")
+           "* TODO %?\n %i\n %a")
+          ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_SOMEDAY")
+           "* SOMEDAY %?\n %i\n %a")
+          ("n" "Notes" entry (file+datetree "~/documents/org-mode/host/notes.org")
+           "* %?\nEntered on %U\n %i\n %a")))
+
   ;; org-agenda的全局文件
-  (setf org-agenda-files (list "~/documents/org-mode/host/TODO.org"
+  (setf org-agenda-files (list "~/documents/org-mode/host/tasks.org"
                                "~/documents/org-mode/host/notes.org"))
 
   ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
