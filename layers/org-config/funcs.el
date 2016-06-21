@@ -25,6 +25,21 @@
     (org-config//org-archive-tasks "ABORT")
     )
 
+  ;; 自动整理列表，归类内容（未完成）
+  (defun org-config//org-refile-tasks (prefix)
+    (let* ((head-name (concatenate 'string "_" prefix))
+           (org-refile-targets
+            `((nil . (:regexp . ,(concatenate 'string "* " head-name))))))
+      (org-map-entries
+       (lambda ()
+         (when (not (string= head-name (org-find-top-headline)))
+           (org-refile)
+           ;; 有没有办法让这个函数不提示而是直接进行操作？
+           )
+         ;; (setq org-map-continue-from (outline-previous-heading))
+         )
+       (format "/%s" prefix) 'file)))
+
 )
 
 ;; 覆盖默认行为：归档子树时保留树结构
