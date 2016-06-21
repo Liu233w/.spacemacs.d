@@ -98,7 +98,6 @@ Each entry is either:
   ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
   ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
   (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
-
   )
 
 (defun org-config/init-ego ()
