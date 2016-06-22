@@ -50,3 +50,7 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;; from zilongshanren
 (global-set-key (kbd "C-S-y") 'helm-show-kill-ring)
+
+;; set C-h to backspace while C-H is help
+(define-key key-translation-map (kbd "C-S-h") (kbd "C-h"))
+(define-key key-translation-map (kbd "C-h") (kbd "DEL"))
