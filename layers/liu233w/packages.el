@@ -40,7 +40,6 @@
     evil-vimish-fold
     ahk-mode
     fcitx
-    org
     hungry-delete
     evil-visual-mark-mode
     )
@@ -149,47 +148,16 @@ Each entry is either:
 (defun liu233w/post-init-hungry-delete ()
   (global-hungry-delete-mode t))
 
-(defun liu233w/post-init-org ()
-  ;;org-mode和org-mobile的文件夹
-  (setf org-directory "~/documents/org-mode/host/"
-        org-mobile-directory "~/documents/org-mode/"
-        org-mobile-inbox-for-pull "~/documents/org-mode/index.org")
-
-  ;; 完成状态
-  (setf org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
-          ))
-
-  ;; 用来检测md5的程序
-  (defcustom org-mobile-checksum-binary
-    (or (executable-find "md5sums") (executable-find "md5sum"))
-    ' "Executable used for computing checksums of agenda files."
-      ':group 'org-mobile
-      ' :type 'string)
-
-  ;; org-agenda的全局文件
-  (setf org-agenda-files (list "~/documents/org-mode/host/TODO.org"
-                               "~/documents/org-mode/host/notes.org"))
-
-  ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
-  ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
-  (defun liu233w/org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-  (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
-  )
-
-  (defun liu233w/init-evil-visual-mark-mode ()
-    (use-package evil-visual-mark-mode
-      :init
-      (progn
-        (spacemacs|add-toggle evil-visual-mark-mode
-          :status evil-visual-mark-mode
-          :on (evil-visual-mark-mode)
-          :off (evil-visual-mark-mode -1)
-          :documentation "Show evil marks"
-          :evil-leader "otm")
-        (evil-visual-mark-mode))))
+(defun liu233w/init-evil-visual-mark-mode ()
+  (use-package evil-visual-mark-mode
+    :init
+    (progn
+      (spacemacs|add-toggle evil-visual-mark-mode
+        :status evil-visual-mark-mode
+        :on (evil-visual-mark-mode)
+        :off (evil-visual-mark-mode -1)
+        :documentation "Show evil marks"
+        :evil-leader "otm")
+      (evil-visual-mark-mode))))
 
 ;;; packages.el ends here

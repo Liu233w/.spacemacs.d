@@ -1,8 +1,8 @@
-;;; packages.el --- githubblog layer packages file for Spacemacs.
+;;; packages.el --- org-config layer packages file for Spacemacs.
 ;;
 ;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
 ;;
-;; Author:  <wwwlsmcom@DESKTOP-1V4DLJV>
+;; Author:  liu233w
 ;; URL: https://github.com/syl20bnr/spacemacs
 ;;
 ;; This file is not part of GNU Emacs.
@@ -18,22 +18,26 @@
 ;;
 ;;
 ;; Briefly, each package to be installed or configured by this layer should be
-;; added to `githubblog-packages'. Then, for each package PACKAGE:
+;; added to `org-config-packages'. Then, for each package PACKAGE:
 ;;
 ;; - If PACKAGE is not referenced by any other Spacemacs layer, define a
-;;   function `githubblog/init-PACKAGE' to load and initialize the package.
+;;   function `org-config/init-PACKAGE' to load and initialize the package.
 
 ;; - Otherwise, PACKAGE is already referenced by another Spacemacs layer, so
-;;   define the functions `githubblog/pre-init-PACKAGE' and/or
-;;   `githubblog/post-init-PACKAGE' to customize the package as it is loaded.
+;;   define the functions `org-config/pre-init-PACKAGE' and/or
+;;   `org-config/post-init-PACKAGE' to customize the package as it is loaded.
+
+;;; Summary:
+;; 这是我用来管理org相关配置的layer。由于org过于庞大，可配置内容太多，故将此layer独立出来
 
 ;;; Code:
 
-(defconst githubblog-packages
+(defconst org-config-packages
   '(
+    org
     ego
     )
-  "The list of Lisp packages required by the githubblog layer.
+  "The list of Lisp packages required by the org-config layer.
 
 Each entry is either:
 
@@ -60,7 +64,43 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
-(defun githubblog/init-ego ()
+(defun org-config/post-init-org ()
+  ;;org-mode和org-mobile的文件夹
+  (setf org-directory "~/documents/org-mode/host/"
+        org-mobile-directory "~/documents/org-mode/"
+        org-mobile-inbox-for-pull "~/documents/org-mode/index.org")
+
+  ;; 完成状态
+  (setf org-todo-keywords
+        '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+          ))
+
+  ;; 用来检测md5的程序
+  (defcustom org-mobile-checksum-binary
+    (or (executable-find "md5sums") (executable-find "md5sum"))
+    ' "Executable used for computing checksums of agenda files."
+      ':group 'org-mobile
+      ' :type 'string)
+
+  ;;org的捕获列表
+  (setq org-capture-templates
+        '(("t" "TODO" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_TODO")
+           "* TODO %?\n %i\n %a")
+          ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_SOMEDAY")
+           "* SOMEDAY %?\n %i\n %a")
+          ("n" "Notes" entry (file+datetree "~/documents/org-mode/host/notes.org")
+           "* %?\nEntered on %U\n %i\n %a")))
+
+  ;; org-agenda的全局文件
+  (setf org-agenda-files (list "~/documents/org-mode/host/tasks.org"
+                               "~/documents/org-mode/host/notes.org"))
+
+  ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
+  ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
+  (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
+  )
+
+(defun org-config/init-ego ()
   (use-package "ego")
   (require 'ego)
   (ego-add-to-alist 'ego-project-config-alist
@@ -121,6 +161,5 @@ Each entry is either:
     "opp" 'ego-do-publication
     "opn" 'ego-new-post)
   )
-
 
 ;;; packages.el ends here
