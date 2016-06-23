@@ -72,10 +72,12 @@ Each entry is either:
 
 (defun liu233w/init-smart-compile ()
   (use-package smart-compile
+    :defer t
     :init (evil-leader/set-key "cs" 'smart-compile)))
 
 (defun liu233w/init-multiple-cursors ()
   (use-package multiple-cursors
+    :defer t
     :init
     (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
     (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -95,25 +97,29 @@ Each entry is either:
   )
 
 (defun liu233w/init-paredit ()
-  (use-package paredit)
-  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-  ;; Stop SLIME's REPL from grabbing DEL,
-  ;; which is annoying when backspacing over a '('
-  (defun override-slime-repl-bindings-with-paredit ()
-    (define-key slime-repl-mode-map
-      (read-kbd-macro paredit-backward-delete-key) nil))
-  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-  )
+  (use-package paredit
+    :defer t
+    :init
+    (progn
+      (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+      (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+      (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+      (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+      (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+      (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+      (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+      (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+      ;; Stop SLIME's REPL from grabbing DEL,
+      ;; which is annoying when backspacing over a '('
+      (defun override-slime-repl-bindings-with-paredit ()
+        (define-key slime-repl-mode-map
+          (read-kbd-macro paredit-backward-delete-key) nil))
+      (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+      )))
 
 (defun liu233w/init-ace-mc ()
   (use-package ace-mc
+    :defer t
     :init
     (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
     (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor)))
@@ -131,18 +137,23 @@ Each entry is either:
       (define-key evil-normal-state-map (kbd "za") 'vimish-fold-toggle))))
 
 (defun liu233w/init-ahk-mode ()
-  (use-package ahk-mode))
+  (use-package ahk-mode
+    :defer t))
 
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
-  (use-package fcitx)
-  (setq w32-pass-lwindow-to-system nil)
-  (setq w32-lwindow-modifier 'super)
-  (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
-  (fcitx-aggressive-setup)
-  (fcitx-shell-command-turn-on)
-  (fcitx-eval-expression-turn-on)
-  (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
+  (use-package fcitx
+    :defer t
+    :config
+    (progn
+      (setq w32-pass-lwindow-to-system nil)
+      (setq w32-lwindow-modifier 'super)
+      (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
+      (fcitx-aggressive-setup)
+      (fcitx-shell-command-turn-on)
+      (fcitx-eval-expression-turn-on)
+      (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
+      ))
   )
 
 (defun liu233w/post-init-hungry-delete ()
@@ -150,6 +161,7 @@ Each entry is either:
 
 (defun liu233w/init-evil-visual-mark-mode ()
   (use-package evil-visual-mark-mode
+    :defer t
     :init
     (progn
       (spacemacs|add-toggle evil-visual-mark-mode

@@ -101,65 +101,66 @@ Each entry is either:
   )
 
 (defun org-config/init-ego ()
-  (use-package "ego")
-  (require 'ego)
-  (ego-add-to-alist 'ego-project-config-alist
-               `(("my-blog" ; 站点工程的名字
-                  :repository-directory "~/documents/blog/" ; 站点的本地目录
-                  :site-domain  "http://liu233w.github.io/"; 站点的网址
-                  :site-main-title  "科学君的不科学博客"; 站点的标题
-                  :site-sub-title  "by 不科学的科学君"; 站点的副标题
-                 :theme (default) ; 使用的主题
-                 :summary (("文章标签" :tags) ("按年度分类" :year :updates 10)) ; 导航栏的设置，有 category 和 summary 两种
-                 :retrieve-category-function ego--get-file-category
-                 :default-category "blog"
-                 :source-browse-url ("Github" "https://github.com/liu233w/liu233w.github.io") ; 你的工程源代码所在的位置
-                 :personal-disqus-shortname "liu233w" ; 使用 disqus 评论功能的话，它的短名称
-                 :confound-email t ; 是否保护邮件名称呢？t 是保护，nil 是不保护，默认是保护
-                 :web-server-docroot "~/webRoot/liu233w.github.io" ; 本地测试的目录
-                 :web-server-port 5432; 本地测试的端口
-                 :personal-avatar "https://raw.githubusercontent.com/Liu233w/liu233w.github.io/source/avatar.jpg"
-                 :repository-org-branch "source"
-                 :repository-html-branch "master"
-                 )
-                 ;; 你可以在此添加更多的站点设置
-                 ))
-
-  ;;设置category
-  (setf ego--category-config-alist
-        '(("blog"
-          :show-meta t
-          :show-comment t
-          :uri-generator ego--generate-uri
-          :uri-template "/blog/%y/%m/%d/%t/"
-          :sort-by :date     ;; how to sort the posts
-          :category-index t) ;; generate category index or not
-         ("acm"
-          :show-meta t
-          :show-comment t
-          :uri-generator ego--generate-uri
-          :uri-template "/blog/%y/%m/%d/%t/"
-          :sort-by :date     ;; how to sort the posts
-          :category-index t)
-         ("index"
-          :show-meta nil
-          :show-comment nil
-          :uri-generator ego--generate-uri
-          :uri-template "/"
-          :sort-by :date
-          :category-index nil)
-         ("about"
-          :show-meta nil
-          :show-comment nil
-          :uri-generator ego--generate-uri
-          :uri-template "/about/"
-          :sort-by :date
-          :category-index nil)
-         ))
-
-  (evil-leader/set-key
-    "opp" 'ego-do-publication
-    "opn" 'ego-new-post)
+  (use-package ego
+    :defer t                            ;延迟加载
+    :init                               ;在package加载之前求值，用于设置快捷键
+    (evil-leader/set-key
+      "opp" 'ego-do-publication
+      "opn" 'ego-new-post)
+    :config                             ;在package加载之后才会求值
+    (progn
+      (ego-add-to-alist 'ego-project-config-alist
+                        `(("my-blog" ; 站点工程的名字
+                           :repository-directory "~/documents/blog/" ; 站点的本地目录
+                           :site-domain  "http://liu233w.github.io/"; 站点的网址
+                           :site-main-title  "科学君的不科学博客"; 站点的标题
+                           :site-sub-title  "by 不科学的科学君"; 站点的副标题
+                           :theme (default) ; 使用的主题
+                           :summary (("文章标签" :tags) ("按年度分类" :year :updates 10)) ; 导航栏的设置，有 category 和 summary 两种
+                           :retrieve-category-function ego--get-file-category
+                           :default-category "blog"
+                           :source-browse-url ("Github" "https://github.com/liu233w/liu233w.github.io") ; 你的工程源代码所在的位置
+                           :personal-disqus-shortname "liu233w" ; 使用 disqus 评论功能的话，它的短名称
+                           :confound-email t ; 是否保护邮件名称呢？t 是保护，nil 是不保护，默认是保护
+                           :web-server-docroot "~/webRoot/liu233w.github.io" ; 本地测试的目录
+                           :web-server-port 5432; 本地测试的端口
+                           :personal-avatar "https://raw.githubusercontent.com/Liu233w/liu233w.github.io/source/avatar.jpg"
+                           :repository-org-branch "source"
+                           :repository-html-branch "master"
+                           )
+                          ;; 你可以在此添加更多的站点设置
+                          ))
+      ;;设置category
+      (setf ego--category-config-alist
+            '(("blog"
+               :show-meta t
+               :show-comment t
+               :uri-generator ego--generate-uri
+               :uri-template "/blog/%y/%m/%d/%t/"
+               :sort-by :date     ;; how to sort the posts
+               :category-index t) ;; generate category index or not
+              ("acm"
+               :show-meta t
+               :show-comment t
+               :uri-generator ego--generate-uri
+               :uri-template "/blog/%y/%m/%d/%t/"
+               :sort-by :date     ;; how to sort the posts
+               :category-index t)
+              ("index"
+               :show-meta nil
+               :show-comment nil
+               :uri-generator ego--generate-uri
+               :uri-template "/"
+               :sort-by :date
+               :category-index nil)
+              ("about"
+               :show-meta nil
+               :show-comment nil
+               :uri-generator ego--generate-uri
+               :uri-template "/about/"
+               :sort-by :date
+               :category-index nil)
+              ))))
   )
 
 ;;; packages.el ends here
