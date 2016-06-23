@@ -54,3 +54,11 @@ C-z can switch between emacs-mode and normal-mode"
 ;; set C-h to backspace while C-H is help
 (define-key key-translation-map (kbd "C-S-h") (kbd "C-h"))
 (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+
+(with-eval-after-load 'helm
+  ;; 在helm的find-files模式中使用C-u跳到上一级目录，C-h如上仍然是退格
+  ;; C-<return>可以做TAB一样的功能，配合spacemacs中的C-j、C-k上下移动光标，
+  ;; 可以左手一直按住ctrl，右手负责移动
+  (define-key helm-find-files-map (kbd "C-u") 'helm-find-files-up-one-level)
+  (define-key helm-find-files-map (kbd "C-<return>") 'helm-execute-persistent-action)
+)
