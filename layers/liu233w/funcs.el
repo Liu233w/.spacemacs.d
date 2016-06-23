@@ -197,3 +197,9 @@ version 2015-08-21"
                         (font-spec :family "Microsoft Yahei" :size 22))))
    ((spacemacs/system-is-linux)
     (set-default-font "文泉驿等宽微米黑-18"))))
+
+(defun liu233w/reset-frame-size ()
+  "重设窗体大小"
+  (interactive)
+  (set-frame-width (selected-frame) 100)
+  (set-frame-height (selected-frame) 30))

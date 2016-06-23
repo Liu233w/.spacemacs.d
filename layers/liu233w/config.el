@@ -6,11 +6,8 @@
 
 ;;设置窗口大小
  (when (spacemacs/system-is-mswindows)
-   (defun reset-frame-size ()
-     (interactive)
-     (set-frame-width (selected-frame) 80)
-     (set-frame-height (selected-frame) 30))
-   (reset-frame-size))
+   (liu233w/reset-frame-size)
+   (add-hook 'before-make-frame-hook 'liu233w/reset-frame-size))
 
 ;;setting Font
 (liu233w/set-chinese-fonts)
