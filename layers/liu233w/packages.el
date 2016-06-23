@@ -143,7 +143,7 @@ Each entry is either:
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
   (use-package fcitx
-    :defer t
+    ;; :defer t      ;不能延迟加载，否则无法正常加载
     :config
     (progn
       (setq w32-pass-lwindow-to-system nil)
