@@ -2,7 +2,7 @@
 
 ;; For my language code setting (UTF-8)
 (set-language-environment "chinese-GBK")
-(prefer-coding-system 'utf-8-auto)
+(prefer-coding-system 'utf-8)
 
 ;;设置窗口大小
  (when (spacemacs/system-is-mswindows)
