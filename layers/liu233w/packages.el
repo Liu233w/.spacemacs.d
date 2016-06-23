@@ -42,6 +42,7 @@
     fcitx
     org
     hungry-delete
+    evil-visual-mark-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -178,5 +179,17 @@ Each entry is either:
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
   )
+
+  (defun liu233w/init-evil-visual-mark-mode ()
+    (use-package evil-visual-mark-mode
+      :init
+      (progn
+        (spacemacs|add-toggle evil-visual-mark-mode
+          :status evil-visual-mark-mode
+          :on (evil-visual-mark-mode)
+          :off (evil-visual-mark-mode -1)
+          :documentation "Show evil marks"
+          :evil-leader "otm")
+        (evil-visual-mark-mode))))
 
 ;;; packages.el ends here
