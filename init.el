@@ -30,7 +30,6 @@ values."
      ;; better-defaults
      emacs-lisp
      common-lisp
-     ;; markdown
      org
      (version-control :variables version-control-diff-tool 'git-gutter+
                       version-control-global-margin t)
@@ -302,6 +301,8 @@ you should place you code here."
 ;;读取在不同系统之下的配置
 (if (file-exists-p "~/.myemacs.el")
     (load-file "~/.myemacs.el"))
+
+(server-start)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
