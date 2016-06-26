@@ -63,26 +63,8 @@ C-z can switch between emacs-mode and normal-mode"
 ;;   (define-key helm-find-files-map (kbd "C-<return>") 'helm-execute-persistent-action)
 ;; )
 
-(defun liu233w/ex-kill-buffer-and-close ()
-  (interactive)
-  ;; 只有名称不带*的buffer才会被删除
-  (unless (char-equal (elt (buffer-name) 0) ?*)
-    (kill-this-buffer))
-  ;; (kill-buffer (buffer-name))
-  ;; (delete-frame nil t)
-  ;; bug：在新建client的时候，不能使用-c参数新建frame，否则，
-  ;; (menu-bar-menu-frame-live-and-visible-p)会变成nil，导致kill-this-buffer
-  ;; 失效（也就是说连SPC b d都不能用了）。至于为什么那个变成nil
-  ;; 会影响kill-this-buffer，请自行查看kill-this-buffer的源代码
-  (evil-quit)
-  ;; (delete-frame nil t)
-  )
-
-(defun liu233w/ex-save-kill-buffer-and-close ()
-  (interactive)
-  (save-buffer)
-  (kill-this-buffer)
-  (evil-quit))
-
 (evil-ex-define-cmd "quit" 'liu233w/ex-kill-buffer-and-close)
 (evil-ex-define-cmd "wq" 'liu233w/ex-save-kill-buffer-and-close)
+
+;; 在visual state之下按v后会进入expand-region模式
+(define-key evil-visual-state-map (kbd "v") 'er/expand-region)
