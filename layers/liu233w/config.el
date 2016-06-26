@@ -119,3 +119,9 @@ Single Capitals as you type."
 ;; (add-hook 'c++-mode-hook '(lambda ()
 ;;                             (semantic-add-system-include
 ;;                              "c:/Software/LLVM/include/")))
+
+;; 在所有编程语言里启动80字符指示器和行号显示
+;; 放在config里面没用
+(add-hook 'prog-mode-hook '(lambda ()
+                             (turn-on-fci-mode)
+                             (linum-mode t)))

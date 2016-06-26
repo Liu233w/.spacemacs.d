@@ -138,7 +138,10 @@ Each entry is either:
 
 (defun liu233w/init-ahk-mode ()
   (use-package ahk-mode
-    :defer t))
+    :defer t
+    :config
+    (add-hook 'ahk-mode-hook '(lambda ()
+                                (linum-mode t)))))
 
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
