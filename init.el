@@ -308,6 +308,9 @@ you should place you code here."
 (if (file-exists-p "~/.myemacs.el")
     (load-file "~/.myemacs.el"))
 
+;;放到加载配置之后，防止覆盖默认选项
+(liu233w/set-chinese-fonts)
+
 (server-start)
 )
 ;; Do not write anything past this comment. This is where Emacs will

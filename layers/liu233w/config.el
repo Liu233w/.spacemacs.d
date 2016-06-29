@@ -5,12 +5,10 @@
 (prefer-coding-system 'utf-8)
 
 ;;设置窗口大小
- (when (spacemacs/system-is-mswindows)
-   (liu233w/reset-frame-size)
-   (add-hook 'before-make-frame-hook 'liu233w/reset-frame-size))
+(liu233w/reset-frame-size)
+(add-hook 'before-make-frame-hook 'liu233w/reset-frame-size)
 
 ;;setting Font
-(liu233w/set-chinese-fonts)
 (add-hook 'before-make-frame-hook 'liu233w/set-chinese-fonts)
 
 (display-time-mode 1)
