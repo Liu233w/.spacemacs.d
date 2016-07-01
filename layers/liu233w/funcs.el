@@ -184,19 +184,20 @@ version 2015-08-21"
 
 (defun liu233w/set-chinese-fonts ()
   "根据当前系统重新设置中文字体"
-  (cond
-   ((spacemacs/system-is-mswindows)
-    ;; Setting English Font
-    (unless (search "Source Code Pro" (frame-parameter nil 'font))
-      (set-face-attribute
-       'default nil :font "Consolas 18"))
-    ;; Chinese Font
-    (dolist (charset '(kana han cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        (font-spec :family "Microsoft Yahei" :size 22))))
-   ((spacemacs/system-is-linux)
-    (set-default-font "文泉驿等宽微米黑-18"))))
+  (when (window-system)
+    (cond
+     ((spacemacs/system-is-mswindows)
+      ;; Setting English Font
+      (unless (search "Source Code Pro" (frame-parameter nil 'font))
+        (set-face-attribute
+         'default nil :font "Consolas 18"))
+      ;; Chinese Font
+      (dolist (charset '(kana han cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font)
+                          charset
+                          (font-spec :family "Microsoft Yahei" :size 22))))
+     ((spacemacs/system-is-linux)
+      (set-default-font "文泉驿等宽微米黑-18")))))
 
 (defun liu233w/reset-frame-size ()
   "重设窗体大小"
