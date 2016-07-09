@@ -230,3 +230,8 @@ version 2015-08-21"
   (save-buffer)
   (kill-this-buffer)
   (evil-quit))
+
+(defun liu233w/set-in-all-prog-mode  ()
+  "在所有编程语言之中启动80列指示器和行号"
+  (turn-on-fci-mode)
+  (linum-mode t))

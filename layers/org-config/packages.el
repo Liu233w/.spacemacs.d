@@ -129,6 +129,7 @@ Each entry is either:
                            :personal-avatar "https://raw.githubusercontent.com/Liu233w/liu233w.github.io/source/avatar.jpg"
                            :repository-org-branch "source"
                            :repository-html-branch "master"
+                           :ego-export-function org-config//ego-export-html
                            )
                           ;; 你可以在此添加更多的站点设置
                           ))

@@ -299,9 +299,7 @@ you should place you code here."
 
 ;; 在所有编程语言里启动80字符指示器和行号显示
 ;; 放在config里面没用
-(add-hook 'prog-mode-hook '(lambda ()
-                             (turn-on-fci-mode)
-                             (linum-mode t)))
+(add-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode)
 
 ;;读取在不同系统之下的配置
 (if (file-exists-p "~/.myemacs.el")
