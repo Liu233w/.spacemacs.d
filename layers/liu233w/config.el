@@ -6,10 +6,10 @@
 
 ;;设置窗口大小
 (liu233w/reset-frame-size)
-(add-hook 'before-make-frame-hook 'liu233w/reset-frame-size)
-
-;;setting Font
-(add-hook 'before-make-frame-hook 'liu233w/set-chinese-fonts)
+;;在这里学到： https://github.com/syl20bnr/spacemacs/issues/4365 @raawaa
+;;可以使用这个hook来在加载frame之后调用制定的函数，frame将作为参数被传递给
+;;这个函数
+(add-hook 'after-make-frame-functions 'liu233w/reset-frame-size)
 
 (display-time-mode 1)
 (setq display-time-24hr-format t)
@@ -98,8 +98,6 @@ Single Capitals as you type."
              (setq default-tab-width 4)
              (setq-default indent-tabs-mode nil)
              (setq c-basic-offset 4)
-
-             (c-set-style "google")
                          ))
 
 ;;When enter the shell buffer, evil state will be switched to emacs-state,
@@ -117,4 +115,3 @@ Single Capitals as you type."
 ;; (add-hook 'c++-mode-hook '(lambda ()
 ;;                             (semantic-add-system-include
 ;;                              "c:/Software/LLVM/include/")))
-

@@ -182,28 +182,34 @@ version 2015-08-21"
   (goto-char (point-min))
   (while (search-forward "\r" nil t) (replace-match "")))
 
-(defun liu233w/set-chinese-fonts ()
-  "根据当前系统重新设置中文字体"
-  (when (window-system)
-    (cond
-     ((spacemacs/system-is-mswindows)
-      ;; Setting English Font
-      (unless (search "Source Code Pro" (frame-parameter nil 'font))
-        (set-face-attribute
-         'default nil :font "Consolas 18"))
-      ;; Chinese Font
-      (dolist (charset '(kana han cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font)
-                          charset
-                          (font-spec :family "Microsoft Yahei" :size 22))))
-     ((spacemacs/system-is-linux)
-      (set-default-font "文泉驿等宽微米黑-18")))))
+(unless (functionp 'liu233w/set-chinese-fonts)
+  (defun liu233w/set-chinese-fonts (&optional frame)
+    "根据当前系统重新设置中文字体"
+    (when (window-system)
+      (when frame
+        (select-frame frame))
+      (cond
+       ((spacemacs/system-is-mswindows)
+        ;; Setting English Font
+        (unless (search "Source Code Pro" (frame-parameter nil 'font))
+          (set-face-attribute
+           'default nil :font "Consolas 18"))
+        ;; Chinese Font
+        (dolist (charset '(kana han cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset
+                            (font-spec :family "Microsoft Yahei" :size 22))))
+       ((spacemacs/system-is-linux)
+        (set-default-font "文泉驿等宽微米黑-18"))))))
 
-(defun liu233w/reset-frame-size ()
-  "重设窗体大小"
-  (interactive)
-  (set-frame-width (selected-frame) 100)
-  (set-frame-height (selected-frame) 30))
+(unless (functionp 'liu233w/reset-frame-size)
+  (defun liu233w/reset-frame-size (&optional frame)
+    "重设窗体大小"
+    (interactive)
+    (when frame
+      (select-frame frame))
+    (set-frame-width (selected-frame) 100)
+    (set-frame-height (selected-frame) 30)))
 
 (defun liu233w/ex-kill-buffer-and-close ()
   "删除当前buffer并关闭窗口，如果buffer名称带有*则不删除"

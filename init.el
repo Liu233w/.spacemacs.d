@@ -307,9 +307,11 @@ you should place you code here."
 ;;读取在不同系统之下的配置
 (if (file-exists-p "~/.myemacs.el")
     (load-file "~/.myemacs.el"))
+;; (load "~/.myemacs" :noerror t)
 
 ;;放到加载配置之后，防止覆盖默认选项
 (liu233w/set-chinese-fonts)
+(add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
 
 (server-start)
 )
