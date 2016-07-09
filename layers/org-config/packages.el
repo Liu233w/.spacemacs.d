@@ -116,7 +116,9 @@ Each entry is either:
                            :site-main-title  "科学君的不科学博客"; 站点的标题
                            :site-sub-title  "by 不科学的科学君"; 站点的副标题
                            :theme (light-color default) ; 使用的主题
-                           :summary (("文章标签" :tags) ("按年度分类" :year :updates 10)) ; 导航栏的设置，有 category 和 summary 两种
+                           ;; 导航栏的设置，有 category 和 summary 两种
+                           :summary (("所有文章" :year :updates 10)
+                                     ("按标签索引" :tags) )
                            :retrieve-category-function ego--get-file-category
                            :default-category "blog"
                            :source-browse-url ("Github" "https://github.com/liu233w/liu233w.github.io") ; 你的工程源代码所在的位置
