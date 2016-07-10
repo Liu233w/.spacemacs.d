@@ -171,11 +171,12 @@
 
 ;; )
 
-(defun org-config//ego-export-html ()
-  "在输出HTML文件之前取消80列的显示和行号显示，
-用于作为:ego-export-function的参数"
-  (remove-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode)
-  (turn-off-fci-mode)
-  (add-hook 'org-export-before-processing-hook 'turn-off-fci-mode)
-  (ego--default-org-export)
-  (add-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode))
+;; (defun org-config//ego-export-html ()
+;;   "在输出HTML文件之前取消80列的显示和行号显示，
+;; 用于作为:ego-export-function的参数"
+;;   (remove-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode)
+;;   (turn-off-fci-mode)
+;;   (add-hook 'prog-mode-hook 'turn-off-fci-mode)
+;;   (ego--default-org-export)
+;;   (remove-hook 'prog-mode-hook 'turn-off-fci-mode)
+;;   (add-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode))

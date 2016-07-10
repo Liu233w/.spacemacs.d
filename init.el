@@ -297,9 +297,14 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place you code here."
 
-;; 在所有编程语言里启动80字符指示器和行号显示
+;; 在所有编程语言里启动行号显示
+;; 只在特定语言中启用80字符指示器，否则org的输出会出错
 ;; 放在config里面没用
-(add-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode)
+(add-hook 'prog-mode-hook '(lambda () (linum-mode t)))
+(defvar lang-to-set-fci-mode
+  '(c-mode-hook lisp-mode-hook python-mode-hook))
+(loop for hooks in lang-to-set-fci-mode
+      do (add-hook hooks 'turn-on-fci-mode))
 
 ;;读取在不同系统之下的配置
 (if (file-exists-p "~/.myemacs.el")
