@@ -43,6 +43,7 @@
     hungry-delete
     evil-visual-mark-mode
     visual-regexp-steroids
+    tiny
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -197,5 +198,13 @@ Each entry is either:
         "xvr" 'vr/replace
         "xvq" 'vr/query-replace
         "xvm" 'vr/mc-mark))))
+
+(defun liu233w/init-tiny ()
+  "tiny自动扩展范围
+网址：http://oremacs.com/2014/12/26/the-little-package-that-could/"
+  (use-package tiny
+    :defer t
+    :init
+    (global-set-key (kbd "C-;") 'tiny-expand)))
 
 ;;; packages.el ends here
