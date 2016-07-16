@@ -104,7 +104,8 @@ Each entry is either:
   (use-package ego
     :defer t                            ;延迟加载
     :init                               ;在package加载之前求值，用于设置快捷键
-    (evil-leader/set-key
+    (spacemacs/declare-prefix "op" "EGO")
+    (spacemacs/set-leader-keys
       "opp" 'ego-do-publication
       "opn" 'ego-new-post)
     :config                             ;在package加载之后才会求值

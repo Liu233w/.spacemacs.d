@@ -168,6 +168,7 @@ Each entry is either:
     :defer t
     :init
     (progn
+      (spacemacs/declare-prefix "ot" "toggles")
       (spacemacs|add-toggle evil-visual-mark-mode
         :status evil-visual-mark-mode
         :on (evil-visual-mark-mode)
@@ -191,6 +192,7 @@ Each entry is either:
       (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
       (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
+      (spacemacs/declare-prefix "xv" "visual-regexp")
       (spacemacs/set-leader-keys
         "xvr" 'vr/replace
         "xvq" 'vr/query-replace
