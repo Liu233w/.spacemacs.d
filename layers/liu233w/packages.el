@@ -42,6 +42,7 @@
     fcitx
     hungry-delete
     evil-visual-mark-mode
+    visual-regexp-steroids
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -73,7 +74,7 @@ Each entry is either:
 (defun liu233w/init-smart-compile ()
   (use-package smart-compile
     :defer t
-    :init (evil-leader/set-key "cs" 'smart-compile)))
+    :init (spacemacs/set-leader-keys "cs" 'smart-compile)))
 
 (defun liu233w/init-multiple-cursors ()
   (use-package multiple-cursors
@@ -174,5 +175,25 @@ Each entry is either:
         :documentation "Show evil marks"
         :evil-leader "otm")
       (evil-visual-mark-mode))))
+
+(defun liu233w/init-visual-regexp-steroids ()
+  "可视化地使用替换模式"
+  (use-package visual-regexp-steroids
+    :defer t
+    :init
+    (progn
+      (define-key global-map (kbd "C-c r") 'vr/replace)
+      (define-key global-map (kbd "C-c q") 'vr/query-replace)
+      ;; if you use multiple-cursors, this is for you:
+      (define-key global-map (kbd "C-c m") 'vr/mc-mark)
+      ;; to use visual-regexp-steroids's isearch instead of the built-in regexp
+      ;; isearch, also include the following lines:
+      (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
+      (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
+
+      (spacemacs/set-leader-keys
+        "xvr" 'vr/replace
+        "xvq" 'vr/query-replace
+        "xvm" 'vr/mc-mark))))
 
 ;;; packages.el ends here
