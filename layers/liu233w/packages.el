@@ -205,6 +205,8 @@ Each entry is either:
   (use-package tiny
     :defer t
     :init
-    (global-set-key (kbd "C-;") 'tiny-expand)))
+    (progn
+      (global-set-key (kbd "C-;") 'tiny-expand)
+      (spacemacs/set-leader-keys "oe" 'tiny-expand))))
 
 ;;; packages.el ends here
