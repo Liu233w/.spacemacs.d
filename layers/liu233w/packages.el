@@ -40,7 +40,6 @@
     evil-vimish-fold
     ahk-mode
     fcitx
-    hungry-delete
     evil-visual-mark-mode
     visual-regexp-steroids
     tiny
@@ -160,9 +159,6 @@ Each entry is either:
       (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
       ))
   )
-
-(defun liu233w/post-init-hungry-delete ()
-  (global-hungry-delete-mode t))
 
 (defun liu233w/init-evil-visual-mark-mode ()
   (use-package evil-visual-mark-mode
