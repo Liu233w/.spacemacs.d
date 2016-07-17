@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: pdf
+# key: pdf
+# --
+
+#+BEGIN_HTML
+    <object classid="clsid:CA8A9780-280D-11CF-A24D-444553540000" width="1000" height="1200" border="0">
+        <param name="_Version" value="65539">
+        <param name="_ExtentX" value="20108">
+        <param name="_ExtentY" value="10866">
+        <param name="_StockProps" value="0">
+        <param name="SRC" value="pdf/test.pdf">
+        <object data="$1" type="application/pdf" width="1000" height="1200">
+        </object>
+    </object>
+#+END_HTML
+$0
