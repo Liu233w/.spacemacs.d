@@ -302,7 +302,7 @@ you should place you code here."
 ;; 放在config里面没用
 (add-hook 'prog-mode-hook '(lambda () (linum-mode t)))
 (defvar lang-to-set-fci-mode
-  '(c-mode-hook lisp-mode-hook python-mode-hook))
+  '(c-mode-hook lisp-mode-hook python-mode-hook emacs-lisp-mode-hook))
 (loop for hooks in lang-to-set-fci-mode
       do (add-hook hooks 'turn-on-fci-mode))
 

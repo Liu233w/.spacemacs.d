@@ -206,7 +206,24 @@ Each entry is either:
     :defer t
     :init
     (progn
-      (global-set-key (kbd "C-;") 'tiny-expand)
-      (spacemacs/set-leader-keys "oe" 'tiny-expand))))
+      (global-set-key (kbd "C-;") 'liu233w/tiny-expand-with-undo)
+      (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo))
+    :config
+    (defun liu233w/tiny-expand-with-undo ()
+      "带undo的tiny-expand。在insert-state时直接调用进行扩展时可以undo
+回扩展之前的状态而不会直接清除扩展语句；在normal-state中将光标放在扩展语句
+的最后一个字母上调用此函数即可扩展；其他state下与tiny-expand一致。"
+      (interactive)
+      (cond
+       ((evil-insert-state-p)
+        (evil-normal-state)
+        (evil-append 0)
+        (tiny-expand))
+       ((evil-normal-state-p)
+        (evil-append 0)
+        (tiny-expand)
+        (evil-normal-state))
+       (t
+        (tiny-expand))))))
 
 ;;; packages.el ends here
