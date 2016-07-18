@@ -65,7 +65,7 @@ values."
      (chinese :variables chinese-default-input-method 'pyim
               chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
-     ;; java
+     java
      emoji
      (python :variables python-enable-yapf-format-on-save t)
      markdown

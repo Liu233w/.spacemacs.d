@@ -235,3 +235,18 @@ version 2015-08-21"
 ;;   "在所有编程语言之中启动80列指示器和行号"
 ;;   (turn-on-fci-mode)
 ;;   (linum-mode t))
+
+(defun liu233w/quick-run-java ()
+  "快速运行java 程序，在运行之前需要先编译"
+  (interactive)
+  (let* ((ecuname (substring (buffer-file-name) 0
+                             (search ".java" (buffer-file-name) :from-end t)))
+         (search-point (or (search "/" ecuname :from-end t)
+                           (search "\\" ecuname :from-end t)))
+         (execu-path (substring ecuname 0 search-point))
+         (execu-name (substring ecuname (+ 1 search-point))))
+    (shell)
+    (insert "cd " execu-path)
+    (comint-send-input)
+    (insert "java " execu-name)
+    (comint-send-input)))

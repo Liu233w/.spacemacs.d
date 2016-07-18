@@ -68,3 +68,7 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;; 在visual state之下按v后会进入expand-region模式
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
+
+;; 快速运行java 程序，在运行之前需要先编译
+(spacemacs/set-leader-keys-for-major-mode
+  'java-mode "tr" 'liu233w/quick-run-java)
