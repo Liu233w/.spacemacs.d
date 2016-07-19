@@ -32,7 +32,8 @@
 (defconst liu233w-packages
   '(
     clang-format
-    multiple-cursors
+    ;multiple-cursors
+    evil-mc
     smart-compile
     slime
     paredit
@@ -76,6 +77,18 @@ Each entry is either:
     :defer t
     :init (spacemacs/set-leader-keys "cs" 'smart-compile)))
 
+(defun liu233w/post-init-evil-mc ()
+  ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
+  (add-hook 'prog-mode-hook 'evil-mc-mode)
+  (add-hook 'text-mode-hook 'evil-mc-mode)
+
+  (setq evil-mc-custom-known-commands
+        '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
+         (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
+         (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
+         ))
+  )
+
 (defun liu233w/init-multiple-cursors ()
   (use-package multiple-cursors
     :defer t
@@ -85,8 +98,46 @@ Each entry is either:
     (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-    (define-key evil-visual-state-map (kbd "mn") 'mc/mark-next-like-this)
+    ;; 未完成，目前会在添加新cursors的时候询问是否在多个cursor上执行此命令
+    (spacemacs|define-micro-state liu233w/mc-mark-next
+      :bindings
+      ("n" mc/mark-next-like-this))
+
+    (define-key evil-visual-state-map (kbd "mn")
+      'spacemacs/liu233w/mc-mark-next-micro-state)
     (define-key evil-visual-state-map (kbd "ma") 'mc/mark-all-like-this)
+    :config
+    (setq mc/list-file "~/.emacs.d/.cache/.mc-lists.el")
+    ;; multiple-cursors 中执行下列指令时不询问
+    ;; see https://github.com/syl20bnr/spacemacs/issues/2669
+    (setq mc/cmds-to-run-for-all
+          '(
+            electric-newline-and-maybe-indent
+            evil-backward-char
+            evil-delete-char
+            evil-escape-emacs-state
+            evil-escape-insert-state
+            evil-exit-emacs-state
+            evil-forward-char
+            evil-insert
+            evil-next-line
+            evil-normal-state
+            evil-previous-line
+            forward-sentence
+            kill-sentence
+            org-self-insert-command
+            sp-backward-delete-char
+            sp-delete-char
+            sp-remove-active-pair-overlay
+            evil-force-normal-state
+            ))
+
+    (setq mc/cmds-to-run-once
+          '(
+            helm-M-x
+            spacemacs/default-pop-shell
+            ))
+
     ))
 
 (defun liu233w/post-init-slime ()
