@@ -99,6 +99,8 @@ Each entry is either:
 
   (define-key evil-visual-state-map (kbd "mn")
     'spacemacs/liu233w/evil-mc-add-cursor-micro-state)
+  (define-key evil-visual-state-map (kbd "ma")
+    'evil-mc-make-all-cursors)
   )
 
 (defun liu233w/init-multiple-cursors ()
