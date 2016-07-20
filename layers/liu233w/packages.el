@@ -78,15 +78,27 @@ Each entry is either:
     :init (spacemacs/set-leader-keys "cs" 'smart-compile)))
 
 (defun liu233w/post-init-evil-mc ()
-  ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
   (add-hook 'prog-mode-hook 'evil-mc-mode)
   (add-hook 'text-mode-hook 'evil-mc-mode)
 
+  ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
   (setq evil-mc-custom-known-commands
         '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
          ))
+
+  (spacemacs|define-micro-state liu233w/evil-mc-add-cursor
+    :doc
+    "`n' make-and-go-to-next-match `t' skip-and-go-to-next-match"
+    :use-minibuffer t
+    :on-enter (evil-mc-make-and-goto-next-match)
+    :bindings
+    ("n" evil-mc-make-and-goto-next-match)
+    ("t" evil-mc-skip-and-goto-next-match))
+
+  (define-key evil-visual-state-map (kbd "mn")
+    'spacemacs/liu233w/evil-mc-add-cursor-micro-state)
   )
 
 (defun liu233w/init-multiple-cursors ()
