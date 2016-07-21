@@ -297,26 +297,34 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place you code here."
 
-;; 在所有编程语言里启动行号显示和hungry-delete-mode
-;; 只在特定语言中启用80字符指示器，否则org的输出会出错
-;; 放在config里面没用
-(add-hook 'prog-mode-hook '(lambda () (linum-mode t) (hungry-delete-mode)))
-(defvar lang-to-set-fci-mode
-  '(c-mode-hook lisp-mode-hook python-mode-hook emacs-lisp-mode-hook))
-(loop for hooks in lang-to-set-fci-mode
-      do (add-hook hooks 'turn-on-fci-mode)
-      )
+  ;; 在所有编程语言里启动行号显示、hungry-delete-mode和80字符指示器
+  ;; 放在config里面没用
+  (add-hook 'prog-mode-hook '(lambda ()
+                               (linum-mode t)
+                               (hungry-delete-mode)
+                               (turn-on-fci-mode)))
 
-;;读取在不同系统之下的配置
-(if (file-exists-p "~/.myemacs.el")
-    (load-file "~/.myemacs.el"))
-;; (load "~/.myemacs" :noerror t)
+  ;; 防止fci-mode使得org输出HTML时在代码结尾处产生乱码
+  ;; learn from here:
+  ;; https://github.com/alpaker/Fill-Column-Indicator/issues/45#issuecomment-108911964
+  (defun fci-mode-override-advice (&rest args))
+  (advice-add 'org-html-fontify-code :around
+              (lambda (fun &rest args)
+                (advice-add 'fci-mode :override #'fci-mode-override-advice)
+                (let ((result  (apply fun args)))
+                  (advice-remove 'fci-mode #'fci-mode-override-advice)
+                  result)))
 
-;;放到加载配置之后，防止覆盖默认选项
-(liu233w/set-chinese-fonts)
-(add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
+  ;;读取在不同系统之下的配置
+  (if (file-exists-p "~/.myemacs.el")
+      (load-file "~/.myemacs.el"))
+  ;; (load "~/.myemacs" :noerror t)
 
-(server-start)
-)
+  ;;放到加载配置之后，防止覆盖默认选项
+  (liu233w/set-chinese-fonts)
+  (add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
+
+  (server-start)
+  )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

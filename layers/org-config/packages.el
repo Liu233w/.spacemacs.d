@@ -65,39 +65,58 @@ Each entry is either:
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
 (defun org-config/post-init-org ()
-  ;;org-mode和org-mobile的文件夹
-  (setf org-directory "~/documents/org-mode/host/"
-        org-mobile-directory "~/documents/org-mode/"
-        org-mobile-inbox-for-pull "~/documents/org-mode/index.org")
+  (with-eval-after-load 'org
+    ;;org-mode和org-mobile的文件夹
+    (setf org-directory "~/documents/org-mode/host/"
+          org-mobile-directory "~/documents/org-mode/"
+          org-mobile-inbox-for-pull "~/documents/org-mode/index.org")
 
-  ;; 完成状态
-  (setf org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
-          ))
+    ;; 完成状态
+    (setf org-todo-keywords
+          '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+            ))
 
-  ;; 用来检测md5的程序
-  (defcustom org-mobile-checksum-binary
-    (or (executable-find "md5sums") (executable-find "md5sum"))
-    ' "Executable used for computing checksums of agenda files."
-      ':group 'org-mobile
-      ' :type 'string)
+    ;; 用来检测md5的程序
+    (defcustom org-mobile-checksum-binary
+      (or (executable-find "md5sums") (executable-find "md5sum"))
+      ' "Executable used for computing checksums of agenda files."
+        ':group 'org-mobile
+        ' :type 'string)
 
-  ;;org的捕获列表
-  (setq org-capture-templates
-        '(("t" "TODO" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_TODO")
-           "* TODO %?\n %i\n %a")
-          ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_SOMEDAY")
-           "* SOMEDAY %?\n %i\n %a")
-          ("n" "Notes" entry (file+datetree "~/documents/org-mode/host/notes.org")
-           "* %?\nEntered on %U\n %i\n %a")))
+    ;;org的捕获列表
+    (setq org-capture-templates
+          '(("t" "TODO" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_TODO")
+             "* TODO %?\n %i\n %a")
+            ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_SOMEDAY")
+             "* SOMEDAY %?\n %i\n %a")
+            ("n" "Notes" entry (file+datetree "~/documents/org-mode/host/notes.org")
+             "* %?\nEntered on %U\n %i\n %a")))
 
-  ;; org-agenda的全局文件
-  (setf org-agenda-files (list "~/documents/org-mode/host/tasks.org"
-                               "~/documents/org-mode/host/notes.org"))
+    ;; org-agenda的全局文件
+    (setf org-agenda-files (list "~/documents/org-mode/host/tasks.org"
+                                 "~/documents/org-mode/host/notes.org"))
 
-  ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
-  ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
-  (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
+    ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
+    ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
+    (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
+
+    ;; 可以在org中自动加载的库（稍后可以直接在src_block里面执行代码）
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((sh         . t)
+       ;; (js         . t)
+       (emacs-lisp . t)
+       ;; (perl       . t)
+       ;; (scala      . t)
+       ;; (clojure    . t)
+       (python     . t)
+       ;; (ruby       . t)
+       ;; (dot        . t)
+       ;; (css        . t)
+       ;; (plantuml   . t)
+       (C . t)
+       ))
+    )
   )
 
 (defun org-config/init-ego ()
