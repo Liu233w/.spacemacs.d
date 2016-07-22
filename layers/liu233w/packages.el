@@ -44,6 +44,7 @@
     evil-visual-mark-mode
     visual-regexp-steroids
     tiny
+    web-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -286,5 +287,24 @@ Each entry is either:
         (evil-normal-state))
        (t
         (tiny-expand))))))
+
+(defun liu233w/post-init-web-mode ()
+  "web-mode会与smartparents冲突，表现为在HTML模板中输入两个`{'的时候如果
+接着输入空格，会在右侧出现三个大括号，这里是解决方法：http://web-mode.org"
+  ;; (defun my-web-mode-hook ()
+  ;;   (setq web-mode-enable-auto-pairing nil))
+
+  ;; (add-hook 'web-mode-hook  'my-web-mode-hook)
+
+  ;; (defun sp-web-mode-is-code-context (id action context)
+  ;;   (and (eq action 'insert)
+  ;;        (not (or (get-text-property (point) 'part-side)
+  ;;                 (get-text-property (point) 'block-side)))))
+
+  ;; (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context)))
+  (add-hook 'web-mode-hook '(lambda ()
+                              (turn-off-smartparens-mode)
+                              (setq web-mode-enable-auto-pairing t)))
+  )
 
 ;;; packages.el ends here
