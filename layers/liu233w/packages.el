@@ -267,10 +267,6 @@ Each entry is either:
   (use-package tiny
     :defer t
     :init
-    (progn
-      (global-set-key (kbd "C-;") 'liu233w/tiny-expand-with-undo)
-      (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo))
-    :config
     (defun liu233w/tiny-expand-with-undo ()
       "带undo的tiny-expand。在insert-state时直接调用进行扩展时可以undo
 回扩展之前的状态而不会直接清除扩展语句；在normal-state中将光标放在扩展语句
@@ -286,7 +282,11 @@ Each entry is either:
         (tiny-expand)
         (evil-normal-state))
        (t
-        (tiny-expand))))))
+        (tiny-expand))))
+
+    (global-set-key (kbd "C-;") 'liu233w/tiny-expand-with-undo)
+    (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo))
+  )
 
 (defun liu233w/post-init-web-mode ()
   "web-mode会与smartparents冲突，表现为在HTML模板中输入两个`{'的时候如果
