@@ -287,6 +287,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
       ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
+;; 多大的buffer才算是大buffer，在buffer-size超过此大小之后会采取不同的策略
+;; 来提高运行效率
+(defvar *large-buffer-threshold* 300000
+  "Buffer whose size beyond it will have a different behavior for the efficiency")
   )
 
 (defun dotspacemacs/user-config ()

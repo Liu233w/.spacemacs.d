@@ -115,3 +115,11 @@ Single Capitals as you type."
 ;; (add-hook 'c++-mode-hook '(lambda ()
 ;;                             (semantic-add-system-include
 ;;                              "c:/Software/LLVM/include/")))
+
+;; 打开大文件的时候关闭linum，否则速度太慢
+;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
+(defun spacemacs/check-large-file ()
+  (when (> (buffer-size) 300000)
+    (linum-mode -1)))
+
+(add-hook 'find-file-hook 'spacemacs/check-large-file)

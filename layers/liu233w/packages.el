@@ -45,6 +45,7 @@
     visual-regexp-steroids
     tiny
     web-mode
+    pangu-spacing
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -306,5 +307,26 @@ Each entry is either:
                               (turn-off-smartparens-mode)
                               (setq web-mode-enable-auto-pairing t)))
   )
+
+(defun liu233w/init-pangu-spacing ()
+  "覆盖Chinese-layer中的设置。默认关闭pangu-spacing，只有在buffer比较小的时候才启动，
+如果是启动之后再关闭的话就开的太慢了。"
+  (use-package pangu-spacing
+    :config
+    (global-pangu-spacing-mode -1)
+    (spacemacs|hide-lighter pangu-spacing-mode)
+    ;; Always insert `real' space in org-mode.
+    (add-hook 'org-mode-hook
+              '(lambda ()
+                 (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)))
+
+    (defun liu233w/enable-pangu-spacing-when-buffer-not-large ()
+      "when buffer is not large, turn on it"
+      (when (< (buffer-size) *large-buffer-threshold*)
+        (pangu-spacing-mode 1)))
+
+    (dolist (i '(prog-mode-hook text-mode-hook))
+      (add-hook i 'liu233w/enable-pangu-spacing-when-buffer-not-large))
+    ))
 
 ;;; packages.el ends here
