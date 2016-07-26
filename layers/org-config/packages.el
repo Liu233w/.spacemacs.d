@@ -116,6 +116,8 @@ Each entry is either:
        ;; (plantuml   . t)
        (C . t)
        ))
+    ;; 执行src_block里的代码时不询问
+    (setq org-confirm-babel-evaluate nil)
     )
   )
 
