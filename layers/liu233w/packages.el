@@ -86,6 +86,9 @@ Each entry is either:
   ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
   (setq evil-mc-custom-known-commands
         '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
+          (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
+          (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+          (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
          ))
