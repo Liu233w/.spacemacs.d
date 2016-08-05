@@ -87,11 +87,15 @@ Each entry is either:
   (setq evil-mc-custom-known-commands
         '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
           (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
+          (paredit-open-round  . ((:default . evil-mc-execute-default-call)))
+          (paredit-close-round  . ((:default . evil-mc-execute-default-call)))
+          (paredit-open-square  . ((:default . evil-mc-execute-default-call)))
+          (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
           (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
           (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-         (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
-         (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
-         ))
+          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
+          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
+          ))
 
   (spacemacs|define-micro-state liu233w/evil-mc-add-cursor
     :doc
