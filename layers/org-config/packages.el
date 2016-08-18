@@ -145,6 +145,7 @@ Each entry is either:
                            :default-category "blog"
                            :source-browse-url ("Github" "https://github.com/liu233w/liu233w.github.io") ; 你的工程源代码所在的位置
                            :personal-disqus-shortname "liu233w" ; 使用 disqus 评论功能的话，它的短名称
+                           :personal-duoshuo-shortname "liu233w"
                            :confound-email t ; 是否保护邮件名称呢？t 是保护，nil 是不保护，默认是保护
                            :web-server-docroot "~/webRoot/liu233w.github.io" ; 本地测试的目录
                            :web-server-port 5432; 本地测试的端口
