@@ -46,6 +46,10 @@
     tiny
     web-mode
     pangu-spacing
+    (programming-mode
+     :location (recipe
+                :repo "Liu233w/programming-mode.el"
+                :fetcher github))
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -335,5 +339,11 @@ Each entry is either:
     (dolist (i '(prog-mode-hook text-mode-hook))
       (add-hook i 'liu233w/enable-pangu-spacing-when-buffer-not-large))
     ))
+
+(defun liu233w/init-programming-mode ()
+  "启动programming-mode，详见 https://github.com/Liu233w/programming-mode.el"
+  (require 'programming-mode)
+  ;; 将programming-mode 设为默认输入法，反正我也不需要别的输入法
+  (set-input-method 'programming-mode))
 
 ;;; packages.el ends here
