@@ -46,9 +46,9 @@
     tiny
     web-mode
     pangu-spacing
-    (programming-mode
+    (number-lock
      :location (recipe
-                :repo "Liu233w/programming-mode.el"
+                :repo "Liu233w/number-lock.el"
                 :fetcher github))
     flycheck-package
     )
@@ -341,11 +341,11 @@ Each entry is either:
       (add-hook i 'liu233w/enable-pangu-spacing-when-buffer-not-large))
     ))
 
-(defun liu233w/init-programming-mode ()
-  "启动programming-mode，详见 https://github.com/Liu233w/programming-mode.el"
-  (require 'programming-mode)
-  ;; 将programming-mode 设为默认输入法，反正我也不需要别的输入法
-  (set-input-method 'programming-mode))
+(defun liu233w/init-number-lock ()
+  "启动number-lock，详见 https://github.com/Liu233w/programming-mode.el"
+  (require 'number-lock)
+  ;; 将number-lock 设为默认输入法，反正我也不需要别的输入法
+  (set-input-method 'number-lock))
 
 (defun liu233w/init-flycheck-package ()
   "可以检查package的编码是否符合规范。"
