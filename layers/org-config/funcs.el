@@ -50,7 +50,7 @@
     (loop for keys in org-config//org-refile-tasks-list
           do (org-config//org-refile-tasks keys)))
 
-)
+  )
 
 ;; ;; 覆盖默认行为：归档子树时保留树结构
 ;; ;; from:https://gist.github.com/CodeFalling/87b116291aa87fde72cb
@@ -180,3 +180,20 @@
 ;;   (ego--default-org-export)
 ;;   (remove-hook 'prog-mode-hook 'turn-off-fci-mode)
 ;;   (add-hook 'prog-mode-hook 'liu233w/set-in-all-prog-mode))
+
+(defun liu233w//ego--generate-uri (default-uri-template creation-date title)
+  "类似于`ego--generate-uri'，只不过读取org的文件名作为title"
+  (message "uri generated")
+  (let ((uri-template (or (ego--read-org-option "URI")
+                          default-uri-template))
+        (date-list (split-string (if creation-date
+                                     (ego--fix-timestamp-string creation-date)
+                                   (format-time-string "%Y-%m-%d"))
+                                 "-"))
+        (encoded-title (ego--encode-string-to-url
+                        ;; 获取buffer的文件名
+                        (replace-regexp-in-string "^.*/\\|\\.org$" "" (buffer-file-name)))))
+    (format-spec uri-template `((?y . ,(car date-list))
+                                (?m . ,(cadr date-list))
+                                (?d . ,(cl-caddr date-list))
+                                (?t . ,encoded-title)))))

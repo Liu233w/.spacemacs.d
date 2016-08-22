@@ -152,7 +152,6 @@ Each entry is either:
                            :personal-avatar "https://raw.githubusercontent.com/Liu233w/liu233w.github.io/source/avatar.jpg"
                            :repository-org-branch "source"
                            :repository-html-branch "master"
-                           ;; :ego-export-function org-config//ego-export-html
                            )
                           ;; 你可以在此添加更多的站点设置
                           ))
@@ -161,15 +160,17 @@ Each entry is either:
             '(("blog"
                :show-meta t
                :show-comment t
-               :uri-generator ego--generate-uri
+               ;; 将org的文件名当做uri，参考函数
+               :uri-generator liu233w//ego--generate-uri
                :uri-template "/blog/%y/%m/%d/%t/"
                :sort-by :date     ;; how to sort the posts
                :category-index t) ;; generate category index or not
               ("acm"
                :show-meta t
                :show-comment t
-               :uri-generator ego--generate-uri
-               :uri-template "/blog/%y/%m/%d/%t/"
+               ;; 将org的文件名当做uri，参考函数
+               :uri-generator liu233w//ego--generate-uri
+               :uri-template "/acm/%y/%m/%d/%t/"
                :sort-by :date     ;; how to sort the posts
                :category-index t)
               ("index"
