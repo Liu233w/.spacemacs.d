@@ -183,7 +183,6 @@
 
 (defun liu233w//ego--generate-uri (default-uri-template creation-date title)
   "类似于`ego--generate-uri'，只不过读取org的文件名作为title"
-  (message "uri generated")
   (let ((uri-template (or (ego--read-org-option "URI")
                           default-uri-template))
         (date-list (split-string (if creation-date
