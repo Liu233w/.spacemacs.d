@@ -50,6 +50,7 @@
      :location (recipe
                 :repo "Liu233w/programming-mode.el"
                 :fetcher github))
+    flycheck-package
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -345,5 +346,13 @@ Each entry is either:
   (require 'programming-mode)
   ;; 将programming-mode 设为默认输入法，反正我也不需要别的输入法
   (set-input-method 'programming-mode))
+
+(defun liu233w/init-flycheck-package ()
+  "可以检查package的编码是否符合规范。"
+  (use-package flycheck-package
+    :defer t
+    :init
+    (eval-after-load 'flycheck
+      '(flycheck-package-setup))))
 
 ;;; packages.el ends here
