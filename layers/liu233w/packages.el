@@ -229,8 +229,6 @@ Each entry is either:
     ;; :defer t      ;不能延迟加载，否则无法正常加载
     :config
     (progn
-      (setq w32-pass-lwindow-to-system nil)
-      (setq w32-lwindow-modifier 'super)
       (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
       (fcitx-aggressive-setup)
       (fcitx-shell-command-turn-on)
