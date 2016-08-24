@@ -123,3 +123,7 @@ Single Capitals as you type."
     (linum-mode -1)))
 
 (add-hook 'find-file-hook 'spacemacs/check-large-file)
+
+;; 设置用户名和邮箱地址
+(setq user-mail-address "wwwlsmcom@outlook.com")
+(setq user-full-name "Liu233w")

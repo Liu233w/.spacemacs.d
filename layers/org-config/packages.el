@@ -131,6 +131,7 @@ Each entry is either:
       "opn" 'ego-new-post)
     :config                             ;在package加载之后才会求值
     (progn
+      (require 'ego)
       (ego-add-to-alist 'ego-project-config-alist
                         `(("my-blog" ; 站点工程的名字
                            :repository-directory "~/documents/blog/" ; 站点的本地目录
@@ -160,17 +161,15 @@ Each entry is either:
             '(("blog"
                :show-meta t
                :show-comment t
-               ;; 将org的文件名当做uri，参考函数
-               :uri-generator liu233w//ego--generate-uri
-               :uri-template "/blog/%y/%m/%d/%t/"
+               :uri-template "/blog/%y/%m/%d/%f/"
+               :uri-generator ego--generate-uri
                :sort-by :date     ;; how to sort the posts
                :category-index t) ;; generate category index or not
               ("acm"
                :show-meta t
                :show-comment t
-               ;; 将org的文件名当做uri，参考函数
-               :uri-generator liu233w//ego--generate-uri
-               :uri-template "/acm/%y/%m/%d/%t/"
+               :uri-template "/acm/%y/%m/%d/%f/"
+               :uri-generator ego--generate-uri
                :sort-by :date     ;; how to sort the posts
                :category-index t)
               ("index"
@@ -187,7 +186,19 @@ Each entry is either:
                :uri-template "/about/"
                :sort-by :date
                :category-index nil)
-              ))))
-  )
+              )))
+
+    (require 'nadvice)
+    ;; 改变默认的元数据模板，使插入的URL为 "category/%y/%m/%d/%f/"
+    (defun org-config//advice-of-ego--insert-options-template (args)
+      (setf (second args)
+            (replace-regexp-in-string "%t/ Or .*$" "%f/"
+                                      (second args)))
+      args)
+
+    (advice-add 'ego--insert-options-template :filter-args
+                'org-config//advice-of-ego--insert-options-template
+                )
+    ))
 
 ;;; packages.el ends here
