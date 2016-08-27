@@ -72,3 +72,5 @@ C-z can switch between emacs-mode and normal-mode"
 ;; 快速运行java 程序，在运行之前需要先编译
 (spacemacs/set-leader-keys-for-major-mode
   'java-mode "tr" 'liu233w/quick-run-java)
+
+(global-set-key (kbd "C-c DEL") 'hungry-delete-backward)

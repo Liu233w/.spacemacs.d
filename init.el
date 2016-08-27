@@ -26,7 +26,11 @@ values."
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-return-key-behavior nil
+                      auto-completion-tab-key-behavior 'complete)
      ;; better-defaults
      emacs-lisp
      common-lisp
@@ -62,8 +66,7 @@ values."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t
             )
-     (chinese :variables chinese-default-input-method 'pyim
-              chinese-enable-fcitx t
+     (chinese :variables
               chinese-enable-youdao-dict t)
      java
      emoji

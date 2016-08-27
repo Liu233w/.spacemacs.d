@@ -128,25 +128,26 @@ Single Capitals as you type."
 (setq user-mail-address "wwwlsmcom@outlook.com")
 (setq user-full-name "Liu233w")
 
-(when (spacemacs/system-is-mswindows)
-  (with-eval-after-load 'company-clang
-    (require 'nadvice)
-    (defconst liu233w//company-clang-additional-clang-args-before
-      (replace-regexp-in-string "\n" " "
-                                "--target=x86_64-w64-windows-gnu
--I c:/Software/MinGW64/mingw64/include/
--I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include
--I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++
--I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/backward
--I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/mingw32
--I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include-fixed"))
-    (defconst liu233w//company-clang-additional-clang-args-after
-      "-lstdc++ -lsupc++")
-    (advice-add 'company-clang--build-complete-args
-                :filter-return
-                #'(lambda (args)
-                    (append
-                     (list liu233w//company-clang-additional-clang-args-before)
-                     args
-                     (list liu233w//company-clang-additional-clang-args-after)
-                     )))))
+;; 设置windows底下的company-clang
+;; 系统中必须要有 mingw64 ，请自行更改其目录位置
+;; (when (spacemacs/system-is-mswindows)
+;;   (with-eval-after-load 'company-clang
+;;     (require 'nadvice)
+;;     (defconst liu233w//company-clang-additional-clang-args-before
+;;       (replace-regexp-in-string "\n" " "
+;;                                 "--target=x86_64-w64-windows-gnu
+;; -I c:/Software/MinGW64/mingw64/include/
+;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include
+;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++
+;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/backward
+;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/mingw32
+;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include-fixed"))
+;;     (defconst liu233w//company-clang-additional-clang-args-after
+;;       "-lstdc++ -lsupc++")
+;;     (advice-add 'company-clang--build-complete-args
+;;                 :filter-return
+;;                 #'(lambda (args)
+;;                     (append
+;;                      (list liu233w//company-clang-additional-clang-args-before)
+;;                      args
+;;                      (list liu233w//company-clang-additional-clang-args-after))))))
