@@ -46,10 +46,7 @@
     tiny
     web-mode
     pangu-spacing
-    (number-lock
-     :location (recipe
-                :repo "Liu233w/number-lock.el"
-                :fetcher github))
+    number-lock
     flycheck-package
     )
   "The list of Lisp packages required by the liu233w layer.
