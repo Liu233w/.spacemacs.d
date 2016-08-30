@@ -109,7 +109,7 @@ Each entry is either:
        ;; (perl       . t)
        ;; (scala      . t)
        ;; (clojure    . t)
-       (python     . t)
+       ;; (python     . t)
        ;; (ruby       . t)
        ;; (dot        . t)
        ;; (css        . t)
