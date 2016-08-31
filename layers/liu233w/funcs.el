@@ -260,3 +260,8 @@ version 2015-08-21"
   ("u" evil-scroll-up)
   ("f" evil-scroll-page-down)
   ("b" evil-scroll-page-up))
+
+(defun liu233w/insert-user-name-and-email ()
+  "生成和package的元数据中格式相同的用户名和邮箱"
+  (interactive)
+  (insert (format "%s <%s>" (user-full-name) user-mail-address)))
