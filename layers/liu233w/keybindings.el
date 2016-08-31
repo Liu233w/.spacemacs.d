@@ -74,3 +74,7 @@ C-z can switch between emacs-mode and normal-mode"
   'java-mode "tr" 'liu233w/quick-run-java)
 
 (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
+
+;; 这个micro-state用来进行快速翻页，
+;; 这样在连续翻页的时候就不需要一直按住ctrl了。
+(spacemacs/set-leader-keys "ov" 'spacemacs/liu233w/view-micro-state)

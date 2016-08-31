@@ -250,3 +250,13 @@ version 2015-08-21"
     (comint-send-input)
     (insert "java " execu-name)
     (comint-send-input)))
+
+;; 一个micro-state ，用来快速翻页
+(spacemacs|define-micro-state liu233w/view
+  :use-minibuffer t
+  :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
+  :bindings
+  ("d" evil-scroll-down)
+  ("u" evil-scroll-up)
+  ("f" evil-scroll-page-down)
+  ("b" evil-scroll-page-up))
