@@ -251,17 +251,19 @@ version 2015-08-21"
     (insert "java " execu-name)
     (comint-send-input)))
 
-;; 一个micro-state ，用来快速翻页
-(spacemacs|define-micro-state liu233w/view
-  :use-minibuffer t
-  :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
-  :bindings
-  ("d" evil-scroll-down)
-  ("u" evil-scroll-up)
-  ("f" evil-scroll-page-down)
-  ("b" evil-scroll-page-up))
-
 (defun liu233w/insert-user-name-and-email ()
   "生成和package的元数据中格式相同的用户名和邮箱"
   (interactive)
   (insert (format "%s <%s>" (user-full-name) user-mail-address)))
+
+;; 一个micro-state ，用来快速翻页
+(require 'multiple-micro-state)
+(mms|define-multiple-micro-state
+ liu233w/view
+ :use-minibuffer t
+ :doc auto
+ :bindings
+ ("d" evil-scroll-down)
+ ("u" evil-scroll-up)
+ ("f" evil-scroll-page-down)
+ ("b" evil-scroll-page-up))

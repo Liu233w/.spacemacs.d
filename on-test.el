@@ -51,3 +51,24 @@ on-enter-form指定传递给命令的参数，形如 (arg1 arg2) 的参数会变
 
 ;; 问题：没法指定scroll的参数了
 (evil-global-set-key 'normal (kbd "C-d") 'spacemacs/liu233w/view-evil-scroll-down-micro-state)
+
+;; 一个micro-state ，用来快速翻页
+(mms|define-multiple-micro-state liu233w/view
+  :use-minibuffer t
+  :doc auto
+  :bindings
+  ("d" evil-scroll-down)
+  ("u" evil-scroll-up)
+  ("f" evil-scroll-page-down)
+  ("b" evil-scroll-page-up))
+
+
+(defmacro liu233w|binding-keys (binding-list &rest func-and-args)
+  "从列表自动生成多个键绑定命令
+语法为：
+(liu233w|binding-keys (("mn" func1) ("mp" func2))
+                      define-key evil-visual-state-map)
+键绑定会自动添加"
+  `(progn
+     ,@(mapcar
+        #'())))

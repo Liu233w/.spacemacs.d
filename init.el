@@ -29,8 +29,7 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-complete-with-key-sequence "jk"
                       auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-return-key-behavior nil
-                      auto-completion-tab-key-behavior 'complete)
+                      )
      ;; better-defaults
      emacs-lisp
      common-lisp
@@ -40,7 +39,7 @@ values."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     semantic                           ; too slow
+     ;; semantic                           ; too slow
      prodigy
      search-engine
      (syntax-checking :variables syntax-checking-enable-by-default nil)
@@ -294,6 +293,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 ;; 来提高运行效率
 (defvar *large-buffer-threshold* 300000
   "Buffer whose size beyond it will have a different behavior for the efficiency")
+
+;; 将我的utils文件夹加进load-path
+(add-to-list 'load-path "~/.spacemacs.d/utils/")
   )
 
 (defun dotspacemacs/user-config ()

@@ -99,17 +99,19 @@ Each entry is either:
           (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
           ))
 
-  (spacemacs|define-micro-state liu233w/evil-mc-add-cursor
-    :doc
-    "`n' make-and-go-to-next-match `t' skip-and-go-to-next-match"
-    :use-minibuffer t
-    :on-enter (evil-mc-make-and-goto-next-match)
-    :bindings
-    ("n" evil-mc-make-and-goto-next-match)
-    ("t" evil-mc-skip-and-goto-next-match))
+  (require 'multiple-micro-state)
+  (mms|define-multiple-micro-state
+   liu233w/emc
+   :doc auto
+   :use-minibuffer t
+   :bindings
+   ("n" evil-mc-make-and-goto-next-match)
+   ("j" evil-mc-skip-and-goto-next-match)
+   ("p" evil-mc-make-and-goto-prev-match)
+   ("k" evil-mc-skip-and-goto-prev-match))
 
   (define-key evil-visual-state-map (kbd "mn")
-    'spacemacs/liu233w/evil-mc-add-cursor-micro-state)
+    'liu233w/evil-mc-add-cursor:evil-mc-make-and-goto-next-match-then-enter-micro-state)
   (define-key evil-visual-state-map (kbd "ma")
     'evil-mc-make-all-cursors)
   )
