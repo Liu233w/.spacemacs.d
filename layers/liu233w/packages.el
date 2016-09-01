@@ -110,13 +110,9 @@ Each entry is either:
    ("p" evil-mc-make-and-goto-prev-match)
    ("k" evil-mc-skip-and-goto-prev-match))
 
-  ;; bug: command-execute: Wrong type argument: commandp,
-  ;;      liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state
-  ;; (define-key evil-visual-state-map (kbd "mn")
-  ;;   'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
-
   (define-key evil-visual-state-map (kbd "mn")
-    'liu233w/emc:micro-state)
+    'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
+
   (define-key evil-visual-state-map (kbd "ma")
     'evil-mc-make-all-cursors)
   )

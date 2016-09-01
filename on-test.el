@@ -63,12 +63,14 @@ on-enter-form指定传递给命令的参数，形如 (arg1 arg2) 的参数会变
   ("b" evil-scroll-page-up))
 
 
-(defmacro liu233w|binding-keys (binding-list &rest func-and-args)
-  "从列表自动生成多个键绑定命令
-语法为：
-(liu233w|binding-keys (("mn" func1) ("mp" func2))
-                      define-key evil-visual-state-map)
-键绑定会自动添加"
-  `(progn
-     ,@(mapcar
-        #'())))
+;; (defmacro liu233w|binding-keys (binding-list &rest func-and-args)
+;;   "从列表自动生成多个键绑定命令
+;; 语法为：
+;; (liu233w|binding-keys (("mn" func1) ("mp" func2))
+;;                       define-key evil-visual-state-map)
+;; 键绑定会自动添加"
+;;   `(progn
+;;      ,@(mapcar
+;;         #'())))
+
+;; interactive-form可以获得目标函数的interactive

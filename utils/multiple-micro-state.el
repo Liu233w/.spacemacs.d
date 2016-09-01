@@ -43,11 +43,16 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
 生成的函数与原来的函数有相同的形参列表和interactive，在执行完原有函数的功能之后
 会启动相应的micro-state。"
   (let ((func-name (mms//generate-function-name name func)))
-    `(progn
-       (defalias (quote ,func-name) (quote ,func)
-         ,(format "A function generated from %s by `mms|define-multiple-micro-state'"
-                  func))
-       (advice-add (quote ,func-name) :after '(lambda (&rest rest) (,state-name))))))
+    ;; `(progn
+    ;;    (defalias (quote ,func-name) (quote ,func)
+    ;;      ,(format "A function generated from %s by `mms|define-multiple-micro-state'"
+    ;;               func))
+    ;;    (advice-add (quote ,func-name) :after '(lambda (&rest rest) (,state-name))))
+    `(defun ,func-name (&rest rest)
+       ,(or (interactive-form func)
+            '(interactive))
+       (apply (function ,func) rest)
+       (,state-name))))
 
 (defmacro mms|define-multiple-micro-state (name &rest props)
   "使用`spacemacs|define-micro-state'来生成micro-state，同时对每个命令生成一个函数，
