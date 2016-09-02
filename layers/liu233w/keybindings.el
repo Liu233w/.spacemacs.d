@@ -76,12 +76,11 @@ C-z can switch between emacs-mode and normal-mode"
 
 (require 'liu233w-util-funcs)
 (liu233w|binding-keys
- evil-global-set-key
  (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
   ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
   ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
   ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
- 'normal)
+ evil-global-set-key 'normal)
 
 ;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
 (evil-leader/set-key "or" 'liu233w/run-current-file)
