@@ -111,51 +111,71 @@ e.g. Sunday, September 17, 2000."
   (interactive)                 ; permit invocation in minibuffer
   (insert (format-time-string "%A, %B %e, %Y")))
 
-(defun zilongshanren/run-current-file ()
+(defun liu233w/run-current-file ()
   "Execute the current file.
 For example, if the current buffer is the file x.py, then it'll call 「python x.py」 in a shell.
-The file can be emacs lisp, php, perl, python, ruby, javascript, bash, ocaml, Visual Basic.
+The file can be Emacs Lisp, PHP, Perl, Python, Ruby, JavaScript, Bash, Ocaml, Visual Basic, TeX, Java, Clojure.
 File suffix is used to determine what program to run.
 
-If the file is modified, ask if you want to save first.
+If the file is modified or not saved, save it automatically before run.
 
 URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
-version 2015-08-21"
+version 2016-01-28"
   (interactive)
-  (let* (
-         (ξsuffix-map
+  (let (
+         (-suffix-map
           ;; (‹extension› . ‹shell program name›)
           `(
             ("php" . "php")
             ("pl" . "perl")
             ("py" . "python")
-            ("py3" . ,(if (string-equal system-type "windows-nt") "c:/Python32/python.exe" "python3"))
+            ("py3" . ,(if (string-equal system-type "windows-nt") "python.exe" "python3"))
             ("rb" . "ruby")
+            ("go" . "go run")
             ("js" . "node") ; node.js
             ("sh" . "bash")
-            ;; ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
+            ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
+            ("rkt" . "racket")
             ("ml" . "ocaml")
             ("vbs" . "cscript")
             ("tex" . "pdflatex")
-            ("lua" . "lua")
+            ("latex" . "pdflatex")
+            ("java" . "javac")
+            ("cpp" . ,(or (executable-find "myclang")
+                          (executable-find "clang")
+                          "gcc"))
             ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
             ))
-         (ξfname (buffer-file-name))
-         (ξfSuffix (file-name-extension ξfname))
-         (ξprog-name (cdr (assoc ξfSuffix ξsuffix-map)))
-         (ξcmd-str (concat ξprog-name " \""   ξfname "\"")))
 
-    (when (buffer-modified-p)
-      (when (y-or-n-p "Buffer modified. Do you want to save first?")
-        (save-buffer)))
+         -fname
+         -fSuffix
+         -prog-name
+         -cmd-str)
 
-    (if (string-equal ξfSuffix "el") ; special case for emacs lisp
-        (load ξfname)
-      (if ξprog-name
-          (progn
-            (message "Running…")
-            (async-shell-command ξcmd-str "*zilongshanren/run-current-file output*"))
-        (message "No recognized program file suffix for this file.")))))
+    (when (null (buffer-file-name)) (save-buffer))
+    (when (buffer-modified-p) (save-buffer))
+
+    (setq -fname (buffer-file-name))
+    (setq -fSuffix (file-name-extension -fname))
+    (setq -prog-name (cdr (assoc -fSuffix -suffix-map)))
+    (setq -cmd-str (concat -prog-name " \""   -fname "\""))
+
+    (cond
+     ((string-equal -fSuffix "el") (load -fname))
+     ((string-equal -fSuffix "java")
+      (progn
+        (shell-command -cmd-str "*liu233w/run-current-file output*" )
+        (async-shell-command
+         (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname))))))
+     ((string-equal -fSuffix "cpp")
+      (progn
+        (shell-command -cmd-str "*liu233w/run-current-file output*")
+        (async-shell-command "a")))
+     (t (if -prog-name
+            (progn
+              (message "Running…")
+              (async-shell-command -cmd-str "*liu233w/run-current-file output*" ))
+          (message "No recognized program file suffix for this file."))))))
 
 (defun zilongshanren/project-root ()
   "Return the project root for current buffer."

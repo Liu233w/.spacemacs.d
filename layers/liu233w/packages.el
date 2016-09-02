@@ -95,6 +95,8 @@ Each entry is either:
           (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
           (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
           (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+          (paredit-forward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+          (paredit-backward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
           (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
           (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
           ))

@@ -69,10 +69,6 @@ C-z can switch between emacs-mode and normal-mode"
 ;; 在visual state之下按v后会进入expand-region模式
 (define-key evil-visual-state-map (kbd "v") 'er/expand-region)
 
-;; 快速运行java 程序，在运行之前需要先编译
-(spacemacs/set-leader-keys-for-major-mode
-  'java-mode "tr" 'liu233w/quick-run-java)
-
 (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
 
 ;; 在lisp-mode中可以用s来代替 C-x C-e
@@ -86,3 +82,6 @@ C-z can switch between emacs-mode and normal-mode"
   ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
   ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
  'normal)
+
+;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
+(evil-leader/set-key "or" 'liu233w/run-current-file)
