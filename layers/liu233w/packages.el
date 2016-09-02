@@ -110,8 +110,12 @@ Each entry is either:
    ("p" evil-mc-make-and-goto-prev-match)
    ("k" evil-mc-skip-and-goto-prev-match))
 
-  (define-key evil-visual-state-map (kbd "mn")
-    'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
+  (require 'liu233w-util-funcs)
+  (liu233w|binding-keys
+   define-key
+   (((kbd "mn") #'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
+    ((kbd "mp") #'liu233w/emc:evil-mc-make-and-goto-prev-match-then-enter-micro-state))
+   evil-visual-state-map)
 
   (define-key evil-visual-state-map (kbd "ma")
     'evil-mc-make-all-cursors)

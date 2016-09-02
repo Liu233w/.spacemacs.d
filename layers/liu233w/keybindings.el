@@ -75,17 +75,14 @@ C-z can switch between emacs-mode and normal-mode"
 
 (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
 
-;; 这个micro-state用来进行快速翻页，
-;; 这样在连续翻页的时候就不需要一直按住ctrl了。
-(spacemacs/set-leader-keys "ov" 'spacemacs/liu233w/view-micro-state)
-
 ;; 在lisp-mode中可以用s来代替 C-x C-e
 (evil-global-set-key 'normal "s" 'eval-last-sexp)
 
-;; 设置翻页的micro-state
-(dolist (item
-         '(("C-f" liu233w/view:evil-scroll-page-down-then-enter-micro-state)
-           ("C-b" liu233w/view:evil-scroll-page-up-then-enter-micro-state)
-           ("C-u" liu233w/view:evil-scroll-up-then-enter-micro-state)
-           ("C-d" liu233w/view:evil-scroll-down-then-enter-micro-state)))
-  (evil-global-set-key 'normal (kbd (first item)) (second item)))
+(require 'liu233w-util-funcs)
+(liu233w|binding-keys
+ evil-global-set-key
+ (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
+  ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
+  ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
+  ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
+ 'normal)

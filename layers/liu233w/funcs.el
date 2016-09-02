@@ -261,7 +261,7 @@ version 2015-08-21"
 (mms|define-multiple-micro-state
  liu233w/view
  :use-minibuffer t
- :doc auto
+ :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
  :bindings
  ("d" evil-scroll-down)
  ("u" evil-scroll-up)
