@@ -75,7 +75,7 @@ C-z can switch between emacs-mode and normal-mode"
 (evil-global-set-key 'normal "s" 'eval-last-sexp)
 
 (require 'liu233w-util-funcs)
-(liu233w|binding-keys
+(liu233w|bind-keys
  (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
   ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
   ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)

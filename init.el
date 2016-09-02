@@ -29,6 +29,7 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-complete-with-key-sequence "jk"
                       auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-return-key-behavior nil
                       )
      ;; better-defaults
      emacs-lisp

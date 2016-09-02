@@ -49,6 +49,7 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
     ;;               func))
     ;;    (advice-add (quote ,func-name) :after '(lambda (&rest rest) (,state-name))))
     `(defun ,func-name (&rest rest)
+       ,(format "Call `%s' then call `%s'" func state-name)
        ,(or (interactive-form func)
             '(interactive))
        (apply (function ,func) rest)
