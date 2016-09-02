@@ -143,7 +143,7 @@ version 2016-01-28"
             ("java" . "javac")
             ("cpp" . ,(or (executable-find "myclang")
                           (executable-find "clang")
-                          "gcc"))
+                          "g++"))
             ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
             ))
 
@@ -169,7 +169,8 @@ version 2016-01-28"
          (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname))))))
      ((string-equal -fSuffix "cpp")
       (progn
-        (shell-command -cmd-str "*liu233w/run-current-file output*")
+        (shell-command (format "%s --std=c++11" -cmd-str)
+                       "*liu233w/run-current-file output*")
         (async-shell-command "a")))
      (t (if -prog-name
             (progn
