@@ -102,6 +102,7 @@ Each entry is either:
           ))
 
   (require 'multiple-micro-state)
+  (require 'evil-mc)
   (mms|define-multiple-micro-state
    liu233w/emc
    :doc auto
