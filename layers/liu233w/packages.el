@@ -48,6 +48,7 @@
     pangu-spacing
     number-lock
     flycheck-package
+    js-comint
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -358,5 +359,20 @@ Each entry is either:
     :init
     (eval-after-load 'flycheck
       '(flycheck-package-setup))))
+
+(defun liu233w/init-js-comint ()
+  "交互式运行Node.js"
+  (use-package js-comint
+    :defer t
+    :init
+    (spacemacs/declare-prefix-for-mode 'js2-mode "ms" "repl")
+    (spacemacs/set-leader-keys-for-major-mode 'js2-mode
+      "si" 'run-js
+      "ss" 'js-send-last-sexp
+      "sS" 'js-send-last-sexp-and-go
+      "sb" 'js-send-buffer
+      "sB" 'js-send-buffer-and-go
+      "sr" 'js-send-region
+      "sR" 'js-send-region-and-go)))
 
 ;;; packages.el ends here
