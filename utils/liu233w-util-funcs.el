@@ -13,4 +13,25 @@
                    (append func-and-args item))
                binding-list)))
 
+;;; from evil-plist-delete
+(defun plist-delete (plist prop)
+  "Delete by side effect the property PROP from PLIST.
+If PROP is the first property in PLIST, there is no way
+to remove it by side-effect; therefore, write
+\(setq foo (evil-plist-delete foo :prop)) to be sure of
+changing the value of `foo'."
+  (let ((tail plist) elt head)
+    (while tail
+      (setq elt (car tail))
+      (cond
+       ((eq elt prop)
+        (setq tail (cdr (cdr tail)))
+        (if head
+            (setcdr (cdr head) tail)
+          (setq plist tail)))
+       (t
+        (setq head tail
+              tail (cdr (cdr tail))))))
+    plist))
+
 (provide 'liu233w-util-funcs)

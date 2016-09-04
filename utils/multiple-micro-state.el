@@ -1,19 +1,20 @@
-;;; -*- lexical-binding: t -*-
-
-;;; multiple-micro-state.el --- 在生成micro-state的同时对每个命令生成对应的函数。
-
-;; 函数的参数和调用方式可以和原来的命令相同，在执行命令之后自动进入micro-state
+;;; multiple-micro-state.el --- 在生成micro-state的同时对每个命令生成对应的函数。 -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2016 Liu233w
 ;;
 ;; Author: Liu233w <wwwlsmcom@outlook.com>
-;;
-;; This file is not part of GNU Emacs.
+;; Created: 2016-09-02
 ;;
 ;;; License: GPLv3
 
+;;; Commentary:
+;; 函数的参数和调用方式可以和原来的命令相同，在执行命令之后自动进入micro-state
+
+;;; Code:
+
 (require 'core-micro-state)
 (require 'nadvice)
+(require 'liu233w-util-funcs)
 
 (defun mms//generate-micro-state-name (name)
   "生成micro-state的名字，将返回一个symbol。
@@ -36,23 +37,38 @@
   (mapconcat #'(lambda (item) (format "`%s' %s " (car item) (cdr item)))
              lst " "))
 
+(defun mms//list-all-argument (arglist-form)
+  "接受一个函数的参数列表，返回一个列表，其第一项是固定的参数和optional函数
+\(去掉了 &optional symbol\)，第二项是 &rest 参数，如果没有的话就是nil
+
+如： 参数\(a b &optional c &rest rest\) 将返回 \(\(a b c\) rest\)"
+  (let ((res nil)
+        (the-rest nil))
+    (dolist (item arglist-form)
+      (let* ((first-char (elt (format "%s" item) 0)))
+        (if (eql first-char ?&)
+            (when (string-equal item "&rest")
+              (setf the-rest t))
+          (if the-rest
+              (setf the-rest item)
+            (push item res)))))
+    (list (reverse res) the-rest)))
+
 (defun mms//generate-function-defination (name func state-name)
   "生成函数的定义。
 name是micro-state的名字，func是函数名，state-name是之前生成的micro-state
 的名字，都是symbol。
 生成的函数与原来的函数有相同的形参列表和interactive，在执行完原有函数的功能之后
 会启动相应的micro-state。"
-  (let ((func-name (mms//generate-function-name name func)))
-    ;; `(progn
-    ;;    (defalias (quote ,func-name) (quote ,func)
-    ;;      ,(format "A function generated from %s by `mms|define-multiple-micro-state'"
-    ;;               func))
-    ;;    (advice-add (quote ,func-name) :after '(lambda (&rest rest) (,state-name))))
-    `(defun ,func-name (&rest rest)
+  (let* ((func-name (mms//generate-function-name name func))
+         (func-args (help-function-arglist func))
+         (send-args (mms//list-all-argument func-args)))
+    `(defun ,func-name ,func-args
        ,(format "Call `%s' then call `%s'" func state-name)
        ,(or (interactive-form func)
             '(interactive))
-       (apply (function ,func) rest)
+       (apply (function ,func)
+              ,@(first send-args) ,(second send-args))
        (,state-name))))
 
 (defmacro mms|define-multiple-micro-state (name &rest props)
@@ -67,11 +83,13 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
       (setq props (plist-put props :doc (mms//generate-document binding-list))))
     `(progn
        (spacemacs|define-micro-state ,name ,@props)
-       (defalias (quote ,state-name) (quote ,(spacemacs//micro-state-func-name name)))
+       (defalias (quote ,state-name)
+         (quote ,(spacemacs//micro-state-func-name name)))
        ,@(mapcar #'(lambda (item)
-                     (mms//generate-function-defination name (cdr item) state-name))
+                     (mms//generate-function-defination name (cdr item)
+                                                        state-name))
                  binding-list))))
 
-(provide 'multiple-micro-state)
 
+(provide 'multiple-micro-state)
 ;;; multiple-micro-state.el ends here
