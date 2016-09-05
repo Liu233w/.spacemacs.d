@@ -182,18 +182,13 @@ Each entry is either:
                                (t "sbcl")
                                ))
 
-  (defun liu233w/slime-super-send ()
-    "如果是normal，则执行光标上的语句\(而不是光标前)"
-    (interactive)
-    (if (evil-insert-state-p)
-        (slime-last-expression)
-      (evil-save-state
-        (evil-append 0)
-        (slime-eval-last-expression))))
-
   (require 'evil-quick-sender)
-  (evil-quick-sender-add-command 'lisp-mode 'liu233w/slime-super-send 'normal)
-  (evil-quick-sender-add-command 'lisp-mode 'slime-eval-region 'visual)
+  (evil-quick-sender-add-command
+   'lisp-mode
+   #'(lambda () (interactive "")
+       (liu233w/super-send #'slime-eval-last-expression))
+   'normal)
+  (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
   )
 
 (defun liu233w/init-paredit ()
@@ -389,7 +384,10 @@ Each entry is either:
       "sR" 'js-send-region-and-go)
 
     (require 'evil-quick-sender)
-    (evil-quick-sender-add-command 'js2-mode 'js-send-last-sexp 'normal)
-    (evil-quick-sender-add-command 'js2-mode 'js-send-region 'visual)))
+    (evil-quick-sender-add-command
+     'js2-mode
+     #'(lambda () (interactive "") (liu233w/super-send #'js-send-last-sexp))
+     'normal)
+    (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
 
 ;;; packages.el ends here

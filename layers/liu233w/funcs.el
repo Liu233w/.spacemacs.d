@@ -288,3 +288,12 @@ version 2016-01-28"
  ("u" evil-scroll-up)
  ("f" evil-scroll-page-down)
  ("b" evil-scroll-page-up))
+
+(defun liu233w/super-send (func)
+  "如果是normal，则执行光标上的语句\(而不是光标前)"
+  (interactive)
+  (if (evil-insert-state-p)
+      (command-execute func)
+    (evil-save-state
+      (evil-append 0)
+      (command-execute func))))
