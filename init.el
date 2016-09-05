@@ -334,8 +334,6 @@ you should place you code here."
   ;;放到加载配置之后，防止覆盖默认选项
   (liu233w/set-chinese-fonts)
   (add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
-
-  (server-start)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
