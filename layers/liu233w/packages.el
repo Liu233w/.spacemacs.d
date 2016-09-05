@@ -181,6 +181,19 @@ Each entry is either:
                                ((spacemacs/system-is-linux) "sbcl")
                                (t "sbcl")
                                ))
+
+  (defun liu233w/slime-super-send ()
+    "如果是normal，则执行光标上的语句\(而不是光标前)"
+    (interactive)
+    (if (evil-insert-state-p)
+        (slime-last-expression)
+      (evil-save-state
+        (evil-append 0)
+        (slime-eval-last-expression))))
+
+  (require 'evil-quick-sender)
+  (evil-quick-sender-add-command 'lisp-mode 'liu233w/slime-super-send 'normal)
+  (evil-quick-sender-add-command 'lisp-mode 'slime-eval-region 'visual)
   )
 
 (defun liu233w/init-paredit ()
@@ -373,6 +386,10 @@ Each entry is either:
       "sb" 'js-send-buffer
       "sB" 'js-send-buffer-and-go
       "sr" 'js-send-region
-      "sR" 'js-send-region-and-go)))
+      "sR" 'js-send-region-and-go)
+
+    (require 'evil-quick-sender)
+    (evil-quick-sender-add-command 'js2-mode 'js-send-last-sexp 'normal)
+    (evil-quick-sender-add-command 'js2-mode 'js-send-region 'visual)))
 
 ;;; packages.el ends here

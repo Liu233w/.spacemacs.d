@@ -71,9 +71,6 @@ C-z can switch between emacs-mode and normal-mode"
 
 (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
 
-;; 在lisp-mode中可以用s来代替 C-x C-e
-(evil-global-set-key 'normal "s" 'eval-last-sexp)
-
 (require 'liu233w-util-funcs)
 (liu233w|bind-keys
  (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
@@ -84,3 +81,8 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
 (evil-leader/set-key "or" 'liu233w/run-current-file)
+
+;;; emacs-lisp-mode下的super-sender
+(require 'evil-quick-sender)
+(evil-quick-sender-add-command 'emacs-lisp-mode 'eval-last-sexp 'normal)
+(evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual)

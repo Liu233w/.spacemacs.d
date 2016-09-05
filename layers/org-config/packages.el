@@ -118,6 +118,10 @@ Each entry is either:
        ))
     ;; 执行src_block里的代码时不询问
     (setq org-confirm-babel-evaluate nil)
+
+    ;; 使用super-sender来做org-ctrl-c-ctrl-c
+    (require 'evil-quick-sender)
+    (evil-quick-sender-add-command 'org-mode 'org-ctrl-c-ctrl-c 'normal)
     )
   )
 
