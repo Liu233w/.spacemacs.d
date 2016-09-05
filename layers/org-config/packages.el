@@ -68,8 +68,9 @@ Each entry is either:
   (with-eval-after-load 'org
     ;;org-mode和org-mobile的文件夹
     (setf org-directory "~/documents/org-mode/host/"
-          org-mobile-directory "~/documents/org-mode/"
-          org-mobile-inbox-for-pull "~/documents/org-mode/index.org")
+          ;; org-mobile-directory "~/documents/org-mode/"
+          ;; org-mobile-inbox-for-pull "~/documents/org-mode/index.org"
+          )
 
     ;; 完成状态
     (setf org-todo-keywords
@@ -77,24 +78,24 @@ Each entry is either:
             ))
 
     ;; 用来检测md5的程序
-    (defcustom org-mobile-checksum-binary
-      (or (executable-find "md5sums") (executable-find "md5sum"))
-      ' "Executable used for computing checksums of agenda files."
-        ':group 'org-mobile
-        ' :type 'string)
+    ;; (defcustom org-mobile-checksum-binary
+    ;;   (or (executable-find "md5sums") (executable-find "md5sum"))
+    ;;   ' "Executable used for computing checksums of agenda files."
+    ;;     ':group 'org-mobile
+    ;;     ' :type 'string)
 
     ;;org的捕获列表
     (setq org-capture-templates
-          '(("t" "TODO" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_TODO")
+          '(("t" "TODO" entry (file+headline  "~/documents/org-mode/tasks.org" "_TODO")
              "* TODO %?\n %i\n %a")
-            ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/host/tasks.org" "_SOMEDAY")
+            ("s" "SOMEDAY" entry (file+headline  "~/documents/org-mode/tasks.org" "_SOMEDAY")
              "* SOMEDAY %?\n %i\n %a")
-            ("n" "Notes" entry (file+datetree "~/documents/org-mode/host/notes.org")
+            ("n" "Notes" entry (file+datetree "~/documents/org-mode/notes.org")
              "* %?\nEntered on %U\n %i\n %a")))
 
     ;; org-agenda的全局文件
-    (setf org-agenda-files (list "~/documents/org-mode/host/tasks.org"
-                                 "~/documents/org-mode/host/notes.org"))
+    (setf org-agenda-files (list "~/documents/org-mode/tasks.org"
+                                 "~/documents/org-mode/notes.org"))
 
     ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
     ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
