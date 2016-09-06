@@ -37,6 +37,19 @@
   (mapconcat #'(lambda (item) (format "`%s' %s " (car item) (cdr item)))
              lst " "))
 
+(defun mms//generate-function-defination (name func state-name)
+  "生成函数的定义。
+name是micro-state的名字，func是函数名，state-name是之前生成的micro-state
+的名字，都是symbol。
+生成的函数使用`command-execute'执行原有的函数。在执行完原有函数的功能之后
+会启动相应的micro-state。"
+  (let* ((func-name (mms//generate-function-name name func)))
+    `(defun ,func-name ()
+       ,(format "Call `%s' then call `%s'" func state-name)
+       (interactive)
+       (command-execute (function ,func))
+       (,state-name))))
+
 (defun mms//list-all-argument (arglist-form)
   "接受一个函数的参数列表，返回一个列表，其第一项是固定的参数和optional函数
 \(去掉了 &optional symbol\)，第二项是 &rest 参数，如果没有的话就是nil
@@ -54,12 +67,13 @@
             (push item res)))))
     (list (reverse res) the-rest)))
 
-(defun mms//generate-function-defination (name func state-name)
+(defun mms//generate-function-defination-with-full-args (name func state-name)
   "生成函数的定义。
 name是micro-state的名字，func是函数名，state-name是之前生成的micro-state
 的名字，都是symbol。
 生成的函数与原来的函数有相同的形参列表和interactive，在执行完原有函数的功能之后
-会启动相应的micro-state。"
+会启动相应的micro-state。
+使用本函数生成定义时，原函数的定义必须完全加载完成。"
   (let* ((func-name (mms//generate-function-name name func))
          (func-args (help-function-arglist func))
          (send-args (mms//list-all-argument func-args)))
@@ -76,9 +90,14 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
 调用函数会执行相应的命令并进入micro-state。
 
 参数列表详见`spacemacs|define-micro-state'
-对于micro-state的`:doc'参数如果传入auto，则根据键绑定和命令名自动生成doc"
+对于micro-state的`:doc'参数如果传入auto，则根据键绑定和命令名自动生成doc。
+额外的参数`:with-full-arguments'默认为nil，如果置为t，则生成的函数将拥有和
+原函数同样的interactive和参数列表，但是在宏展开的时候原函数的定义必须完全加载
+完成；如果为nil，生成的函数则不接受参数，只有一个无参数的interactive，会使用
+`command-execute'来执行原来的函数。"
   (let ((state-name (mms//generate-micro-state-name name))
-        (binding-list (mms//get-function-key-list props)))
+        (binding-list (mms//get-function-key-list props))
+        (with-arguments (plist-get props :with-full-arguments)))
     (when (eql (plist-get props :doc) 'auto)
       (setq props (plist-put props :doc (mms//generate-document binding-list))))
     `(progn
@@ -86,8 +105,11 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
        (defalias (quote ,state-name)
          (quote ,(spacemacs//micro-state-func-name name)))
        ,@(mapcar #'(lambda (item)
-                     (mms//generate-function-defination name (cdr item)
-                                                        state-name))
+                     (funcall
+                      (if with-arguments
+                          #'mms//generate-function-defination-with-full-args
+                        #'mms//generate-function-defination)
+                      name (cdr item) state-name))
                  binding-list))))
 
 

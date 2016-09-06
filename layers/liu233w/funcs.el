@@ -283,6 +283,7 @@ version 2016-01-28"
  liu233w/view
  :use-minibuffer t
  :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
+ :with-full-arguments t
  :bindings
  ("d" evil-scroll-down)
  ("u" evil-scroll-up)
