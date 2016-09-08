@@ -49,6 +49,7 @@
     number-lock
     flycheck-package
     js-comint
+    js2-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -388,5 +389,47 @@ Each entry is either:
      #'(lambda () (interactive "") (liu233w/super-send #'js-send-last-sexp))
      'normal)
     (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
+
+;;; from zilongshanren https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-programming/packages.el
+(defun liu233w/post-init-js2-mode ()
+  (progn
+    (setq company-backends-js2-mode '((company-dabbrev-code
+                                       :with company-keywords company-etags)
+                                      company-files company-dabbrev))
+
+    (with-eval-after-load 'js2-mode
+      (progn
+        ;; these mode related variables must be in eval-after-load
+        ;; https://github.com/magnars/.emacs.d/blob/master/settings/setup-js2-mode.el
+        (setq-default js2-allow-rhino-new-expr-initializer nil)
+        (setq-default js2-auto-indent-p nil)
+        (setq-default js2-enter-indents-newline nil)
+        (setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+        (setq-default js2-idle-timer-delay 0.2)
+        (setq-default js2-mirror-mode nil)
+        (setq-default js2-strict-inconsistent-return-warning nil)
+        (setq-default js2-include-rhino-externs nil)
+        (setq-default js2-include-gears-externs nil)
+        (setq-default js2-concat-multiline-strings 'eol)
+        (setq-default js2-rebind-eol-bol-keys nil)
+        (setq-default js2-auto-indent-p t)
+
+        (setq-default js2-bounce-indent nil)
+        (setq-default js-indent-level 4)
+        (setq-default js2-basic-offset 4)
+        (setq-default js-switch-indent-offset 2)
+        ;; Let flycheck handle parse errors
+        (setq-default js2-mode-show-parse-errors nil)
+        (setq-default js2-mode-show-strict-warnings nil)
+        (setq-default js2-highlight-external-variables t)
+        (setq-default js2-strict-trailing-comma-warning nil)
+
+        (eval-after-load 'tern-mode
+          '(spacemacs|hide-lighter tern-mode))
+        ))
+
+    (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
+
+))
 
 ;;; packages.el ends here
