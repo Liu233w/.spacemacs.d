@@ -50,6 +50,7 @@
     flycheck-package
     js-comint
     js2-mode
+    jade-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -431,5 +432,8 @@ Each entry is either:
     (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
 
 ))
+
+(defun liu233w/post-init-jade-mode ()
+  (add-hook 'jade-mode-hook #'(lambda () (smartparens-mode 1))))
 
 ;;; packages.el ends here
