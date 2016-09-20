@@ -98,7 +98,7 @@ Single Capitals as you type."
              (setq default-tab-width 4)
              (setq-default indent-tabs-mode nil)
              (setq c-basic-offset 4)
-                         ))
+             ))
 
 ;;When enter the shell buffer, evil state will be switched to emacs-state,
 ;;C-z can switch between emacs-mode and normal-mode
@@ -156,7 +156,8 @@ Single Capitals as you type."
   (interactive)
   (command-execute #'eval-buffer)
   (message "Eval finished"))
-(with-eval-after-load 'emacs-lisp-mode
-  (spacemacs/set-leader-keys-for-minor-mode
-    'emacs-lisp-mode
-    "e b" #'liu233w/eval-buffer-with-message))
+(add-hook 'emacs-lisp-mode-hook
+          #'(lambda ()
+              (spacemacs/set-leader-keys-for-major-mode
+                'emacs-lisp-mode
+                "e b" #'liu233w/eval-buffer-with-message)))
