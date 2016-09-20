@@ -257,21 +257,6 @@ version 2016-01-28"
 ;;   (turn-on-fci-mode)
 ;;   (linum-mode t))
 
-(defun liu233w/quick-run-java ()
-  "快速运行java 程序，在运行之前需要先编译"
-  (interactive)
-  (let* ((ecuname (substring (buffer-file-name) 0
-                             (search ".java" (buffer-file-name) :from-end t)))
-         (search-point (or (search "/" ecuname :from-end t)
-                           (search "\\" ecuname :from-end t)))
-         (execu-path (substring ecuname 0 search-point))
-         (execu-name (substring ecuname (+ 1 search-point))))
-    (shell)
-    (insert "cd " execu-path)
-    (comint-send-input)
-    (insert "java " execu-name)
-    (comint-send-input)))
-
 (defun liu233w/insert-user-name-and-email ()
   "生成和package的元数据中格式相同的用户名和邮箱"
   (interactive)
@@ -298,3 +283,21 @@ version 2016-01-28"
     (evil-save-state
       (evil-append 0)
       (command-execute func))))
+
+;;; from http://stackoverflow.com/questions/11043004/emacs-compile-buffer-auto-close
+(defun liu233w/bury-compile-buffer-if-successful (buffer string)
+  "Bury a compilation buffer if succeeded without warnings "
+  (if (and
+       (string-match "compilation" (buffer-name buffer))
+       (string-match "finished" string)
+       (not
+        (with-current-buffer buffer
+          (goto-char (point-min))
+          (search-forward "warning" nil t))))
+      (run-with-timer 1 nil
+                      (lambda (buf)
+                        (bury-buffer buf)
+                        (delete-window (get-buffer-window buf)))
+                      buffer)))
+;; (add-hook 'compilation-finish-functions
+;;           #'liu233w/bury-compile-buffer-if-successful)

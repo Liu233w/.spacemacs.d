@@ -1,22 +1,23 @@
 ;;; 包含正在测试中的代码，还不能正式开始使用
 
-(defvar liu233w//prev-compile-command "make -k ")
-(defvar liu233w//cr-run-command "")
+(defvar liu233w//compile-status nil "doc")
+
+(defun liu233w//run-after-compile (buffer string)
+  (when (and
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         liu233w//compile-status)
+    (async-shell-command (car liu233w//compile-status)
+                         "*liu233w/run-current-file output*")
+    (setf liu233w//compile-status nil)))
+(add-hook 'compilation-finish-functions
+          #'liu233w//run-after-compile)
 
 (defun liu233w//compile-and-run (cmp-cmd run-cmd)
   "Run cmp-cmd, if success, then run run-cmd and print the result.
-Or just print the error message."
-  (setf liu233w//prev-compile-command compile-command
-        liu233w//cr-run-command run-cmd)
-  (compile cmp-cmd))
+Or just print the error message.
 
-(defun liu233w//show-compile-result (status_ code message)
-  (when (equal code 0)
-    (set-window-buffer
-     (get-buffer-window "*compilation*")
-     (get-buffer-create "*liu233w/run-current-file output*")))
-  (setf compile-command liu233w//prev-compile-command)
-  (shell-command liu233w//cr-run-command "*liu233w/run-current-file output*"))
-
-(setq compilation-exit-message-function
-      'liu233w//show-compile-result)
+When it's compiling a file, this function may cause error behavior."
+  (setf liu233w//compile-status (cons run-cmd compile-command))
+  (compile cmp-cmd)
+  )
