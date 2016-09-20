@@ -10,18 +10,14 @@ Or just print the error message."
   (make-local-variable 'liu233w//cr-run-command)
   (setf liu233w//prev-compile-command compile-command
         liu233w//cr-run-command run-cmd)
-  (let* ((buffer (get-buffer-create "*liu233w/run-current-file output*"))
-         )
-    (compile cmp-cmd)
-    (when (equal process 0)
-      (async-shell-command run-cmd))
-    (set-window-buffer window buffer)))
+  (compile cmp-cmd))
 
-(defun liu233w//show-compile-result)
+(defun liu233w//show-compile-result (status_ code message)
+  (when (equal code 0)
+    (set-window-buffer
+     (get-buffer-window "*compilation*")
+     (get-buffer-create "*liu233w/run-current-file output*")))
+  (setf compile-command liu233w//prev-compile-command))
 
-(defvar my-compilation-exit-code nil)
-(defun my-compilation-exit-message-function (status_ code message)
-  (setq my-compilation-exit-code code)
-  (cons message code))
-
-(setq compilation-exit-message-function 'my-compilation-exit-message-function)
+(setq compilation-exit-message-function
+      'liu233w//show-compile-result)
