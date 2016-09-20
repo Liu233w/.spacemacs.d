@@ -164,8 +164,8 @@ version 2016-01-28"
      ((string-equal -fSuffix "el") (load -fname))
      ((string-equal -fSuffix "java")
       (progn
-        (shell-command -cmd-str "*liu233w/run-current-file output*" )
-        (async-shell-command
+        (liu233w//compile-and-run
+         -cmd-str
          (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname))))))
      ((string-equal -fSuffix "cpp")
       (progn
