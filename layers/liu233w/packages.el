@@ -243,7 +243,8 @@ Each entry is either:
   (use-package fcitx
     ;; :defer t      ;不能延迟加载，否则无法正常加载
     :config
-    (progn
+    (when (or (spacemacs/system-is-linux)
+              (executable-find "fcitx-remote"))
       (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
       (fcitx-aggressive-setup)
       (fcitx-shell-command-turn-on)
