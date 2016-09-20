@@ -151,3 +151,12 @@ Single Capitals as you type."
 ;;                      (list liu233w//company-clang-additional-clang-args-before)
 ;;                      args
 ;;                      (list liu233w//company-clang-additional-clang-args-after))))))
+
+(defun liu233w/eval-buffer-with-message ()
+  (interactive)
+  (command-execute #'eval-buffer)
+  (message "Eval finished"))
+(with-eval-after-load 'emacs-lisp-mode
+  (spacemacs/set-leader-keys-for-minor-mode
+    'emacs-lisp-mode
+    "e b" #'liu233w/eval-buffer-with-message))
