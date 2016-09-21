@@ -111,6 +111,7 @@ e.g. Sunday, September 17, 2000."
   (interactive)                 ; permit invocation in minibuffer
   (insert (format-time-string "%A, %B %e, %Y")))
 
+;;; -----------liu233w/run-current-file-------------------
 (defun liu233w/run-current-file ()
   "Execute the current file.
 For example, if the current buffer is the file x.py, then it'll call 「python x.py」 in a shell.
@@ -123,34 +124,34 @@ URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
 version 2016-01-28"
   (interactive)
   (let (
-         (-suffix-map
-          ;; (‹extension› . ‹shell program name›)
-          `(
-            ("php" . "php")
-            ("pl" . "perl")
-            ("py" . "python")
-            ("py3" . ,(if (string-equal system-type "windows-nt") "python.exe" "python3"))
-            ("rb" . "ruby")
-            ("go" . "go run")
-            ("js" . "node") ; node.js
-            ("sh" . "bash")
-            ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
-            ("rkt" . "racket")
-            ("ml" . "ocaml")
-            ("vbs" . "cscript")
-            ("tex" . "pdflatex")
-            ("latex" . "pdflatex")
-            ("java" . "javac")
-            ("cpp" . ,(or (executable-find "myclang")
-                          (executable-find "clang")
-                          "g++"))
-            ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
-            ))
+        (-suffix-map
+         ;; (‹extension› . ‹shell program name›)
+         `(
+           ("php" . "php")
+           ("pl" . "perl")
+           ("py" . "python")
+           ("py3" . ,(if (string-equal system-type "windows-nt") "python.exe" "python3"))
+           ("rb" . "ruby")
+           ("go" . "go run")
+           ("js" . "node") ; node.js
+           ("sh" . "bash")
+           ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
+           ("rkt" . "racket")
+           ("ml" . "ocaml")
+           ("vbs" . "cscript")
+           ("tex" . "pdflatex")
+           ("latex" . "pdflatex")
+           ("java" . "javac")
+           ("cpp" . ,(or (executable-find "myclang")
+                         (executable-find "clang")
+                         "g++"))
+           ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
+           ))
 
-         -fname
-         -fSuffix
-         -prog-name
-         -cmd-str)
+        -fname
+        -fSuffix
+        -prog-name
+        -cmd-str)
 
     (when (null (buffer-file-name)) (save-buffer))
     (when (buffer-modified-p) (save-buffer))
@@ -163,20 +164,47 @@ version 2016-01-28"
     (cond
      ((string-equal -fSuffix "el") (load -fname))
      ((string-equal -fSuffix "java")
-      (progn
-        (shell-command -cmd-str "*liu233w/run-current-file output*" )
-        (async-shell-command
-         (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname))))))
+      (liu233w//compile-and-run
+       -cmd-str
+       (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname)))))
      ((string-equal -fSuffix "cpp")
-      (progn
-        (shell-command (format "%s --std=c++11" -cmd-str)
-                       "*liu233w/run-current-file output*")
-        (async-shell-command "a")))
+      (liu233w//compile-and-run
+       (format "%s --std=c++11" -cmd-str)
+       "a"))
      (t (if -prog-name
             (progn
               (message "Running…")
               (async-shell-command -cmd-str "*liu233w/run-current-file output*" ))
           (message "No recognized program file suffix for this file."))))))
+
+(defun liu233w//compile-and-run (cmp-cmd run-cmd)
+  "Run cmp-cmd, if success, then run run-cmd and print the result.
+Or just print the error message.
+
+When it's compiling a file, this function may cause error behavior."
+  (setf liu233w//compile-status (cons run-cmd compile-command))
+  (compile cmp-cmd)
+  )
+
+(defvar liu233w//compile-status nil "doc")
+
+(defun liu233w//run-after-compile (buffer string)
+  (when (and
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         liu233w//compile-status)
+    ;; 防止liu233w/bury-compile-buffer-if-successful删除compilation buffer
+    ;; 这样async-shell-command 命令就能覆盖compilation buffer 而不是源代码的
+    ;; buffer了。
+    (with-current-buffer "*compilation*"
+      (insert "warning LOL"))
+    (async-shell-command (car liu233w//compile-status)
+                         "*liu233w/run-current-file output*")
+    (setf compile-command (cdr liu233w//compile-status)
+          liu233w//compile-status nil)))
+(add-hook 'compilation-finish-functions
+          #'liu233w//run-after-compile)
+;;; END -----------liu233w/run-current-file-------------------
 
 (defun zilongshanren/project-root ()
   "Return the project root for current buffer."
@@ -256,21 +284,6 @@ version 2016-01-28"
 ;;   "在所有编程语言之中启动80列指示器和行号"
 ;;   (turn-on-fci-mode)
 ;;   (linum-mode t))
-
-(defun liu233w/quick-run-java ()
-  "快速运行java 程序，在运行之前需要先编译"
-  (interactive)
-  (let* ((ecuname (substring (buffer-file-name) 0
-                             (search ".java" (buffer-file-name) :from-end t)))
-         (search-point (or (search "/" ecuname :from-end t)
-                           (search "\\" ecuname :from-end t)))
-         (execu-path (substring ecuname 0 search-point))
-         (execu-name (substring ecuname (+ 1 search-point))))
-    (shell)
-    (insert "cd " execu-path)
-    (comint-send-input)
-    (insert "java " execu-name)
-    (comint-send-input)))
 
 (defun liu233w/insert-user-name-and-email ()
   "生成和package的元数据中格式相同的用户名和邮箱"

@@ -161,3 +161,22 @@ Single Capitals as you type."
               (spacemacs/set-leader-keys-for-major-mode
                 'emacs-lisp-mode
                 "e b" #'liu233w/eval-buffer-with-message)))
+
+;;; from http://stackoverflow.com/questions/11043004/emacs-compile-buffer-auto-close
+(defun liu233w/bury-compile-buffer-if-successful (buffer string)
+  "Bury a compilation buffer if succeeded without warnings "
+  (if (and
+       (string-match "compilation" (buffer-name buffer))
+       (string-match "finished" string)
+       (not
+        (with-current-buffer buffer
+          (goto-char (point-min))
+          (search-forward "warning" nil t))))
+      (run-with-timer 1 nil
+                      (lambda (buf)
+                        (bury-buffer buf)
+                        (delete-window (get-buffer-window buf)))
+                      buffer)))
+(add-hook 'compilation-finish-functions
+          #'liu233w/bury-compile-buffer-if-successful
+          t)
