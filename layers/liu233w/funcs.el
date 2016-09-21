@@ -111,6 +111,7 @@ e.g. Sunday, September 17, 2000."
   (interactive)                 ; permit invocation in minibuffer
   (insert (format-time-string "%A, %B %e, %Y")))
 
+;;; -----------liu233w/run-current-file-------------------
 (defun liu233w/run-current-file ()
   "Execute the current file.
 For example, if the current buffer is the file x.py, then it'll call 「python x.py」 in a shell.
@@ -123,34 +124,34 @@ URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
 version 2016-01-28"
   (interactive)
   (let (
-         (-suffix-map
-          ;; (‹extension› . ‹shell program name›)
-          `(
-            ("php" . "php")
-            ("pl" . "perl")
-            ("py" . "python")
-            ("py3" . ,(if (string-equal system-type "windows-nt") "python.exe" "python3"))
-            ("rb" . "ruby")
-            ("go" . "go run")
-            ("js" . "node") ; node.js
-            ("sh" . "bash")
-            ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
-            ("rkt" . "racket")
-            ("ml" . "ocaml")
-            ("vbs" . "cscript")
-            ("tex" . "pdflatex")
-            ("latex" . "pdflatex")
-            ("java" . "javac")
-            ("cpp" . ,(or (executable-find "myclang")
-                          (executable-find "clang")
-                          "g++"))
-            ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
-            ))
+        (-suffix-map
+         ;; (‹extension› . ‹shell program name›)
+         `(
+           ("php" . "php")
+           ("pl" . "perl")
+           ("py" . "python")
+           ("py3" . ,(if (string-equal system-type "windows-nt") "python.exe" "python3"))
+           ("rb" . "ruby")
+           ("go" . "go run")
+           ("js" . "node") ; node.js
+           ("sh" . "bash")
+           ("clj" . "java -cp /home/xah/apps/clojure-1.6.0/clojure-1.6.0.jar clojure.main")
+           ("rkt" . "racket")
+           ("ml" . "ocaml")
+           ("vbs" . "cscript")
+           ("tex" . "pdflatex")
+           ("latex" . "pdflatex")
+           ("java" . "javac")
+           ("cpp" . ,(or (executable-find "myclang")
+                         (executable-find "clang")
+                         "g++"))
+           ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
+           ))
 
-         -fname
-         -fSuffix
-         -prog-name
-         -cmd-str)
+        -fname
+        -fSuffix
+        -prog-name
+        -cmd-str)
 
     (when (null (buffer-file-name)) (save-buffer))
     (when (buffer-modified-p) (save-buffer))
@@ -163,20 +164,47 @@ version 2016-01-28"
     (cond
      ((string-equal -fSuffix "el") (load -fname))
      ((string-equal -fSuffix "java")
-      (progn
-        (liu233w//compile-and-run
-         -cmd-str
-         (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname))))))
+      (liu233w//compile-and-run
+       -cmd-str
+       (format "java %s" (file-name-sans-extension (file-name-nondirectory -fname)))))
      ((string-equal -fSuffix "cpp")
-      (progn
-        (shell-command (format "%s --std=c++11" -cmd-str)
-                       "*liu233w/run-current-file output*")
-        (async-shell-command "a")))
+      (liu233w//compile-and-run
+       (format "%s --std=c++11" -cmd-str)
+       "a"))
      (t (if -prog-name
             (progn
               (message "Running…")
               (async-shell-command -cmd-str "*liu233w/run-current-file output*" ))
           (message "No recognized program file suffix for this file."))))))
+
+(defun liu233w//compile-and-run (cmp-cmd run-cmd)
+  "Run cmp-cmd, if success, then run run-cmd and print the result.
+Or just print the error message.
+
+When it's compiling a file, this function may cause error behavior."
+  (setf liu233w//compile-status (cons run-cmd compile-command))
+  (compile cmp-cmd)
+  )
+
+(defvar liu233w//compile-status nil "doc")
+
+(defun liu233w//run-after-compile (buffer string)
+  (when (and
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         liu233w//compile-status)
+    ;; 防止liu233w/bury-compile-buffer-if-successful删除compilation buffer
+    ;; 这样async-shell-command 命令就能覆盖compilation buffer 而不是源代码的
+    ;; buffer了。
+    (with-current-buffer "*compilation*"
+      (insert "warning LOL"))
+    (async-shell-command (car liu233w//compile-status)
+                         "*liu233w/run-current-file output*")
+    (setf compile-command (cdr liu233w//compile-status)
+          liu233w//compile-status nil)))
+(add-hook 'compilation-finish-functions
+          #'liu233w//run-after-compile)
+;;; END -----------liu233w/run-current-file-------------------
 
 (defun zilongshanren/project-root ()
   "Return the project root for current buffer."
@@ -283,21 +311,3 @@ version 2016-01-28"
     (evil-save-state
       (evil-append 0)
       (command-execute func))))
-
-;;; from http://stackoverflow.com/questions/11043004/emacs-compile-buffer-auto-close
-(defun liu233w/bury-compile-buffer-if-successful (buffer string)
-  "Bury a compilation buffer if succeeded without warnings "
-  (if (and
-       (string-match "compilation" (buffer-name buffer))
-       (string-match "finished" string)
-       (not
-        (with-current-buffer buffer
-          (goto-char (point-min))
-          (search-forward "warning" nil t))))
-      (run-with-timer 1 nil
-                      (lambda (buf)
-                        (bury-buffer buf)
-                        (delete-window (get-buffer-window buf)))
-                      buffer)))
-;; (add-hook 'compilation-finish-functions
-;;           #'liu233w/bury-compile-buffer-if-successful)
