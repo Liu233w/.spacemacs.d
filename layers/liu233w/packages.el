@@ -51,6 +51,7 @@
     js-comint
     js2-mode
     jade-mode
+    quickrun
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -436,5 +437,31 @@ Each entry is either:
 
 (defun liu233w/post-init-jade-mode ()
   (add-hook 'jade-mode-hook #'(lambda () (smartparens-mode 1))))
+
+(defun liu233w/init-quickrun ()
+  "快速运行当前的buffer"
+  ;; 缺陷：无法与运行的程序交互
+  (use-package "quickrun"
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "o q" #'quickrun
+      ;; "o k" #'liu233w/quickrun-kill-process-and-window
+      )
+    :config
+    ;; ;; 默认使用shell来打开，从而允许交互
+    ;; (setf quickrun/run-in-shell t)
+
+    ;; (defun liu233w/quickrun-kill-process-and-window ()
+    ;;   "关闭quickrun打开的buffer"
+    ;;   (interactive)
+    ;;   (let* ((buf (get-buffer "*eshell-quickrun*"))
+    ;;          (proc (get-buffer-process buf)))
+    ;;     (when proc
+    ;;       (quickrun/kill-process proc))
+    ;;     (bury-buffer buf)
+    ;;     (delete-window (get-buffer-window buf))))
+    ;; 在运行前询问是否保存
+    (advice-add #'quickrun :before #'save-some-buffers)))
 
 ;;; packages.el ends here
