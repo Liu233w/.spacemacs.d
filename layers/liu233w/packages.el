@@ -52,6 +52,7 @@
     js2-mode
     jade-mode
     quickrun
+    evil-visual-mark-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -463,5 +464,12 @@ Each entry is either:
     ;;     (delete-window (get-buffer-window buf))))
     ;; 在运行前询问是否保存
     (advice-add #'quickrun :before #'save-some-buffers)))
+
+(defun liu233w/post-init-evil-visual-mark-mode ()
+  ;; 在删除marks之后重置evil-visual-mark-mode来自动删除之前的标记
+  (advice-add #'evil-delete-marks :after
+              #'(lambda (&rest rest)
+                  (evil-visual-mark-mode)
+                  (evil-visual-mark-mode))))
 
 ;;; packages.el ends here
