@@ -73,6 +73,7 @@ values."
      (python :variables python-enable-yapf-format-on-save t)
      markdown
      javascript
+     evil-snipe
      liu233w
      org-config
      )
