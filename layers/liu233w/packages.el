@@ -243,18 +243,20 @@ Each entry is either:
 
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
-  (use-package fcitx
-    ;; :defer t      ;不能延迟加载，否则无法正常加载
-    :config
-    (when (or (spacemacs/system-is-linux)
-              (executable-find "fcitx-remote"))
+  (when (or (spacemacs/system-is-linux)
+            (executable-find "fcitx-remote"))
+    (use-package fcitx
+      ;; :defer t      ;不能延迟加载，否则无法正常加载
+      :init
+      (setq w32-pass-lwindow-to-system nil)
+      (setq w32-lwindow-modifier 'super)
+      :config
       (setq fcitx-active-evil-states '(insert emacs hybrid)) ; if you use hybrid mode
       (fcitx-aggressive-setup)
       (fcitx-shell-command-turn-on)
       (fcitx-eval-expression-turn-on)
       (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
-      ))
-  )
+      )))
 
 (defun liu233w/init-evil-visual-mark-mode ()
   (use-package evil-visual-mark-mode
