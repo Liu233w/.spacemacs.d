@@ -11,3 +11,8 @@
 
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "gg" 'spacemacs/org-config/heading-move-micro-state)
+
+(spacemacs/declare-prefix "to" "org")
+;;; 用tol 来开关链接的显示
+(spacemacs/set-leader-keys
+  "tol" #'org-toggle-link-display)
