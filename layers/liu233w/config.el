@@ -3,6 +3,17 @@
 ;; For my language code setting (UTF-8)
 (set-language-environment "chinese-GBK")
 (prefer-coding-system 'utf-8)
+(when (spacemacs/system-is-mswindows)
+  ;; from http://paxinla.github.io/2015/07/12/Windows%E4%B8%8BEmacs%E7%9A%84shell-mode%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/
+  ;; 解决 Shell Mode(cmd) 下中文乱码问题
+  (set-terminal-coding-system 'gbk)
+  (modify-coding-system-alist 'process "*" 'gbk)
+  (defun liu233w/windows-shell-mode-coding ()
+    (set-buffer-file-coding-system 'gbk)
+    (set-buffer-process-coding-system 'gbk 'gbk))
+  (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
+  (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
+  )
 
 ;;设置窗口大小
 (liu233w/reset-frame-size)
