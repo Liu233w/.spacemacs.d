@@ -13,6 +13,18 @@
     (set-buffer-process-coding-system 'gbk 'gbk))
   (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
   (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
+
+  ;; 如果是windows，则自动处理 org-babel-eval 的返回值，防止使用gbk编码的
+  ;; cmd返回值行末符号不匹配
+  (with-eval-after-load 'ob-python
+    (defun liu233w/fix-org-babel-execute:prog (string)
+      (with-temp-buffer
+        ;; (message (format "debug %s" string))
+        (insert string)
+        (liu233w/remove-dos-eol)
+        (buffer-string)))
+    (advice-add #'org-babel-execute:python :filter-return
+                #'liu233w/fix-org-babel-execute:prog))
   )
 
 ;;设置窗口大小
