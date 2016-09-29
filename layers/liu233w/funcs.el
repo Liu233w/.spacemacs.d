@@ -19,7 +19,7 @@
 
 ;; remove all the duplicated emplies in current buffer
 ;; from zilongshanren
-(defun zilongshanren/single-lines-only ()
+(defun liu233w/single-lines-only ()
   "replace multiple blank lines with a single one"
   (interactive)
   (goto-char (point-min))
@@ -28,7 +28,7 @@
     (forward-char 1)))
 
 ;;from zilongshanren
-(defun zilongshanren/rename-file-and-buffer ()
+(defun liu233w/rename-file-and-buffer ()
   "Rename the current buffer and file it is visiting."
   (interactive)
   (let ((filename (buffer-file-name)))
@@ -51,7 +51,7 @@
   "[a-zA-Z0-9-]+")
 
 ;;from zilongshanren
-(defun zilongshanren/word-count-for-chinese ()
+(defun liu233w/word-count-for-chinese ()
   "「較精確地」統計中/日/英文字數。
 - 文章中的註解不算在字數內。
 - 平假名與片假名亦包含在「中日文字數」內，每個平/片假名都算單獨一個字（但片假
@@ -100,12 +100,12 @@
              (+ chinese-char english-word)))))
 
 ;; insert date and time
-(defun zilongshanren/now ()
+(defun liu233w/now ()
   "Insert string for the current time formatted like '2:34 PM'."
   (interactive)                 ; permit invocation in minibuffer
   (insert (format-time-string "%D %-I:%M %p")))
 
-(defun zilongshanren/today ()
+(defun liu233w/today ()
   "Insert string for today's date nicely formatted in American style,
 e.g. Sunday, September 17, 2000."
   (interactive)                 ; permit invocation in minibuffer
@@ -206,26 +206,26 @@ When it's compiling a file, this function may cause error behavior."
           #'liu233w//run-after-compile)
 ;;; END -----------liu233w/run-current-file-------------------
 
-(defun zilongshanren/project-root ()
+(defun liu233w/project-root ()
   "Return the project root for current buffer."
   (let ((directory default-directory))
     (or (locate-dominating-file directory ".git")
         (locate-dominating-file directory ".svn")
         (locate-dominating-file directory ".hg"))))
 
-(defun zilongshanren/open-file-with-projectile-or-lsgit ()
+(defun liu233w/open-file-with-projectile-or-lsgit ()
   (interactive)
-  (if (zilongshanren/project-root)
+  (if (liu233w/project-root)
       (counsel-git)
     (helm-projectile-find-file)))
 
-(defun zilongshanren/hidden-dos-eol ()
+(defun liu233w/hidden-dos-eol ()
   "Do not show ^M in files containing mixed UNIX and DOS line endings."
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
 
-(defun zilongshanren/remove-dos-eol ()
+(defun liu233w/remove-dos-eol ()
   "Replace DOS eolns CR LF with Unix eolns CR"
   (interactive)
   (goto-char (point-min))
