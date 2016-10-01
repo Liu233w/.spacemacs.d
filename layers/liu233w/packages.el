@@ -53,6 +53,9 @@
     jade-mode
     quickrun
     evil-visual-mark-mode
+    chinese-pyim-greatdict
+    chinese-pyim-basedict
+    chinese-pyim
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -361,10 +364,16 @@ Each entry is either:
     ))
 
 (defun liu233w/init-number-lock ()
-  "启动number-lock，详见 https://github.com/Liu233w/programming-mode.el"
-  (require 'number-lock)
+  "启动number-lock，详见 https://github.com/Liu233w/number-lock.el"
+  (use-package number-lock
+    :init
+    (spacemacs/set-leader-keys
+      "on" #'number-lock-toggle-number-lock)
+    :config
+    (require 'number-lock))
   ;; 将number-lock 设为默认输入法，反正我也不需要别的输入法
-  (set-input-method 'number-lock))
+  ;; (set-input-method 'number-lock)
+  )
 
 (defun liu233w/init-flycheck-package ()
   "可以检查package的编码是否符合规范。"
@@ -474,4 +483,59 @@ Each entry is either:
                   (evil-visual-mark-mode)
                   (evil-visual-mark-mode))))
 
+(defun liu233w/init-chinese-pyim-greatdict ()
+  (use-package chinese-pyim-greatdict
+    :ensure nil))
+(defun liu233w/init-chinese-pyim-basedict ()
+  (use-package chinese-pyim-basedict
+    :ensure nil))
+
+(defun liu233w/post-init-chinese-pyim ()
+  (defun liu233w/switch-to-pyim-and-convert ()
+    (interactive)
+    (set-input-method "chinese-pyim")
+    (command-execute #'pyim-convert-pinyin-at-point))
+  (define-key evil-insert-state-map
+    (kbd "C-|") #'liu233w/switch-to-pyim-and-convert)
+
+  ;; (require 'chinese-pyim-greatdict)
+  ;; (chinese-pyim-greatdict-enable)
+  (require 'chinese-pyim-basedict)
+  (chinese-pyim-basedict-enable)
+
+  ;; 选词框样式
+  (if (spacemacs/system-is-mswindows)
+      (setq pyim-use-tooltip nil)
+    (setq pyim-use-tooltip 'popup)
+    (when (spacemacs/system-is-linux)
+      (setq x-gtk-use-system-tooltips t)))
+
+  ;; 根据上下文来确定当前是否使用中文
+  (setq-default pyim-english-input-switch-functions
+                '(pyim-probe-dynamic-english
+                  pyim-probe-isearch-mode
+                  pyim-probe-program-mode
+                  pyim-probe-org-structure-template
+                  ))
+  (setq-default pyim-punctuation-half-width-functions
+                '(pyim-probe-punctuation-line-beginning
+                  pyim-probe-punctuation-after-punctuation))
+
+  ;; 进入helm 的时候自动关闭当前的输入法，退出时自动恢复到之前的状态 =======
+  (defvar liu233w//helm-pyim-switch--last-im
+    nil
+    "最后切换的输入法")
+  (make-variable-buffer-local 'liu233w//helm-pyim-switch--last-im)
+
+  (defun liu233w/helm-pyim-enter ()
+    (setq liu233w//helm-pyim-switch--last-im current-input-method)
+    (set-input-method nil))
+  (defun liu233w/helm-pyim-exit ()
+    (set-input-method liu233w//helm-pyim-switch--last-im)
+    (setf liu233w//helm-pyim-switch--last-im nil))
+
+  (add-hook 'helm-minibuffer-set-up-hook #'liu233w/helm-pyim-enter)
+  (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
+  ;; ========================================================================
+  )
 ;;; packages.el ends here
