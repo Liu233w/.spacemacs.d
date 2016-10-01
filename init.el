@@ -286,19 +286,19 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-;;清华大学的国内源：https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
-(setq configuration-layer--elpa-archives
-    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+  ;;清华大学的国内源：https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
+  (setq configuration-layer--elpa-archives
+        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
-;; 多大的buffer才算是大buffer，在buffer-size超过此大小之后会采取不同的策略
-;; 来提高运行效率
-(defvar *large-buffer-threshold* 300000
-  "Buffer whose size beyond it will have a different behavior for the efficiency")
+  ;; 多大的buffer才算是大buffer，在buffer-size超过此大小之后会采取不同的策略
+  ;; 来提高运行效率
+  (defvar *large-buffer-threshold* 300000
+    "Buffer whose size beyond it will have a different behavior for the efficiency")
 
-;; 将我的utils文件夹加进load-path
-(add-to-list 'load-path "~/.spacemacs.d/utils/")
+  ;; 将我的utils文件夹加进load-path
+  (add-to-list 'load-path "~/.spacemacs.d/utils/")
   )
 
 (defun dotspacemacs/user-config ()
@@ -335,6 +335,14 @@ you should place you code here."
   ;;放到加载配置之后，防止覆盖默认选项
   (liu233w/set-chinese-fonts)
   (add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
+
+  ;; 便于我写python讲义的函数
+  (defun liu233w/py-acm-insert-src-block ()
+    (interactive)
+    (save-excursion
+      (insert "#+begin_src python :exports both
+#+end_src")))
+  (evil-ex-define-cmd "pys" #'liu233w/py-acm-insert-src-block)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
