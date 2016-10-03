@@ -496,7 +496,7 @@ Each entry is either:
     (set-input-method "chinese-pyim")
     (command-execute #'pyim-convert-pinyin-at-point))
   (define-key evil-insert-state-map
-    (kbd "C-|") #'liu233w/switch-to-pyim-and-convert)
+    (kbd "M-k") #'liu233w/switch-to-pyim-and-convert)
 
   ;; (require 'chinese-pyim-greatdict)
   ;; (chinese-pyim-greatdict-enable)
