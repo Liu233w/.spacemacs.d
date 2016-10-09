@@ -48,7 +48,8 @@
     pangu-spacing
     number-lock
     flycheck-package
-    js-comint
+    ;; js-comint
+    skewer-mode
     js2-mode
     jade-mode
     quickrun
@@ -382,27 +383,37 @@ Each entry is either:
     (eval-after-load 'flycheck
       '(flycheck-package-setup))))
 
-(defun liu233w/init-js-comint ()
-  "交互式运行Node.js"
-  (use-package js-comint
-    :defer t
-    :init
-    (spacemacs/declare-prefix-for-mode 'js2-mode "ms" "repl")
-    (spacemacs/set-leader-keys-for-major-mode 'js2-mode
-      "si" 'run-js
-      "ss" 'js-send-last-sexp
-      "sS" 'js-send-last-sexp-and-go
-      "sb" 'js-send-buffer
-      "sB" 'js-send-buffer-and-go
-      "sr" 'js-send-region
-      "sR" 'js-send-region-and-go)
+(defun liu233w/post-init-skewer-mode ()
+  "交互式js, 不是node"
+  (require 'evil-quick-sender)
+  (evil-quick-sender-add-command
+   'js2-mode
+   (evil-quick-sender-as-state-send #'skewer-eval-last-expression)
+   'normal)
+  (evil-quick-sender-add-command
+   'js2-mode #'spacemacs/skewer-eval-region 'visual))
 
-    (require 'evil-quick-sender)
-    (evil-quick-sender-add-command
-     'js2-mode
-     (evil-quick-sender-as-state-send #'js-send-last-sexp)
-     'normal)
-    (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
+;; (defun liu233w/init-js-comint ()
+;;   "交互式运行Node.js"
+;;   (use-package js-comint
+;;     :defer t
+;;     :init
+;;     (spacemacs/declare-prefix-for-mode 'js2-mode "ms" "repl")
+;;     (spacemacs/set-leader-keys-for-major-mode 'js2-mode
+;;       "si" 'run-js
+;;       "ss" 'js-send-last-sexp
+;;       "sS" 'js-send-last-sexp-and-go
+;;       "sb" 'js-send-buffer
+;;       "sB" 'js-send-buffer-and-go
+;;       "sr" 'js-send-region
+;;       "sR" 'js-send-region-and-go)
+
+;;     (require 'evil-quick-sender)
+;;     (evil-quick-sender-add-command
+;;      'js2-mode
+;;      (evil-quick-sender-as-state-send #'js-send-last-sexp)
+;;      'normal)
+;;     (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
 
 ;;; from zilongshanren https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-programming/packages.el
 (defun liu233w/post-init-js2-mode ()
