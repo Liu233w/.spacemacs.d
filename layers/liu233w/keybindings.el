@@ -95,8 +95,3 @@ C-z can switch between emacs-mode and normal-mode"
 
 ;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
 (evil-leader/set-key "or" 'liu233w/run-current-file)
-
-;;; emacs-lisp-mode下的super-sender
-(require 'evil-quick-sender)
-(evil-quick-sender-add-command 'emacs-lisp-mode 'eval-last-sexp 'normal)
-(evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual)

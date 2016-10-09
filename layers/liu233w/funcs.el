@@ -289,12 +289,3 @@ When it's compiling a file, this function may cause error behavior."
   "生成和package的元数据中格式相同的用户名和邮箱"
   (interactive)
   (insert (format "%s <%s>" (user-full-name) user-mail-address)))
-
-(defun liu233w/super-send (func)
-  "如果是normal，则执行光标上的语句\(而不是光标前)"
-  (interactive)
-  (if (evil-insert-state-p)
-      (command-execute func)
-    (evil-save-state
-      (evil-append 0)
-      (command-execute func))))

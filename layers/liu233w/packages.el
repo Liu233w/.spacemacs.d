@@ -192,8 +192,7 @@ Each entry is either:
   (require 'evil-quick-sender)
   (evil-quick-sender-add-command
    'lisp-mode
-   #'(lambda () (interactive "")
-       (liu233w/super-send #'slime-eval-last-expression))
+   (evil-quick-sender-as-state-send #'slime-eval-last-expression)
    'normal)
   (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
   )
@@ -402,7 +401,7 @@ Each entry is either:
     (require 'evil-quick-sender)
     (evil-quick-sender-add-command
      'js2-mode
-     #'(lambda () (interactive "") (liu233w/super-send #'js-send-last-sexp))
+     (evil-quick-sender-as-state-send #'js-send-last-sexp)
      'normal)
     (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
 
@@ -545,9 +544,19 @@ Each entry is either:
     (interactive)
     (command-execute #'eval-buffer)
     (message "Eval finished"))
-  (with-eval-after-load
+  (with-eval-after-load emacs-lisp-mode
       (spacemacs/set-leader-keys-for-major-mode
         'emacs-lisp-mode
-        "e b" #'liu233w/eval-buffer-with-message)))
+        "e b" #'liu233w/eval-buffer-with-message))
+  ;;
+  ;; emacs-lisp-mode下的quick-sender
+  (require 'evil-quick-sender)
+  (defun liu233w/evil-quick-sender-eval-last-sexp ()
+    "在normal state 下eval 光标后面的点")
+  (evil-quick-sender-add-command
+   'emacs-lisp-mode
+   (evil-quick-sender-as-state-send #'eval-last-sexp)
+   'normal)
+  (evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual))
 
 ;;; packages.el ends here
