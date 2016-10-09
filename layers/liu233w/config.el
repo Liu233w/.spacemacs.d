@@ -195,3 +195,23 @@ Single Capitals as you type."
 (add-hook 'compilation-finish-functions
           #'liu233w/bury-compile-buffer-if-successful
           t)
+
+(with-eval-after-load 'emacs-lisp-mode
+  (defun liu233w/eval-buffer-with-message ()
+    (interactive)
+    (command-execute #'eval-buffer)
+    (message "Eval finished"))
+  (with-eval-after-load 'emacs-lisp-mode
+      (spacemacs/set-leader-keys-for-major-mode
+        'emacs-lisp-mode
+        "e b" #'liu233w/eval-buffer-with-message))
+  ;;
+  ;; emacs-lisp-mode下的quick-sender
+  (require 'evil-quick-sender)
+  (defun liu233w/evil-quick-sender-eval-last-sexp ()
+    "在normal state 下eval 光标后面的点")
+  (evil-quick-sender-add-command
+   'emacs-lisp-mode
+   (evil-quick-sender-as-state-send #'eval-last-sexp)
+   'normal)
+  (evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual))

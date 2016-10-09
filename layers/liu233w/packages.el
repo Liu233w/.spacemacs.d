@@ -56,7 +56,6 @@
     chinese-pyim-greatdict
     chinese-pyim-basedict
     chinese-pyim
-    emacs-lisp-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -538,25 +537,5 @@ Each entry is either:
   (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
   ;; ========================================================================
   )
-
-(defun liu233w/post-init-emacs-lisp-mode ()
-  (defun liu233w/eval-buffer-with-message ()
-    (interactive)
-    (command-execute #'eval-buffer)
-    (message "Eval finished"))
-  (with-eval-after-load emacs-lisp-mode
-      (spacemacs/set-leader-keys-for-major-mode
-        'emacs-lisp-mode
-        "e b" #'liu233w/eval-buffer-with-message))
-  ;;
-  ;; emacs-lisp-mode下的quick-sender
-  (require 'evil-quick-sender)
-  (defun liu233w/evil-quick-sender-eval-last-sexp ()
-    "在normal state 下eval 光标后面的点")
-  (evil-quick-sender-add-command
-   'emacs-lisp-mode
-   (evil-quick-sender-as-state-send #'eval-last-sexp)
-   'normal)
-  (evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual))
 
 ;;; packages.el ends here
