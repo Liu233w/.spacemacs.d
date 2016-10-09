@@ -177,16 +177,6 @@ Single Capitals as you type."
 ;;                      args
 ;;                      (list liu233w//company-clang-additional-clang-args-after))))))
 
-(defun liu233w/eval-buffer-with-message ()
-  (interactive)
-  (command-execute #'eval-buffer)
-  (message "Eval finished"))
-(add-hook 'emacs-lisp-mode-hook
-          #'(lambda ()
-              (spacemacs/set-leader-keys-for-major-mode
-                'emacs-lisp-mode
-                "e b" #'liu233w/eval-buffer-with-message)))
-
 ;;; from http://stackoverflow.com/questions/11043004/emacs-compile-buffer-auto-close
 (defun liu233w/bury-compile-buffer-if-successful (buffer string)
   "Bury a compilation buffer if succeeded without warnings "

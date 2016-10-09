@@ -71,13 +71,27 @@ C-z can switch between emacs-mode and normal-mode"
 
 (global-set-key (kbd "C-c DEL") 'hungry-delete-backward)
 
-(require 'liu233w-util-funcs)
-(liu233w|bind-keys
- (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
-  ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
-  ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
-  ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
- evil-global-set-key 'normal)
+;; 一个micro-state ，用来快速翻页
+(with-eval-after-load 'evil
+  (require 'multiple-micro-state)
+  (mms|define-multiple-micro-state
+   liu233w/view
+   :use-minibuffer t
+   :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
+   :with-full-arguments t
+   :bindings
+   ("d" evil-scroll-down)
+   ("u" evil-scroll-up)
+   ("f" evil-scroll-page-down)
+   ("b" evil-scroll-page-up))
+
+  (require 'liu233w-util-funcs)
+  (liu233w|bind-keys
+   (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
+    ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
+    ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
+    ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
+   evil-global-set-key 'normal))
 
 ;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
 (evil-leader/set-key "or" 'liu233w/run-current-file)

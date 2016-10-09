@@ -56,6 +56,7 @@
     chinese-pyim-greatdict
     chinese-pyim-basedict
     chinese-pyim
+    emacs-lisp-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -538,4 +539,15 @@ Each entry is either:
   (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
   ;; ========================================================================
   )
+
+(defun liu233w/post-init-emacs-lisp-mode ()
+  (defun liu233w/eval-buffer-with-message ()
+    (interactive)
+    (command-execute #'eval-buffer)
+    (message "Eval finished"))
+  (with-eval-after-load
+      (spacemacs/set-leader-keys-for-major-mode
+        'emacs-lisp-mode
+        "e b" #'liu233w/eval-buffer-with-message)))
+
 ;;; packages.el ends here

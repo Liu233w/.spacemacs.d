@@ -290,19 +290,6 @@ When it's compiling a file, this function may cause error behavior."
   (interactive)
   (insert (format "%s <%s>" (user-full-name) user-mail-address)))
 
-;; 一个micro-state ，用来快速翻页
-(require 'multiple-micro-state)
-(mms|define-multiple-micro-state
- liu233w/view
- :use-minibuffer t
- :doc "`d' scroll-down `u' scroll-up `f' scroll-page-down `b' scroll-page-up"
- :with-full-arguments t
- :bindings
- ("d" evil-scroll-down)
- ("u" evil-scroll-up)
- ("f" evil-scroll-page-down)
- ("b" evil-scroll-page-up))
-
 (defun liu233w/super-send (func)
   "如果是normal，则执行光标上的语句\(而不是光标前)"
   (interactive)
