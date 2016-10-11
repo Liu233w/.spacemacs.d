@@ -31,7 +31,6 @@
 
 (defconst liu233w-packages
   '(
-    clang-format
     ;multiple-cursors
     evil-mc
     smart-compile
@@ -95,20 +94,21 @@ Each entry is either:
   (add-hook 'text-mode-hook 'evil-mc-mode)
 
   ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
-  (setq evil-mc-custom-known-commands
-        '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
-          (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
-          (paredit-open-round  . ((:default . evil-mc-execute-default-call)))
-          (paredit-close-round  . ((:default . evil-mc-execute-default-call)))
-          (paredit-open-square  . ((:default . evil-mc-execute-default-call)))
-          (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
-          (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-          (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-          (paredit-forward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-          (paredit-backward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
-          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
-          ))
+  (setq
+   evil-mc-custom-known-commands
+   '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
+     (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
+     (paredit-open-round  . ((:default . evil-mc-execute-default-call)))
+     (paredit-close-round  . ((:default . evil-mc-execute-default-call)))
+     (paredit-open-square  . ((:default . evil-mc-execute-default-call)))
+     (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
+     (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+     (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+     (paredit-forward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+     (paredit-backward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+     (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
+     (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
+     ))
 
   (require 'multiple-micro-state)
   (mms|define-multiple-micro-state
@@ -131,63 +131,64 @@ Each entry is either:
     'evil-mc-make-all-cursors)
   )
 
-(defun liu233w/init-multiple-cursors ()
-  (use-package multiple-cursors
-    :defer t
-    :init
-    (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;; (defun liu233w/init-multiple-cursors ()
+;;   (use-package multiple-cursors
+;;     :defer t
+;;     :init
+;;     (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;;     (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;;     (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;;     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-    ;; 未完成，目前会在添加新cursors的时候询问是否在多个cursor上执行此命令
-    (spacemacs|define-micro-state liu233w/mc-mark-next
-      :bindings
-      ("n" mc/mark-next-like-this))
+;;     ;; 未完成，目前会在添加新cursors的时候询问是否在多个cursor上执行此命令
+;;     (spacemacs|define-micro-state liu233w/mc-mark-next
+;;       :bindings
+;;       ("n" mc/mark-next-like-this))
 
-    (define-key evil-visual-state-map (kbd "mn")
-      'spacemacs/liu233w/mc-mark-next-micro-state)
-    (define-key evil-visual-state-map (kbd "ma") 'mc/mark-all-like-this)
-    :config
-    (setq mc/list-file "~/.emacs.d/.cache/.mc-lists.el")
-    ;; multiple-cursors 中执行下列指令时不询问
-    ;; see https://github.com/syl20bnr/spacemacs/issues/2669
-    (setq mc/cmds-to-run-for-all
-          '(
-            electric-newline-and-maybe-indent
-            evil-backward-char
-            evil-delete-char
-            evil-escape-emacs-state
-            evil-escape-insert-state
-            evil-exit-emacs-state
-            evil-forward-char
-            evil-insert
-            evil-next-line
-            evil-normal-state
-            evil-previous-line
-            forward-sentence
-            kill-sentence
-            org-self-insert-command
-            sp-backward-delete-char
-            sp-delete-char
-            sp-remove-active-pair-overlay
-            evil-force-normal-state
-            ))
+;;     (define-key evil-visual-state-map (kbd "mn")
+;;       'spacemacs/liu233w/mc-mark-next-micro-state)
+;;     (define-key evil-visual-state-map (kbd "ma") 'mc/mark-all-like-this)
+;;     :config
+;;     (setq mc/list-file "~/.emacs.d/.cache/.mc-lists.el")
+;;     ;; multiple-cursors 中执行下列指令时不询问
+;;     ;; see https://github.com/syl20bnr/spacemacs/issues/2669
+;;     (setq mc/cmds-to-run-for-all
+;;           '(
+;;             electric-newline-and-maybe-indent
+;;             evil-backward-char
+;;             evil-delete-char
+;;             evil-escape-emacs-state
+;;             evil-escape-insert-state
+;;             evil-exit-emacs-state
+;;             evil-forward-char
+;;             evil-insert
+;;             evil-next-line
+;;             evil-normal-state
+;;             evil-previous-line
+;;             forward-sentence
+;;             kill-sentence
+;;             org-self-insert-command
+;;             sp-backward-delete-char
+;;             sp-delete-char
+;;             sp-remove-active-pair-overlay
+;;             evil-force-normal-state
+;;             ))
 
-    (setq mc/cmds-to-run-once
-          '(
-            helm-M-x
-            spacemacs/default-pop-shell
-            ))
+;;     (setq mc/cmds-to-run-once
+;;           '(
+;;             helm-M-x
+;;             spacemacs/default-pop-shell
+;;             ))
 
-    ))
+;;     ))
 
 (defun liu233w/post-init-slime ()
-  (setq inferior-lisp-program (cond
-                               ((spacemacs/system-is-mswindows) "wx86cl64")
-                               ((spacemacs/system-is-linux) "sbcl")
-                               (t "sbcl")
-                               ))
+  (setq inferior-lisp-program
+        (cond
+         ((spacemacs/system-is-mswindows) "wx86cl64")
+         ((spacemacs/system-is-linux) "sbcl")
+         (t "sbcl")
+         ))
 
   (require 'evil-quick-sender)
   (evil-quick-sender-add-command
@@ -201,22 +202,22 @@ Each entry is either:
   (use-package paredit
     :defer t
     :init
-    (progn
-      (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-      (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-      (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-      (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-      (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-      (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-      (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-      (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-      ;; Stop SLIME's REPL from grabbing DEL,
-      ;; which is annoying when backspacing over a '('
-      (defun override-slime-repl-bindings-with-paredit ()
-        (define-key slime-repl-mode-map
-          (read-kbd-macro paredit-backward-delete-key) nil))
-      (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-      )))
+    (autoload 'enable-paredit-mode "paredit"
+      "Turn on pseudo-structural editing of Lisp code." t)
+    (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+    (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+    ;; Stop SLIME's REPL from grabbing DEL,
+    ;; which is annoying when backspacing over a '('
+    (defun override-slime-repl-bindings-with-paredit ()
+      (define-key slime-repl-mode-map
+        (read-kbd-macro paredit-backward-delete-key) nil))
+    (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+    ))
 
 (defun liu233w/init-ace-mc ()
   (use-package ace-mc
@@ -231,18 +232,17 @@ Each entry is either:
     :init
     (vimish-fold-global-mode 1)
     :config
-    (progn
-      (define-key evil-normal-state-map (kbd "zf") 'vimish-fold)
-      (define-key evil-visual-state-map (kbd "zf") 'vimish-fold)
-      (define-key evil-normal-state-map (kbd "zd") 'vimish-fold-delete)
-      (define-key evil-normal-state-map (kbd "za") 'vimish-fold-toggle))))
+    (define-key evil-normal-state-map (kbd "zf") 'vimish-fold)
+    (define-key evil-visual-state-map (kbd "zf") 'vimish-fold)
+    (define-key evil-normal-state-map (kbd "zd") 'vimish-fold-delete)
+    (define-key evil-normal-state-map (kbd "za") 'vimish-fold-toggle)))
 
 (defun liu233w/init-ahk-mode ()
   (use-package ahk-mode
     :defer t
     :config
-    (add-hook 'ahk-mode-hook '(lambda ()
-                                (linum-mode t)))))
+    (add-hook 'ahk-mode-hook
+              #'(lambda () (linum-mode t)))))
 
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
@@ -261,40 +261,31 @@ Each entry is either:
       (fcitx-prefix-keys-add "M-m") ; M-m is common in Spacemacs
       )))
 
-(defun liu233w/init-evil-visual-mark-mode ()
-  (use-package evil-visual-mark-mode
-    :defer t
-    :init
-    (progn
-      (spacemacs/declare-prefix "ot" "toggles")
-      (spacemacs|add-toggle evil-visual-mark-mode
-        :status evil-visual-mark-mode
-        :on (evil-visual-mark-mode)
-        :off (evil-visual-mark-mode -1)
-        :documentation "Show evil marks"
-        :evil-leader "otm")
-      (evil-visual-mark-mode))))
+(defun liu233w/pre-init-evil-visual-mark-mode ()
+  ;; learn from https://gist.github.com/TheBB/367096660b203952c162
+  (spacemacs|use-package-add-hook evil-visual-mark-mode
+    :post-init
+    (evil-visual-mark-mode)))
 
 (defun liu233w/init-visual-regexp-steroids ()
   "可视化地使用替换模式"
   (use-package visual-regexp-steroids
     :defer t
     :init
-    (progn
-      (define-key global-map (kbd "C-c r") 'vr/replace)
-      (define-key global-map (kbd "C-c q") 'vr/query-replace)
-      ;; if you use multiple-cursors, this is for you:
-      (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-      ;; to use visual-regexp-steroids's isearch instead of the built-in regexp
-      ;; isearch, also include the following lines:
-      (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
-      (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
+    (define-key global-map (kbd "C-c r") 'vr/replace)
+    (define-key global-map (kbd "C-c q") 'vr/query-replace)
+    ;; if you use multiple-cursors, this is for you:
+    (define-key global-map (kbd "C-c m") 'vr/mc-mark)
+    ;; to use visual-regexp-steroids's isearch instead of the built-in regexp
+    ;; isearch, also include the following lines:
+    (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
+    (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
-      (spacemacs/declare-prefix "xv" "visual-regexp")
-      (spacemacs/set-leader-keys
-        "xvr" 'vr/replace
-        "xvq" 'vr/query-replace
-        "xvm" 'vr/mc-mark))))
+    (spacemacs/declare-prefix "xv" "visual-regexp")
+    (spacemacs/set-leader-keys
+      "xvr" 'vr/replace
+      "xvq" 'vr/query-replace
+      "xvm" 'vr/mc-mark)))
 
 (defun liu233w/init-tiny ()
   "tiny自动扩展范围
@@ -318,10 +309,10 @@ Each entry is either:
         (evil-normal-state))
        (t
         (tiny-expand))))
-
+    ;;
     (global-set-key (kbd "C-;") 'liu233w/tiny-expand-with-undo)
-    (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo))
-  )
+    (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo)
+    ))
 
 (defun liu233w/post-init-web-mode ()
   "web-mode会与smartparents冲突，表现为在HTML模板中输入两个`{'的时候如果
@@ -352,7 +343,8 @@ Each entry is either:
     ;; Always insert `real' space in org-mode.
     (add-hook 'org-mode-hook
               '(lambda ()
-                 (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)))
+                 (set (make-local-variable
+                       'pangu-spacing-real-insert-separtor) t)))
 
     (defun liu233w/enable-pangu-spacing-when-buffer-not-large ()
       "when buffer is not large, turn on it"
@@ -417,45 +409,46 @@ Each entry is either:
 
 ;;; from zilongshanren https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-programming/packages.el
 (defun liu233w/post-init-js2-mode ()
-  (progn
-    (setq company-backends-js2-mode '((company-dabbrev-code
-                                       :with company-keywords company-etags)
-                                      company-files company-dabbrev))
+  (setq company-backends-js2-mode '((company-dabbrev-code
+                                     :with company-keywords company-etags)
+                                    company-files company-dabbrev))
 
-    (with-eval-after-load 'js2-mode
-      (progn
-        ;; these mode related variables must be in eval-after-load
-        ;; https://github.com/magnars/.emacs.d/blob/master/settings/setup-js2-mode.el
-        (setq-default js2-allow-rhino-new-expr-initializer nil)
-        (setq-default js2-auto-indent-p nil)
-        (setq-default js2-enter-indents-newline nil)
-        (setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
-        (setq-default js2-idle-timer-delay 0.2)
-        (setq-default js2-mirror-mode nil)
-        (setq-default js2-strict-inconsistent-return-warning nil)
-        (setq-default js2-include-rhino-externs nil)
-        (setq-default js2-include-gears-externs nil)
-        (setq-default js2-concat-multiline-strings 'eol)
-        (setq-default js2-rebind-eol-bol-keys nil)
-        (setq-default js2-auto-indent-p t)
+  (with-eval-after-load 'js2-mode
+    ;; these mode related variables must be in eval-after-load
+    ;; https://github.com/magnars/.emacs.d/blob/master/settings/setup-js2-mode.el
+    (setq-default js2-allow-rhino-new-expr-initializer nil)
+    (setq-default js2-auto-indent-p nil)
+    (setq-default js2-enter-indents-newline nil)
+    (setq-default js2-global-externs
+                  '("module" "require" "buster" "sinon" "assert" "refute"
+                    "setTimeout" "clearTimeout" "setInterval" "clearInterval"
+                    "location" "__dirname" "console" "JSON"))
+    (setq-default js2-idle-timer-delay 0.2)
+    (setq-default js2-mirror-mode nil)
+    (setq-default js2-strict-inconsistent-return-warning nil)
+    (setq-default js2-include-rhino-externs nil)
+    (setq-default js2-include-gears-externs nil)
+    (setq-default js2-concat-multiline-strings 'eol)
+    (setq-default js2-rebind-eol-bol-keys nil)
+    (setq-default js2-auto-indent-p t)
 
-        (setq-default js2-bounce-indent nil)
-        (setq-default js-indent-level 4)
-        (setq-default js2-basic-offset 4)
-        (setq-default js-switch-indent-offset 2)
-        ;; Let flycheck handle parse errors
-        (setq-default js2-mode-show-parse-errors nil)
-        (setq-default js2-mode-show-strict-warnings nil)
-        (setq-default js2-highlight-external-variables t)
-        (setq-default js2-strict-trailing-comma-warning nil)
+    (setq-default js2-bounce-indent nil)
+    (setq-default js-indent-level 4)
+    (setq-default js2-basic-offset 4)
+    (setq-default js-switch-indent-offset 2)
+    ;; Let flycheck handle parse errors
+    (setq-default js2-mode-show-parse-errors nil)
+    (setq-default js2-mode-show-strict-warnings nil)
+    (setq-default js2-highlight-external-variables t)
+    (setq-default js2-strict-trailing-comma-warning nil)
 
-        (eval-after-load 'tern-mode
-          '(spacemacs|hide-lighter tern-mode))
-        ))
+    (eval-after-load 'tern-mode
+      '(spacemacs|hide-lighter tern-mode))
+    )
 
-    (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
+  (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
 
-))
+)
 
 (defun liu233w/post-init-jade-mode ()
   (add-hook 'jade-mode-hook #'(lambda () (smartparens-mode 1))))
