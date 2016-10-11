@@ -58,13 +58,13 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
   (let ((res nil)
         (the-rest nil))
     (dolist (item arglist-form)
-      (let* ((first-char (elt (format "%s" item) 0)))
-        (if (eql first-char ?&)
-            (when (string-equal item "&rest")
-              (setf the-rest t))
-          (if the-rest
-              (setf the-rest item)
-            (push item res)))))
+      (cond
+       (the-rest
+        (setf the-rest item))
+       ((string-equal item "&rest")
+        (setf the-rest t))
+       ((not (eql ?& (elt (format "%s" item) 0)))
+        (push item res))))
     (list (reverse res) the-rest)))
 
 (defun mms//generate-function-defination-with-full-args (name func state-name)
