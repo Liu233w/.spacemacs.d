@@ -6,7 +6,14 @@
   (set-language-environment "chinese-gbk")
   (set-default 'process-coding-system-alist
                '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
-                 ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos))))
+                 ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
+  (defun liu233w//python-encode-in-org-babel-execute (func body params)
+    "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆盖默认选项来编码文件。"
+    ;; 此问题的详细信息请参考： https://github.com/Liu233w/.spacemacs.d/issues/6
+    (let ((coding-system-for-write 'utf-8))
+      (funcall func body params)))
+  (advice-add #'org-babel-execute:python :around
+              #'liu233w//python-encode-in-org-babel-execute))
 
 ;;设置窗口大小
 (liu233w/reset-frame-size)
