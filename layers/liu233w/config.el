@@ -1,33 +1,12 @@
 (require 'cl-lib)
 
-;; For my language code setting (UTF-8)
-(set-language-environment "chinese-GBK")
+(set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 (when (spacemacs/system-is-mswindows)
-  ;; from http://paxinla.github.io/2015/07/12/Windows%E4%B8%8BEmacs%E7%9A%84shell-mode%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3/
-  ;; 解决 Shell Mode(cmd) 下中文乱码问题
-  (set-terminal-coding-system 'gbk)
-  (modify-coding-system-alist 'process "*" 'gbk)
-  (defun liu233w/windows-shell-mode-coding ()
-    (set-buffer-file-coding-system 'gbk)
-    (set-buffer-process-coding-system 'gbk 'gbk))
-  (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
-  (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
-
-  (advice-add #'py-yapf-buffer :after #'liu233w/remove-dos-eol)
-
-  ;; 如果是windows，则自动处理 org-babel-eval 的返回值，防止使用gbk编码的
-  ;; cmd返回值行末符号不匹配
-  (with-eval-after-load 'ob-python
-    (defun liu233w/fix-org-babel-execute:prog (string)
-      (with-temp-buffer
-        ;; (message (format "debug %s" string))
-        (insert string)
-        (liu233w/remove-dos-eol)
-        (buffer-string)))
-    (advice-add #'org-babel-execute:python :filter-return
-                #'liu233w/fix-org-babel-execute:prog))
-  )
+  (set-language-environment "chinese-gbk")
+  (set-default 'process-coding-system-alist
+               '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
+                 ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos))))
 
 ;;设置窗口大小
 (liu233w/reset-frame-size)
