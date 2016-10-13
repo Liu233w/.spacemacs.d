@@ -31,7 +31,7 @@
 
 (defconst liu233w-packages
   '(
-    ;multiple-cursors
+    ;; multiple-cursors
     evil-mc
     smart-compile
     slime
@@ -52,11 +52,17 @@
     js2-mode
     jade-mode
     quickrun
-    evil-visual-mark-mode
     chinese-pyim-greatdict
     chinese-pyim-basedict
     chinese-pyim
     (python :location built-in)
+    (dubcaps-mode :location local)
+    (cc-mode :location built-in)
+    (dired :location built-in)
+    (linum :location built-in)
+    (emacs-lisp :location built-in)
+    (word-count-for-chinese :location local)
+    (run-current-file :location local)
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -266,7 +272,13 @@ Each entry is either:
   ;; learn from https://gist.github.com/TheBB/367096660b203952c162
   (spacemacs|use-package-add-hook evil-visual-mark-mode
     :post-init
-    (evil-visual-mark-mode)))
+    (evil-visual-mark-mode))
+
+  ;; 在删除marks之后重置evil-visual-mark-mode来自动删除之前的标记
+  (advice-add #'evil-delete-marks :after
+              #'(lambda (&rest rest)
+                  (evil-visual-mark-mode)
+                  (evil-visual-mark-mode))))
 
 (defun liu233w/init-visual-regexp-steroids ()
   "可视化地使用替换模式"
@@ -361,11 +373,9 @@ Each entry is either:
   (use-package number-lock
     :init
     (spacemacs/set-leader-keys
-      "on" #'number-lock-toggle-number-lock)
+      "otn" #'number-lock-toggle-number-lock)
     :config
     (require 'number-lock))
-  ;; 将number-lock 设为默认输入法，反正我也不需要别的输入法
-  ;; (set-input-method 'number-lock)
   )
 
 (defun liu233w/init-flycheck-package ()
@@ -449,7 +459,7 @@ Each entry is either:
 
   (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
 
-)
+  )
 
 (defun liu233w/post-init-jade-mode ()
   (add-hook 'jade-mode-hook #'(lambda () (smartparens-mode 1))))
@@ -479,13 +489,6 @@ Each entry is either:
     ;;     (delete-window (get-buffer-window buf))))
     ;; 在运行前询问是否保存
     (advice-add #'quickrun :before #'save-some-buffers)))
-
-(defun liu233w/post-init-evil-visual-mark-mode ()
-  ;; 在删除marks之后重置evil-visual-mark-mode来自动删除之前的标记
-  (advice-add #'evil-delete-marks :after
-              #'(lambda (&rest rest)
-                  (evil-visual-mark-mode)
-                  (evil-visual-mark-mode))))
 
 (defun liu233w/init-chinese-pyim-greatdict ()
   (use-package chinese-pyim-greatdict
@@ -571,5 +574,137 @@ Each entry is either:
   (advice-add #'python-start-or-switch-repl :override
               #'fix-to-python-start-or-switch-repl)
   )
+
+(defun liu233w/init-dubcaps-mode ()
+  "Convert word in DOuble CApitals to Single Capitals."
+  (use-package dubcaps-mode
+    :defer t
+    :commands (dubcaps-mode)
+    ))
+
+(defun liu233w/post-init-cc-mode ()
+  (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+  ;;c++缩进
+  (add-hook 'c++-mode-hook
+            '(lambda ()
+               (interactive)
+               (setq default-tab-width 4)
+               (setq-default indent-tabs-mode nil)
+               (setq c-basic-offset 4)
+               ))
+  ;; (add-hook 'c++-mode-hook '(lambda ()
+  ;;                             (semantic-add-system-include
+  ;;                              "c:/Software/LLVM/include/")))
+
+  ;; 设置windows底下的company-clang
+  ;; 系统中必须要有 mingw64 ，请自行更改其目录位置
+  ;; (when (spacemacs/system-is-mswindows)
+  ;;   (with-eval-after-load 'company-clang
+  ;;     (require 'nadvice)
+  ;;     (defconst liu233w//company-clang-additional-clang-args-before
+  ;;       (replace-regexp-in-string "\n" " "
+  ;;                                 "--target=x86_64-w64-windows-gnu
+  ;; -I c:/Software/MinGW64/mingw64/include/
+  ;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include
+  ;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++
+  ;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/backward
+  ;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include/c++/mingw32
+  ;; -I c:/Software/MinGW64/mingw64/lib/gcc/x86_64-w64-mingw32/6.2.0/include-fixed"))
+  ;;     (defconst liu233w//company-clang-additional-clang-args-after
+  ;;       "-lstdc++ -lsupc++")
+  ;;     (advice-add 'company-clang--build-complete-args
+  ;;                 :filter-return
+  ;;                 #'(lambda (args)
+  ;;                     (append
+  ;;                      (list liu233w//company-clang-additional-clang-args-before)
+  ;;                      args
+  ;;                      (list liu233w//company-clang-additional-clang-args-after))))))
+
+  (with-eval-after-load 'cc-mode
+    (defun liu233w/semi-clang-format (args)
+      "format by clang-format when enter ';'"
+      (interactive "*P")
+      (c-electric-semi&comma args)
+      (clang-format-region (line-beginning-position 0) (line-beginning-position 2))
+      )
+
+    (defun liu233w/brace-clang-format (args)
+      "format by clang-format when enter '}'"
+      (interactive "*P")
+      (c-electric-brace args)
+      (let ((end-position (point))
+            begin-position)
+        (save-excursion
+          (evil-jump-item)
+          (setf begin-position (point)))
+        (clang-format-region begin-position end-position))
+      )
+
+    ;;add clang-format support
+    (add-hook 'c++-mode-hook
+              (lambda ()
+                (when (executable-find "clang-format")
+                  ;;使用clang-format作为默认排版工具
+                  (local-set-key (kbd "C-M-\\") 'clang-format)
+                  ;;当插入分号时自动对当前行排版
+                  (local-set-key (kbd ";")
+                                 'liu233w/semi-clang-format)
+                  (local-set-key (kbd "}")
+                                 'liu233w/brace-clang-format)))))
+  )
+
+(defun liu233w/post-init-dired ()
+  ;;在dired中使用enter时只使用同一个缓冲区
+  (put 'dired-find-alternate-file 'disabled nil)
+  ;; 延迟加载
+  (with-eval-after-load 'dired
+    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+  )
+
+(defun liu233w/post-init-linum ()
+  ;; 打开大文件的时候关闭linum，否则速度太慢
+  ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
+  (defun spacemacs/check-large-file ()
+    (when (> (buffer-size) *large-buffer-threshold*)
+      (linum-mode -1)))
+  (add-hook 'find-file-hook 'spacemacs/check-large-file)
+  )
+
+(defun liu233w/post-init-emacs-lisp ()
+  (with-eval-after-load 'elisp-mode
+    (defun liu233w/eval-buffer-with-message ()
+      (interactive)
+      (command-execute #'eval-buffer)
+      (message "Eval finished"))
+    (with-eval-after-load 'emacs-lisp-mode
+      (spacemacs/set-leader-keys-for-major-mode
+        'emacs-lisp-mode
+        "e b" #'liu233w/eval-buffer-with-message))
+    ;;
+    ;; emacs-lisp-mode下的quick-sender
+    (require 'evil-quick-sender)
+    (defun liu233w/evil-quick-sender-eval-last-sexp ()
+      "在normal state 下eval 光标后面的点")
+    (evil-quick-sender-add-command
+     'emacs-lisp-mode
+     (evil-quick-sender-as-state-send #'eval-last-sexp)
+     'normal)
+    (evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual))
+  )
+
+(defun liu233w/init-word-count-for-chinese ()
+  (use-package word-count-for-chinese
+    :defer t
+    :commands (wc-word-count-for-chinese)
+    ))
+
+(defun liu233w/init-run-current-file ()
+  "自动保存、编译、执行当前的文件。支持java、cpp、python等等"
+  (use-package run-current-file
+    :defer t
+    :commands (rcf/run-current-file)
+    :init
+    (spacemacs/set-leader-keys "or" #'rcf/run-current-file)
+    ))
 
 ;;; packages.el ends here

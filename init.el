@@ -369,17 +369,6 @@ you should place you code here."
                                (hungry-delete-mode)
                                (turn-on-fci-mode)))
 
-  ;; 防止fci-mode使得org输出HTML时在代码结尾处产生乱码
-  ;; learn from here:
-  ;; https://github.com/alpaker/Fill-Column-Indicator/issues/45#issuecomment-108911964
-  (defun fci-mode-override-advice (&rest args))
-  (advice-add 'org-html-fontify-code :around
-              (lambda (fun &rest args)
-                (advice-add 'fci-mode :override #'fci-mode-override-advice)
-                (let ((result  (apply fun args)))
-                  (advice-remove 'fci-mode #'fci-mode-override-advice)
-                  result)))
-
   ;;读取在不同系统之下的配置
   (if (file-exists-p "~/.myemacs.el")
       (load-file "~/.myemacs.el"))

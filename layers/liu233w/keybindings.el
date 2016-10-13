@@ -1,15 +1,3 @@
-;;add clang-format support
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (when (executable-find "clang-format")
-              ;;使用clang-format作为默认排版工具
-              (local-set-key (kbd "C-M-\\") 'clang-format)
-              ;;当插入分号时自动对当前行排版
-              (local-set-key (kbd ";")
-                             'liu233w/semi-clang-format)
-              (local-set-key (kbd "}")
-                             'liu233w/brace-clang-format))))
-
 ;;光标在行首时注释此行
 ;;说明见http://cmdblock.blog.51cto.com/415170/557978/
 (defun liu233w/qiang-comment-dwim-line (&optional arg)
@@ -92,6 +80,3 @@ C-z can switch between emacs-mode and normal-mode"
     ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
     ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
    evil-global-set-key 'normal))
-
-;; 自动保存、编译、执行当前的文件。支持java、cpp、python等等
-(evil-leader/set-key "or" 'liu233w/run-current-file)
