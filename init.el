@@ -339,6 +339,9 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  ;; from http://stackoverflow.com/questions/26108655/error-updating-emacs-packages-failed-to-download-gnu-archive/26110978#26110978
+  (setq package-check-signature nil)
+
   ;;清华大学的国内源：https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
   (setq configuration-layer--elpa-archives
         '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
