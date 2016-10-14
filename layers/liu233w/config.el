@@ -73,3 +73,54 @@
 (add-hook 'compilation-finish-functions
           #'liu233w/bury-compile-buffer-if-successful
           t)
+
+(with-eval-after-load 'evil
+  (defun override-evil-delete-marks (marks &optional force)
+    "覆盖原函数以修复bug。
+在https://bitbucket.org/lyro/evil/pull-requests/72/bugfix/diff 被合并之前会一
+直留在这里。"
+    (cond
+     ;; delete local marks except 0-9
+     (force
+      (setq evil-markers-alist
+            (cl-delete-if (lambda (m)
+                            (not (and (>= (car m) ?0) (<= (car m) ?9))))
+                          evil-markers-alist)))
+     (t
+      (let ((i 0)
+            (n (length marks))
+            delmarks)
+        (while (< i n)
+          (cond
+           ;; skip spaces
+           ((= (aref marks i) ?\ ) (cl-incf i))
+           ;; ranges of marks
+           ((and (< (+ i 2) n)
+                 (= (aref marks (1+ i)) ?-)
+                 (or (and (>= (aref marks i) ?a)
+                          (<= (aref marks i) ?z)
+                          (>= (aref marks (+ 2 i)) ?a)
+                          (<= (aref marks (+ 2 i)) ?z))
+                     (and (>= (aref marks i) ?A)
+                          (<= (aref marks i) ?Z)
+                          (>= (aref marks (+ 2 i)) ?A)
+                          (<= (aref marks (+ 2 i)) ?Z))))
+            (let ((m (aref marks i)))
+              (while (<= m (aref marks (+ 2 i)))
+                (push m delmarks)
+                (cl-incf m)))
+            (cl-incf i 2))
+           ;; single marks
+           (t
+            (push (aref marks i) delmarks)
+            (cl-incf i))))
+        ;; now remove all marks
+        (setq evil-markers-alist
+              (cl-delete-if (lambda (m) (member (car m) delmarks))
+                            evil-markers-alist))
+        (set-default 'evil-markers-alist
+                     (cl-delete-if (lambda (m) (member (car m) delmarks))
+                                   (default-value 'evil-markers-alist)))))))
+  (advice-add #'evil-delete-marks :override
+              #'override-evil-delete-marks)
+  )
