@@ -353,8 +353,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (defvar *large-buffer-threshold* 300000
     "Buffer whose size beyond it will have a different behavior for the efficiency")
 
-  ;; 将我的utils文件夹加进load-path
-  (add-to-list 'load-path "~/.spacemacs.d/utils/")
+  ;; 将我的libs文件夹加进load-path
+  (add-to-list 'load-path "~/.spacemacs.d/libs/")
   )
 
 (defun dotspacemacs/user-config ()
