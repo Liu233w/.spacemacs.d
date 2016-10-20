@@ -549,30 +549,6 @@ Each entry is either:
 (defun liu233w/post-init-python ()
   ;; fix: https://github.com/gregsexton/ob-ipython/issues/28
   (setq python-shell-completion-native-enable nil)
-
-  ;; from: https://github.com/syl20bnr/spacemacs/pull/7070
-  ;; 我等不及合并PR 了
-  (defun fix-to-python-start-or-switch-repl ()
-    "Start and/or switch to the REPL."
-    (interactive)
-    (let ((shell-process
-           (or (python-shell-get-process)
-               ;; `run-python' has different return values and different
-               ;; errors in different emacs versions. In 24.4, it throws an
-               ;; error when the process didn't start, but in 25.1 it
-               ;; doesn't throw an error, so we demote errors here and
-               ;; check the process later
-               (with-demoted-errors "Error: %S"
-                 ;; in Emacs 24.5 and 24.4, `run-python' doesn't return the
-                 ;; shell process
-                 (call-interactively #'run-python)
-                 (python-shell-get-process)))))
-      (unless shell-process
-        (error "Failed to start python shell properly"))
-      (pop-to-buffer (process-buffer shell-process))
-      (evil-insert-state)))
-  (advice-add #'python-start-or-switch-repl :override
-              #'fix-to-python-start-or-switch-repl)
   )
 
 (defun liu233w/init-dubcaps-mode ()
