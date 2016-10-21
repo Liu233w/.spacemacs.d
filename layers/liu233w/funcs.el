@@ -90,24 +90,20 @@ e.g. Sunday, September 17, 2000."
     (set-frame-height (selected-frame) 30)))
 
 (defun liu233w/ex-kill-buffer-and-close ()
-  "删除当前buffer并关闭窗口，如果buffer名称带有*则不删除"
+  "删除当前buffer并关闭窗口，如果buffer 删除失败（例如没有保存），则不会关闭窗口。"
   (interactive)
-  ;; 只有名称不带*的buffer才会被删除
-  (unless (char-equal (elt (buffer-name) 0) ?*)
-    (kill-this-buffer))
-  ;; bug：在新建client的时候，不能使用-c参数新建frame，否则，
-  ;; (menu-bar-menu-frame-live-and-visible-p)会变成nil，导致kill-this-buffer
-  ;; 失效（也就是说连SPC b d都不能用了）。至于为什么那个变成nil
-  ;; 会影响kill-this-buffer，请自行查看kill-this-buffer的源代码
-  (evil-quit)
-  )
+  ;; 如果当前的buffer 没有关联文件，则不删除当前buffer
+  (if (buffer-file-name)
+      (when (kill-buffer)
+        (evil-quit))
+    (evil-quit)))
 
 (defun liu233w/ex-save-kill-buffer-and-close ()
-  "保存当前buffer的内容，删除buffer，并关闭窗口"
+  "保存当前buffer的内容，删除buffer，并关闭窗口，如果删除失败，则不会关闭窗口。"
   (interactive)
   (save-buffer)
-  (kill-this-buffer)
-  (evil-quit))
+  (when (kill-buffer)
+    (evil-quit)))
 
 (defun liu233w/insert-user-name-and-email ()
   "生成和package的元数据中格式相同的用户名和邮箱"
