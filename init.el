@@ -365,6 +365,26 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place you code here."
 
+  ;; 设置编码
+  (cond
+   ((spacemacs/system-is-mswindows)
+    (prefer-coding-system 'utf-8)
+    (set-language-environment "chinese-gbk")
+    (set-default 'process-coding-system-alist
+                 '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
+                   ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
+    (defun liu233w//python-encode-in-org-babel-execute (func body params)
+      "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆盖默认选项来编码文件。"
+      ;; 此问题的详细信息请参考： https://github.com/Liu233w/.spacemacs.d/issues/6
+      (let ((coding-system-for-write 'utf-8))
+        (funcall func body params)))
+    (advice-add #'org-babel-execute:python :around
+                #'liu233w//python-encode-in-org-babel-execute))
+   ;; --
+   (t
+    (set-language-environment "UTF-8")
+    (prefer-coding-system 'utf-8)))
+
   ;; 在所有编程语言里启动行号显示、hungry-delete-mode和80字符指示器
   ;; 放在config里面没用
   (add-hook 'prog-mode-hook '(lambda ()
