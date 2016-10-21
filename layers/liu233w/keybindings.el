@@ -11,13 +11,11 @@
 
 ;;使用F10在当前buffer和shell之间来回切换
 (defun liu233w/toggle-shell ()
-  "Switch current buffer to shell.
-If current buffer is shell, then switch to prevous buffer.
-When enter the shell buffer, evil state will be switched to emacs-state,
-C-z can switch between emacs-mode and normal-mode"
+  "For emacs 25: 如果当前buffer 不是shell, 则打开一个新的window 并切换到shell.
+否则关闭当前的window."
   (interactive)
   (if (string-equal (buffer-name) "*shell*")
-      (bs-cycle-next)
+      (delete-window)
     (shell)))
 (global-set-key (kbd "<f10>") 'liu233w/toggle-shell)
 
