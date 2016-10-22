@@ -355,6 +355,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; 将我的libs文件夹加进load-path
   (add-to-list 'load-path "~/.spacemacs.d/libs/")
+
+  ;; 设置不同系统单独的配置文件
+  (defvar user-config-file "~/.myemacs.el" "不同系统下单独的配置文件")
+  ;; from  https://github.com/syl20bnr/spacemacs/issues/7443
+  (setq custom-file user-config-file)
   )
 
 (defun dotspacemacs/user-config ()
@@ -392,10 +397,7 @@ you should place you code here."
                                (hungry-delete-mode)
                                (turn-on-fci-mode)))
 
-  ;;读取在不同系统之下的配置
-  (if (file-exists-p "~/.myemacs.el")
-      (load-file "~/.myemacs.el"))
-  ;; (load "~/.myemacs" :noerror t)
+  (load user-config-file t)
 
   ;;放到加载配置之后，防止覆盖默认选项
   (liu233w/set-chinese-fonts)
