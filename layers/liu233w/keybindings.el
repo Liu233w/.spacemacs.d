@@ -78,3 +78,7 @@
     ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
     ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
    evil-global-set-key 'normal))
+
+;;; 求值一个表达式并打印结果
+(define-key emacs-lisp-mode-map (kbd "C-x j")
+  (evil-quick-sender-as-state-send #'eval-print-last-sexp))
