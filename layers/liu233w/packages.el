@@ -58,6 +58,7 @@
     (python :location built-in)
     (dubcaps-mode :location local)
     (cc-mode :location built-in)
+    (auto-clang-format :location local)
     (dired :location built-in)
     (linum :location built-in)
     (emacs-lisp :location built-in)
@@ -595,39 +596,15 @@ Each entry is either:
   ;;                      (list liu233w//company-clang-additional-clang-args-before)
   ;;                      args
   ;;                      (list liu233w//company-clang-additional-clang-args-after))))))
-
-  (with-eval-after-load 'cc-mode
-    (defun liu233w/semi-clang-format (args)
-      "format by clang-format when enter ';'"
-      (interactive "*P")
-      (c-electric-semi&comma args)
-      (clang-format-region (line-beginning-position 0) (line-beginning-position 2))
-      )
-
-    (defun liu233w/brace-clang-format (args)
-      "format by clang-format when enter '}'"
-      (interactive "*P")
-      (c-electric-brace args)
-      (let ((end-position (point))
-            begin-position)
-        (save-excursion
-          (evil-jump-item)
-          (setf begin-position (point)))
-        (clang-format-region begin-position end-position))
-      )
-
-    ;;add clang-format support
-    (add-hook 'c++-mode-hook
-              (lambda ()
-                (when (executable-find "clang-format")
-                  ;;使用clang-format作为默认排版工具
-                  (local-set-key (kbd "C-M-\\") 'clang-format)
-                  ;;当插入分号时自动对当前行排版
-                  (local-set-key (kbd ";")
-                                 'liu233w/semi-clang-format)
-                  (local-set-key (kbd "}")
-                                 'liu233w/brace-clang-format)))))
   )
+
+(defun liu233w/init-auto-clang-format ()
+  "在输入分号或右大括号的时候自动排版。"
+  (use-package auto-clang-format
+    :defer t
+    :commands acf-enable-auto-clang-format
+    :init
+    (add-hook 'c++-mode-hook #'acf-enable-auto-clang-format)))
 
 (defun liu233w/post-init-dired ()
   ;;在dired中使用enter时只使用同一个缓冲区
