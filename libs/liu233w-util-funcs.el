@@ -34,4 +34,36 @@ changing the value of `foo'."
               tail (cdr (cdr tail))))))
     plist))
 
+(defmacro run-the-form (form)
+  "form 必须返回一个列表。对form 求值一次，将得到的列表做为代码放进progn 中。
+
+比如：
+\(run-the-form
+ \(mapcar #'\(lambda \(a) `\(+ ,a ,a)) '\(1 2)))
+会展开成：
+\(progn
+  \(+ 1 1)
+  \(+ 2 2))"
+  (let ((res (eval form)))
+    `(progn
+       ,@res)))
+
+(defmacro code-list (list &rest body)
+  "list 是一个有两项的列表，对第二项求值一次得到一个列表，然后将第一项做为符号
+分别绑定到列表的每一项中，返回一个以progn 打头的代码块。
+
+比如：
+\(code-list \(a '\(1 2))
+  \(+ a a))
+会展开成：
+\(progn \(progn \(+ 1 1)) \(progn \(+ 2 2)))"
+  (declare (indent defun))
+  (let* ((lst (eval (second list)))
+         (symb (first list))
+         (form (mapcar
+                #'(lambda (lst-symb)
+                    (cl-subst lst-symb symb (cons 'progn body)))
+                lst)))
+    `(progn ,@form)))
+
 (provide 'liu233w-util-funcs)
