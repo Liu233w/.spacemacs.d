@@ -665,7 +665,9 @@ Each entry is either:
      'emacs-lisp-mode
      (evil-quick-sender-as-state-send #'eval-last-sexp)
      'normal)
-    (evil-quick-sender-add-command 'emacs-lisp-mode 'eval-region 'visual)
+    (evil-quick-sender-add-command 'emacs-lisp-mode
+                                   #'eval-last-sexp
+                                   'visual)
 
     (defun liu233w/replace-parenthese-in-docstring (beg end)
       "将选区中的`\('替换成`\\\('。主要用在 emacs-lisp 的 docstring 中。"
