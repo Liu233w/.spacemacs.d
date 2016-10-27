@@ -652,10 +652,9 @@ Each entry is either:
       (interactive)
       (command-execute #'eval-buffer)
       (message "Eval finished"))
-    (with-eval-after-load 'emacs-lisp-mode
-      (spacemacs/set-leader-keys-for-major-mode
-        'emacs-lisp-mode
-        "e b" #'liu233w/eval-buffer-with-message))
+    (spacemacs/set-leader-keys-for-major-mode
+      'emacs-lisp-mode
+      "e b" #'liu233w/eval-buffer-with-message)
     ;;
     ;; emacs-lisp-mode下的quick-sender
     (require 'evil-quick-sender)
