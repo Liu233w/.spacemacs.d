@@ -218,6 +218,8 @@ Each entry is either:
     (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
     (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
     (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+    :config
+    (setq paredit-lighter "(P)")
     ;; Stop SLIME's REPL from grabbing DEL,
     ;; which is annoying when backspacing over a '('
     (defun override-slime-repl-bindings-with-paredit ()
