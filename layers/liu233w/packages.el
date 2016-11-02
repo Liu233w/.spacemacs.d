@@ -273,12 +273,10 @@ Each entry is either:
   (spacemacs|use-package-add-hook evil-visual-mark-mode
     :post-init
     (evil-visual-mark-mode))
-
   ;; 在删除marks之后重置evil-visual-mark-mode来自动删除之前的标记
   (advice-add #'evil-delete-marks :after
-              #'(lambda (&rest rest)
-                  (evil-visual-mark-mode)
-                  (evil-visual-mark-mode))))
+              (lambda (&rest _)
+                (evil-visual-mark-render))))
 
 (defun liu233w/init-visual-regexp-steroids ()
   "可视化地使用替换模式"
