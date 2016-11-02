@@ -9,7 +9,7 @@
 每次都使用binding-list中的一项（去掉括号）放在函数调用的最后。
 除了binding-list以外，请使用和直接调用键绑定函数时相同的语法"
   `(progn
-     ,@(mapcar #'(lambda (item)
+     ,@(mapcar (lambda (item)
                    (append func-and-args item))
                binding-list)))
 
@@ -39,7 +39,7 @@ changing the value of `foo'."
 
 比如：
 \(run-the-form
- \(mapcar #'\(lambda \(a) `\(+ ,a ,a)) '\(1 2)))
+ \(mapcar \(lambda \(a) `\(+ ,a ,a)) '\(1 2)))
 会展开成：
 \(progn
   \(+ 1 1)
@@ -61,7 +61,7 @@ changing the value of `foo'."
   (let* ((lst (eval (second list)))
          (symb (first list))
          (form (mapcar
-                #'(lambda (lst-symb)
+                (lambda (lst-symb)
                     (cl-subst lst-symb symb (cons 'progn body)))
                 lst)))
     `(progn ,@form)))

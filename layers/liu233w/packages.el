@@ -249,7 +249,7 @@ Each entry is either:
     :defer t
     :config
     (add-hook 'ahk-mode-hook
-              #'(lambda () (linum-mode t)))))
+              (lambda () (linum-mode t)))))
 
 (defun liu233w/init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
@@ -339,7 +339,7 @@ Each entry is either:
   ;;                 (get-text-property (point) 'block-side)))))
 
   ;; (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context)))
-  (add-hook 'web-mode-hook '(lambda ()
+  (add-hook 'web-mode-hook (lambda ()
                               (turn-off-smartparens-mode)
                               (setq web-mode-enable-auto-pairing t)))
   )
@@ -460,7 +460,7 @@ Each entry is either:
   )
 
 (defun liu233w/post-init-jade-mode ()
-  (add-hook 'jade-mode-hook #'(lambda () (smartparens-mode 1))))
+  (add-hook 'jade-mode-hook (lambda () (smartparens-mode 1))))
 
 (defun liu233w/init-quickrun ()
   "快速运行当前的buffer"
@@ -560,13 +560,13 @@ Each entry is either:
   (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
   ;;c++缩进
   (add-hook 'c++-mode-hook
-            '(lambda ()
+            (lambda ()
                (interactive)
                (setq default-tab-width 4)
                (setq-default indent-tabs-mode nil)
                (setq c-basic-offset 4)
                ))
-  ;; (add-hook 'c++-mode-hook '(lambda ()
+  ;; (add-hook 'c++-mode-hook (lambda ()
   ;;                             (semantic-add-system-include
   ;;                              "c:/Software/LLVM/include/")))
 
@@ -588,7 +588,7 @@ Each entry is either:
   ;;       "-lstdc++ -lsupc++")
   ;;     (advice-add 'company-clang--build-complete-args
   ;;                 :filter-return
-  ;;                 #'(lambda (args)
+  ;;                 (lambda (args)
   ;;                     (append
   ;;                      (list liu233w//company-clang-additional-clang-args-before)
   ;;                      args

@@ -23,7 +23,7 @@
 (define-key evil-insert-state-map (kbd "C-S-o") 'open-line)
 ;;在普通模式下在下一行增加一个空行，但光标不移动也不进入插入模式
 (define-key evil-normal-state-map (kbd "C-S-o")
-  '(lambda () (interactive) (save-excursion (evil-open-below 1) (evil-normal-state))))
+  (lambda () (interactive) (save-excursion (evil-open-below 1) (evil-normal-state))))
 
 ;; don't need it anymore
 ;; (evil-leader/set-key "oe" 'eclim-project-mode)

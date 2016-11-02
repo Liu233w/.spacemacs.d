@@ -392,10 +392,10 @@ you should place you code here."
 
   ;; 在所有编程语言里启动行号显示、hungry-delete-mode和80字符指示器
   ;; 放在config里面没用
-  (add-hook 'prog-mode-hook '(lambda ()
-                               (linum-mode t)
-                               (hungry-delete-mode)
-                               (turn-on-fci-mode)))
+  (add-hook 'prog-mode-hook (lambda ()
+                              (linum-mode t)
+                              (hungry-delete-mode)
+                              (turn-on-fci-mode)))
 
   (load user-config-file t)
 

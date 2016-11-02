@@ -29,12 +29,12 @@
 (defun mms//get-function-key-list (lst)
   "接受一个plist，返回一个在:bindings中的列表里面每个子列表的前两项组成的形如
 `(键绑定 . 函数名)' 的列表"
-  (mapcar #'(lambda (item) (cons (first item) (second item)))
+  (mapcar (lambda (item) (cons (first item) (second item)))
           (spacemacs/mplist-get lst :bindings)))
 
 (defun mms//generate-document (lst)
   "接受一个含有键绑定和函数名的cons的列表，返回一个字符串，含有键绑定和对应的函数名"
-  (mapconcat #'(lambda (item) (format "`%s' %s " (car item) (cdr item)))
+  (mapconcat (lambda (item) (format "`%s' %s " (car item) (cdr item)))
              lst " "))
 
 (defun mms//generate-function-defination (name func state-name)
@@ -104,7 +104,7 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
        (spacemacs|define-micro-state ,name ,@props)
        (defalias (quote ,state-name)
          (quote ,(spacemacs//micro-state-func-name name)))
-       ,@(mapcar #'(lambda (item)
+       ,@(mapcar (lambda (item)
                      (funcall
                       (if with-arguments
                           #'mms//generate-function-defination-with-full-args
