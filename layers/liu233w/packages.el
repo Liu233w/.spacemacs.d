@@ -604,7 +604,14 @@ Each entry is either:
     :defer t
     :commands acf-enable-auto-clang-format
     :init
-    (add-hook 'c++-mode-hook #'acf-enable-auto-clang-format)))
+    (add-hook 'c++-mode-hook #'acf-enable-auto-clang-format)
+    :config
+    (when (spacemacs/system-is-mswindows)
+      (defun liu233w//utf-8-dos-as-coding-system-for-write (func &rest rest)
+        (let ((coding-system-for-write 'utf-8-dos))
+          (apply func rest)))
+      (advice-add #'clang-format-region :around
+                  #'liu233w//utf-8-dos-as-coding-system-for-write))))
 
 (defun liu233w/post-init-dired ()
   ;;在dired中使用enter时只使用同一个缓冲区
