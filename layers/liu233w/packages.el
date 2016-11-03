@@ -50,7 +50,7 @@
     ;; js-comint
     skewer-mode
     js2-mode
-    jade-mode
+    pug-mode
     quickrun
     chinese-pyim-greatdict
     chinese-pyim-basedict
@@ -97,46 +97,48 @@ Each entry is either:
     :defer t
     :init (spacemacs/set-leader-keys "cs" 'smart-compile)))
 
-(defun liu233w/post-init-evil-mc ()
-  (add-hook 'prog-mode-hook 'evil-mc-mode)
-  (add-hook 'text-mode-hook 'evil-mc-mode)
+(defun liu233w/pre-init-evil-mc ()
+  (spacemacs|use-package-add-hook evil-mc
+    :post-init
+    (add-hook 'prog-mode-hook 'evil-mc-mode)
+    (add-hook 'text-mode-hook 'evil-mc-mode)
 
-  ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
-  (setq
-   evil-mc-custom-known-commands
-   '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
-     (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
-     (paredit-open-round  . ((:default . evil-mc-execute-default-call)))
-     (paredit-close-round  . ((:default . evil-mc-execute-default-call)))
-     (paredit-open-square  . ((:default . evil-mc-execute-default-call)))
-     (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
-     (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-     (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-     (paredit-forward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-     (paredit-backward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
-     (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
-     (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
-     ))
+    ;; 快捷键设置：在 visual 模式之下绑定到 m 键
+    (require 'multiple-micro-state)
+    (mms|define-multiple-micro-state
+     liu233w/emc
+     :doc auto
+     :use-minibuffer t
+     :bindings
+     ("n" evil-mc-make-and-goto-next-match)
+     ("j" evil-mc-skip-and-goto-next-match)
+     ("p" evil-mc-make-and-goto-prev-match)
+     ("k" evil-mc-skip-and-goto-prev-match))
+    (require 'liu233w-util-funcs)
+    (liu233w|bind-keys
+     (((kbd "mn") #'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
+      ((kbd "mp") #'liu233w/emc:evil-mc-make-and-goto-prev-match-then-enter-micro-state))
+     define-key evil-visual-state-map)
+    (define-key evil-visual-state-map (kbd "ma")
+      'evil-mc-make-all-cursors))
 
-  (require 'multiple-micro-state)
-  (mms|define-multiple-micro-state
-   liu233w/emc
-   :doc auto
-   :use-minibuffer t
-   :bindings
-   ("n" evil-mc-make-and-goto-next-match)
-   ("j" evil-mc-skip-and-goto-next-match)
-   ("p" evil-mc-make-and-goto-prev-match)
-   ("k" evil-mc-skip-and-goto-prev-match))
-
-  (require 'liu233w-util-funcs)
-  (liu233w|bind-keys
-   (((kbd "mn") #'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
-    ((kbd "mp") #'liu233w/emc:evil-mc-make-and-goto-prev-match-then-enter-micro-state))
-   define-key evil-visual-state-map)
-
-  (define-key evil-visual-state-map (kbd "ma")
-    'evil-mc-make-all-cursors)
+  (with-eval-after-load 'evil-mc
+    ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
+    (setq
+     evil-mc-custom-known-commands
+     '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
+       (paredit-doublequote . ((:default . evil-mc-execute-default-call)))
+       (paredit-open-round  . ((:default . evil-mc-execute-default-call)))
+       (paredit-close-round  . ((:default . evil-mc-execute-default-call)))
+       (paredit-open-square  . ((:default . evil-mc-execute-default-call)))
+       (paredit-close-square  . ((:default . evil-mc-execute-default-call)))
+       (paredit-forward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+       (paredit-backward-slurp-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+       (paredit-forward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+       (paredit-backward-barf-sexp . ((:default . evil-mc-execute-default-call-with-count)))
+       (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
+       (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
+       )))
   )
 
 ;; (defun liu233w/init-multiple-cursors ()
@@ -190,20 +192,24 @@ Each entry is either:
 
 ;;     ))
 
-(defun liu233w/post-init-slime ()
-  (setq inferior-lisp-program
-        (cond
-         ((spacemacs/system-is-mswindows) "wx86cl64")
-         ((spacemacs/system-is-linux) "sbcl")
-         (t "sbcl")
-         ))
+(defun liu233w/pre-init-slime ()
+  (spacemacs|use-package-add-hook slime
+    :post-config
+    ;; 快捷键设置
+    (require 'evil-quick-sender)
+    (evil-quick-sender-add-command
+     'lisp-mode
+     (evil-quick-sender-as-state-send #'slime-eval-last-expression)
+     'normal)
+    (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
 
-  (require 'evil-quick-sender)
-  (evil-quick-sender-add-command
-   'lisp-mode
-   (evil-quick-sender-as-state-send #'slime-eval-last-expression)
-   'normal)
-  (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
+    ;; 设置默认的 lisp 程序
+    (setq inferior-lisp-program
+          (cond
+           ((spacemacs/system-is-mswindows) "wx86cl64")
+           ((spacemacs/system-is-linux) "sbcl")
+           (t "sbcl")
+           )))
   )
 
 (defun liu233w/init-paredit ()
@@ -328,7 +334,7 @@ Each entry is either:
     (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo)
     ))
 
-(defun liu233w/post-init-web-mode ()
+(defun liu233w/pre-init-web-mode ()
   "web-mode会与smartparents冲突，表现为在HTML模板中输入两个`{'的时候如果
 接着输入空格，会在右侧出现三个大括号，这里是解决方法：http://web-mode.org"
   ;; (defun my-web-mode-hook ()
@@ -342,9 +348,11 @@ Each entry is either:
   ;;                 (get-text-property (point) 'block-side)))))
 
   ;; (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context)))
-  (add-hook 'web-mode-hook (lambda ()
-                              (turn-off-smartparens-mode)
-                              (setq web-mode-enable-auto-pairing t)))
+  (spacemacs|use-package-add-hook web-mode
+    :post-config
+    (add-hook 'web-mode-hook (lambda ()
+                               (turn-off-smartparens-mode)
+                               (setq web-mode-enable-auto-pairing t))))
   )
 
 (defun liu233w/init-pangu-spacing ()
@@ -387,15 +395,17 @@ Each entry is either:
     (eval-after-load 'flycheck
       '(flycheck-package-setup))))
 
-(defun liu233w/post-init-skewer-mode ()
+(defun liu233w/pre-init-skewer-mode ()
   "交互式js, 不是node"
-  (require 'evil-quick-sender)
-  (evil-quick-sender-add-command
-   'js2-mode
-   (evil-quick-sender-as-state-send #'skewer-eval-last-expression)
-   'normal)
-  (evil-quick-sender-add-command
-   'js2-mode #'spacemacs/skewer-eval-region 'visual))
+  (spacemacs|use-package-add-hook skewer-mode
+    :post-config
+    (require 'evil-quick-sender)
+    (evil-quick-sender-add-command
+     'js2-mode
+     (evil-quick-sender-as-state-send #'skewer-eval-last-expression)
+     'normal)
+    (evil-quick-sender-add-command
+     'js2-mode #'spacemacs/skewer-eval-region 'visual)))
 
 ;; (defun liu233w/init-js-comint ()
 ;;   "交互式运行Node.js"
@@ -420,12 +430,13 @@ Each entry is either:
 ;;     (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
 
 ;;; from zilongshanren https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-programming/packages.el
-(defun liu233w/post-init-js2-mode ()
-  (setq company-backends-js2-mode '((company-dabbrev-code
-                                     :with company-keywords company-etags)
-                                    company-files company-dabbrev))
+(defun liu233w/pre-init-js2-mode ()
+  (spacemacs|use-package-add-hook js2-mode
+    :post-config
+    (setq company-backends-js2-mode '((company-dabbrev-code
+                                       :with company-keywords company-etags)
+                                      company-files company-dabbrev))
 
-  (with-eval-after-load 'js2-mode
     ;; these mode related variables must be in eval-after-load
     ;; https://github.com/magnars/.emacs.d/blob/master/settings/setup-js2-mode.el
     (setq-default js2-allow-rhino-new-expr-initializer nil)
@@ -456,14 +467,13 @@ Each entry is either:
 
     (eval-after-load 'tern-mode
       '(spacemacs|hide-lighter tern-mode))
-    )
 
-  (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map)
-
+    (evilified-state-evilify js2-error-buffer-mode js2-error-buffer-mode-map))
   )
 
-(defun liu233w/post-init-jade-mode ()
-  (add-hook 'jade-mode-hook (lambda () (smartparens-mode 1))))
+(defun liu233w/post-init-pug-mode ()
+  (with-eval-after-load 'pug-mode
+    (add-hook 'pug-mode-hook (lambda () (smartparens-mode 1)))))
 
 (defun liu233w/init-quickrun ()
   "快速运行当前的buffer"
@@ -493,63 +503,70 @@ Each entry is either:
 
 (defun liu233w/init-chinese-pyim-greatdict ()
   (use-package chinese-pyim-greatdict
+    :defer t
     :ensure nil))
 (defun liu233w/init-chinese-pyim-basedict ()
   (use-package chinese-pyim-basedict
+    :defer t
     :ensure nil))
 
-(defun liu233w/post-init-chinese-pyim ()
-  (defun liu233w/switch-to-pyim-and-convert ()
-    (interactive)
-    (set-input-method "chinese-pyim")
-    (command-execute #'pyim-convert-pinyin-at-point))
-  (define-key evil-insert-state-map
-    (kbd "M-k") #'liu233w/switch-to-pyim-and-convert)
+(defun liu233w/pre-init-chinese-pyim ()
+  (spacemacs|use-package-add-hook chinese-pyim
+    :post-init
+    (defun liu233w/switch-to-pyim-and-convert ()
+      (interactive)
+      (set-input-method "chinese-pyim")
+      (command-execute #'pyim-convert-pinyin-at-point))
+    (define-key evil-insert-state-map
+      (kbd "M-k") #'liu233w/switch-to-pyim-and-convert))
 
-  ;; (require 'chinese-pyim-greatdict)
-  ;; (chinese-pyim-greatdict-enable)
-  (require 'chinese-pyim-basedict)
-  (chinese-pyim-basedict-enable)
+  (with-eval-after-load 'chinese-pyim
+    ;; (require 'chinese-pyim-greatdict)
+    ;; (chinese-pyim-greatdict-enable)
+    (require 'chinese-pyim-basedict)
+    (chinese-pyim-basedict-enable)
 
-  ;; 选词框样式
-  (if (spacemacs/system-is-mswindows)
-      (setq pyim-use-tooltip nil)
-    (setq pyim-use-tooltip 'popup)
-    (when (spacemacs/system-is-linux)
-      (setq x-gtk-use-system-tooltips t)))
+    ;; 选词框样式
+    (if (spacemacs/system-is-mswindows)
+        (setq pyim-use-tooltip nil)
+      (setq pyim-use-tooltip 'popup)
+      (when (spacemacs/system-is-linux)
+        (setq x-gtk-use-system-tooltips t)))
 
-  ;; 根据上下文来确定当前是否使用中文
-  (setq-default pyim-english-input-switch-functions
-                '(pyim-probe-dynamic-english
-                  pyim-probe-isearch-mode
-                  pyim-probe-program-mode
-                  pyim-probe-org-structure-template
-                  ))
-  (setq-default pyim-punctuation-half-width-functions
-                '(pyim-probe-punctuation-line-beginning
-                  pyim-probe-punctuation-after-punctuation))
+    ;; 根据上下文来确定当前是否使用中文
+    (setq-default pyim-english-input-switch-functions
+                  '(pyim-probe-dynamic-english
+                    pyim-probe-isearch-mode
+                    pyim-probe-program-mode
+                    pyim-probe-org-structure-template
+                    ))
+    (setq-default pyim-punctuation-half-width-functions
+                  '(pyim-probe-punctuation-line-beginning
+                    pyim-probe-punctuation-after-punctuation))
 
-  ;; 进入helm 的时候自动关闭当前的输入法，退出时自动恢复到之前的状态 =======
-  (defvar liu233w//helm-pyim-switch--last-im
-    nil
-    "最后切换的输入法")
-  (make-variable-buffer-local 'liu233w//helm-pyim-switch--last-im)
+    ;; 进入helm 的时候自动关闭当前的输入法，退出时自动恢复到之前的状态 =======
+    (defvar liu233w//helm-pyim-switch--last-im
+      nil
+      "最后切换的输入法")
+    (make-variable-buffer-local 'liu233w//helm-pyim-switch--last-im)
 
-  (defun liu233w/helm-pyim-enter ()
-    (setq liu233w//helm-pyim-switch--last-im current-input-method)
-    (set-input-method nil))
-  (defun liu233w/helm-pyim-exit ()
-    (set-input-method liu233w//helm-pyim-switch--last-im)
-    (setf liu233w//helm-pyim-switch--last-im nil))
+    (defun liu233w/helm-pyim-enter ()
+      (setq liu233w//helm-pyim-switch--last-im current-input-method)
+      (set-input-method nil))
+    (defun liu233w/helm-pyim-exit ()
+      (set-input-method liu233w//helm-pyim-switch--last-im)
+      (setf liu233w//helm-pyim-switch--last-im nil))
 
-  (add-hook 'helm-minibuffer-set-up-hook #'liu233w/helm-pyim-enter)
-  (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
-  ;; ========================================================================
-  )
+    (add-hook 'helm-minibuffer-set-up-hook #'liu233w/helm-pyim-enter)
+    (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
+    ;; ========================================================================
+    ))
 
-(defun liu233w/post-init-python ()
-  ;; fix: https://github.com/gregsexton/ob-ipython/issues/28
-  (setq python-shell-completion-native-enable nil)
+(defun liu233w/pre-init-python ()
+  (spacemacs|use-package-add-hook python
+    :post-config
+    ;; fix: https://github.com/gregsexton/ob-ipython/issues/28
+    (setq python-shell-completion-native-enable nil))
   )
 
 (defun liu233w/init-dubcaps-mode ()
@@ -559,16 +576,19 @@ Each entry is either:
     :commands (dubcaps-mode)
     ))
 
-(defun liu233w/post-init-cc-mode ()
-  (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
-  ;;c++缩进
-  (add-hook 'c++-mode-hook
-            (lambda ()
-               (interactive)
-               (setq default-tab-width 4)
-               (setq-default indent-tabs-mode nil)
-               (setq c-basic-offset 4)
-               ))
+(defun liu233w/pre-init-cc-mode ()
+  (spacemacs|use-package-add-hook cc-mode
+    :post-init
+    (add-to-list 'auto-mode-alist '("\\.c\\'" . c++-mode))
+    :post-config
+    ;;c++缩进
+    (add-hook 'c++-mode-hook
+              (lambda ()
+                (interactive)
+                (setq default-tab-width 4)
+                (setq-default indent-tabs-mode nil)
+                (setq c-basic-offset 4)
+                )))
   ;; (add-hook 'c++-mode-hook (lambda ()
   ;;                             (semantic-add-system-include
   ;;                              "c:/Software/LLVM/include/")))
@@ -613,21 +633,22 @@ Each entry is either:
       (advice-add #'clang-format-region :around
                   #'liu233w//utf-8-dos-as-coding-system-for-write))))
 
-(defun liu233w/post-init-dired ()
-  ;;在dired中使用enter时只使用同一个缓冲区
-  (put 'dired-find-alternate-file 'disabled nil)
-  ;; 延迟加载
+(defun liu233w/pre-init-dired ()
   (with-eval-after-load 'dired
+    ;;在dired中使用enter时只使用同一个缓冲区
+    (put 'dired-find-alternate-file 'disabled nil)
     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
   )
 
-(defun liu233w/post-init-linum ()
-  ;; 打开大文件的时候关闭linum，否则速度太慢
-  ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
-  (defun spacemacs/check-large-file ()
-    (when (> (buffer-size) *large-buffer-threshold*)
-      (linum-mode -1)))
-  (add-hook 'find-file-hook 'spacemacs/check-large-file)
+(defun liu233w/pre-init-linum ()
+  (spacemacs|use-package-add-hook linum
+    :post-config
+    ;; 打开大文件的时候关闭linum，否则速度太慢
+    ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
+    (defun spacemacs/check-large-file ()
+      (when (> (buffer-size) *large-buffer-threshold*)
+        (linum-mode -1)))
+    (add-hook 'find-file-hook 'spacemacs/check-large-file))
   )
 
 (defun liu233w/post-init-emacs-lisp ()
