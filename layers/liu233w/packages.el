@@ -196,7 +196,7 @@ Each entry is either:
     ;; 快捷键设置
     (evil-quick-sender-add-command
      'lisp-mode
-     (evil-quick-sender-as-state-send #'slime-eval-last-expression)
+     (liu233w/get-command-with-evil-state #'slime-eval-last-expression)
      'normal)
     (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
 
@@ -398,7 +398,7 @@ Each entry is either:
     :post-config
     (evil-quick-sender-add-command
      'js2-mode
-     (evil-quick-sender-as-state-send #'skewer-eval-last-expression)
+     (liu233w/get-command-with-evil-state #'skewer-eval-last-expression)
      'normal)
     (evil-quick-sender-add-command
      'js2-mode #'spacemacs/skewer-eval-region 'visual)))
@@ -420,7 +420,7 @@ Each entry is either:
 
 ;;     (evil-quick-sender-add-command
 ;;      'js2-mode
-;;      (evil-quick-sender-as-state-send #'js-send-last-sexp)
+;;      (liu233w/get-command-with-evil-state #'js-send-last-sexp)
 ;;      'normal)
 ;;     (evil-quick-sender-add-command 'js2-mode #'js-send-region 'visual)))
 
@@ -661,7 +661,7 @@ Each entry is either:
       "在normal state 下eval 光标后面的点")
     (evil-quick-sender-add-command
      'emacs-lisp-mode
-     (evil-quick-sender-as-state-send #'eval-last-sexp)
+     (liu233w/get-command-with-evil-state #'eval-last-sexp)
      'normal)
     (evil-quick-sender-add-command 'emacs-lisp-mode
                                    #'eval-last-sexp

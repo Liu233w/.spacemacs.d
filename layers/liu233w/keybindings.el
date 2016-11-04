@@ -79,4 +79,4 @@
 
 ;;; 求值一个表达式并打印结果
 (define-key emacs-lisp-mode-map (kbd "C-x j")
-  (evil-quick-sender-as-state-send #'eval-print-last-sexp))
+  (liu233w/get-command-with-evil-state #'eval-print-last-sexp))

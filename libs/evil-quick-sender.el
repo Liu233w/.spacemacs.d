@@ -59,21 +59,5 @@
 (define-key evil-visual-state-map "q" 'evil-quick-sender)
 (define-key evil-normal-state-map "Q" 'evil-record-macro)
 
-(defun evil-quick-sender--state-send (func)
-  "如果是normal，则执行光标上的语句\(而不是光标前)"
-  (interactive)
-  (if (evil-insert-state-p)
-      (call-interactively func)
-    (evil-save-state
-      (evil-append 0)
-      (call-interactively func))))
-
-;;;###autoload
-(defun evil-quick-sender-as-state-send (func)
-  "将函数包装成调用state send 的模式"
-  `(lambda ()
-     (interactive "")
-     (evil-quick-sender--state-send (function ,func))))
-
 (provide 'evil-quick-sender)
 ;;; evil-quick-sender.el ends here

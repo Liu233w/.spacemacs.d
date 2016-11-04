@@ -94,5 +94,21 @@ changing the value of `foo'."
                 lst)))
     `(progn ,@form)))
 
+(defun liu233w//command-with-evil-state (func)
+  "如果是normal，则执行光标上的语句\(而不是光标前)"
+  (interactive)
+  (if (evil-insert-state-p)
+      (call-interactively func)
+    (evil-save-state
+      (evil-append 0)
+      (call-interactively func))))
+
+;;;###autoload
+(defun liu233w/get-command-with-evil-state (func)
+  "将函数包装成调用 `liu233w//command-with-evil-state' 的模式"
+  `(lambda ()
+     (interactive "")
+     (liu233w//command-with-evil-state (function ,func))))
+
 (provide 'liu233w-util-funcs)
 ;;; liu233w-util-funcs.el ends here

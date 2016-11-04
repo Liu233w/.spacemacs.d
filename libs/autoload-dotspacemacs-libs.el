@@ -1,6 +1,6 @@
 
 ;;;### (autoloads nil "liu233w-util-funcs" "liu233w-util-funcs.el"
-;;;;;;  (22556 11920 0 0))
+;;;;;;  (22556 14416 0 0))
 ;;; Generated autoloads from liu233w-util-funcs.el
 
 (autoload 'liu233w|bind-keys "liu233w-util-funcs" "\
@@ -50,21 +50,21 @@ list 是一个有两项的列表，对第二项求值一次得到一个列表，
 
 (function-put 'code-list 'lisp-indent-function 'defun)
 
+(autoload 'liu233w/get-command-with-evil-state "liu233w-util-funcs" "\
+将函数包装成调用 `liu233w//command-with-evil-state' 的模式
+
+\(fn FUNC)" nil nil)
+
 ;;;***
 
 ;;;### (autoloads nil "evil-quick-sender" "evil-quick-sender.el"
-;;;;;;  (22556 10345 0 0))
+;;;;;;  (22556 13848 0 0))
 ;;; Generated autoloads from evil-quick-sender.el
 
 (autoload 'evil-quick-sender-add-command "evil-quick-sender" "\
 在mode中按下s将执行cmd，state有normal和visual两种。
 
 \(fn MODE CMD STATE)" nil nil)
-
-(autoload 'evil-quick-sender-as-state-send "evil-quick-sender" "\
-将函数包装成调用state send 的模式
-
-\(fn FUNC)" nil nil)
 
 ;;;***
 
@@ -87,4 +87,5 @@ list 是一个有两项的列表，对第二项求值一次得到一个列表，
 
 ;;;***
 
+
 (provide 'autoload-dotspacemacs-libs)
