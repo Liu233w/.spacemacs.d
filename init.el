@@ -87,6 +87,7 @@ values."
      markdown
      javascript
      evil-snipe
+     evil-cleverparens
      liu233w
      org-config
      )

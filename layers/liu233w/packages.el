@@ -36,6 +36,7 @@
     smart-compile
     slime
     paredit
+    evil-cleverparens
     ace-mc
     evil-vimish-fold
     ahk-mode
@@ -231,6 +232,29 @@ Each entry is either:
         (read-kbd-macro paredit-backward-delete-key) nil))
     (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
     ))
+
+(defun liu233w/post-init-evil-cleverparens ()
+  "用来代替paredit"
+  (spacemacs/toggle-evil-cleverparens-on)
+  (dolist (i '(emacs-lisp-mode-hook
+               eval-expression-minibuffer-setup-hook
+               ielm-mode-hook
+               lisp-mode-hook
+               lisp-interaction-mode-hook
+               scheme-mode-hook
+               slime-repl-mode-hook
+               ))
+    (add-hook i (lambda ()
+                  (hungry-delete-mode -1)
+                  (evil-cleverparens-mode 1))))
+  )
+
+(defun liu233w/pre-init-evil-cleverparens ()
+  ;;首先赋值参数，防止本package覆盖s键位
+  (spacemacs|use-package-add-hook evil-cleverparens
+    :post-init
+    (when (configuration-layer/layer-usedp 'evil-snipe)
+      (setq evil-snipe-auto-disable-substitute t))))
 
 (defun liu233w/init-ace-mc ()
   (use-package ace-mc
