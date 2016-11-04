@@ -355,6 +355,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; 将我的libs文件夹加进load-path
   (add-to-list 'load-path "~/.spacemacs.d/libs/")
+  (require 'autoload-dotspacemacs-libs)
 
   ;; 设置不同系统单独的配置文件
   (defvar user-config-file "~/.myemacs.el" "不同系统下单独的配置文件")

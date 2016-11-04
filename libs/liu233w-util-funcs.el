@@ -1,5 +1,30 @@
-;;; 这里保存一些零散的函数，这些函数不是用来增强emacs功能的，而是用来辅助编写elisp的
+;;; liu233w-util-funcs.el --- 一些零散的函数  -*- lexical-binding: t; -*-
 
+;; Copyright (C) 2016  Liu233w
+
+;; Author: Liu233w  <wwwlsmcom@outlook.com>
+;; Keywords: lisp
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; 这里保存一些零散的函数，这些函数不是用来增强emacs功能的，而是用来辅助编写elisp的
+
+;;; Code:
+
+;;;###autoload
 (defmacro liu233w|bind-keys (binding-list &rest func-and-args)
   "从列表自动生成多个键绑定命令
 语法为：
@@ -14,6 +39,7 @@
                binding-list)))
 
 ;;; from evil-plist-delete
+;;;###autoload
 (defun plist-delete (plist prop)
   "Delete by side effect the property PROP from PLIST.
 If PROP is the first property in PLIST, there is no way
@@ -34,6 +60,7 @@ changing the value of `foo'."
               tail (cdr (cdr tail))))))
     plist))
 
+;;;###autoload
 (defmacro run-the-form (form)
   "form 必须返回一个列表。对form 求值一次，将得到的列表做为代码放进progn 中。
 
@@ -48,6 +75,7 @@ changing the value of `foo'."
     `(progn
        ,@res)))
 
+;;;###autoload
 (defmacro code-list (list &rest body)
   "list 是一个有两项的列表，对第二项求值一次得到一个列表，然后将第一项做为符号
 分别绑定到列表的每一项中，返回一个以progn 打头的代码块。
@@ -67,3 +95,4 @@ changing the value of `foo'."
     `(progn ,@form)))
 
 (provide 'liu233w-util-funcs)
+;;; liu233w-util-funcs.el ends here

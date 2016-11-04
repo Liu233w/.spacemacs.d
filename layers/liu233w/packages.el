@@ -104,7 +104,6 @@ Each entry is either:
     (add-hook 'text-mode-hook 'evil-mc-mode)
 
     ;; 快捷键设置：在 visual 模式之下绑定到 m 键
-    (require 'multiple-micro-state)
     (mms|define-multiple-micro-state
      liu233w/emc
      :doc auto
@@ -114,7 +113,6 @@ Each entry is either:
      ("j" evil-mc-skip-and-goto-next-match)
      ("p" evil-mc-make-and-goto-prev-match)
      ("k" evil-mc-skip-and-goto-prev-match))
-    (require 'liu233w-util-funcs)
     (liu233w|bind-keys
      (((kbd "mn") #'liu233w/emc:evil-mc-make-and-goto-next-match-then-enter-micro-state)
       ((kbd "mp") #'liu233w/emc:evil-mc-make-and-goto-prev-match-then-enter-micro-state))
@@ -196,7 +194,6 @@ Each entry is either:
   (spacemacs|use-package-add-hook slime
     :post-config
     ;; 快捷键设置
-    (require 'evil-quick-sender)
     (evil-quick-sender-add-command
      'lisp-mode
      (evil-quick-sender-as-state-send #'slime-eval-last-expression)
@@ -399,7 +396,6 @@ Each entry is either:
   "交互式js, 不是node"
   (spacemacs|use-package-add-hook skewer-mode
     :post-config
-    (require 'evil-quick-sender)
     (evil-quick-sender-add-command
      'js2-mode
      (evil-quick-sender-as-state-send #'skewer-eval-last-expression)
@@ -422,7 +418,6 @@ Each entry is either:
 ;;       "sr" 'js-send-region
 ;;       "sR" 'js-send-region-and-go)
 
-;;     (require 'evil-quick-sender)
 ;;     (evil-quick-sender-add-command
 ;;      'js2-mode
 ;;      (evil-quick-sender-as-state-send #'js-send-last-sexp)
@@ -662,7 +657,6 @@ Each entry is either:
       "e b" #'liu233w/eval-buffer-with-message)
     ;;
     ;; emacs-lisp-mode下的quick-sender
-    (require 'evil-quick-sender)
     (defun liu233w/evil-quick-sender-eval-last-sexp ()
       "在normal state 下eval 光标后面的点")
     (evil-quick-sender-add-command

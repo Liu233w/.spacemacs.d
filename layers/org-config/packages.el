@@ -121,7 +121,6 @@ Each entry is either:
     (setq org-confirm-babel-evaluate nil)
 
     ;; 使用super-sender来做org-ctrl-c-ctrl-c
-    (require 'evil-quick-sender)
     (evil-quick-sender-add-command 'org-mode 'org-ctrl-c-ctrl-c 'normal)
 
     ;; 防止fci-mode使得org输出HTML时在代码结尾处产生乱码

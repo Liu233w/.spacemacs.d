@@ -85,6 +85,7 @@ name是micro-state的名字，func是函数名，state-name是之前生成的mic
               ,@(first send-args) ,(second send-args))
        (,state-name))))
 
+;;;###autoload
 (defmacro mms|define-multiple-micro-state (name &rest props)
   "使用`spacemacs|define-micro-state'来生成micro-state，同时对每个命令生成一个函数，
 调用函数会执行相应的命令并进入micro-state。

@@ -44,6 +44,7 @@
     (when func
       (call-interactively func))))
 
+;;;###autoload
 (defun evil-quick-sender-add-command (mode cmd state)
   "在mode中按下s将执行cmd，state有normal和visual两种。"
   (cond
@@ -67,6 +68,7 @@
       (evil-append 0)
       (call-interactively func))))
 
+;;;###autoload
 (defun evil-quick-sender-as-state-send (func)
   "将函数包装成调用state send 的模式"
   `(lambda ()

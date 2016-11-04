@@ -59,7 +59,6 @@
 
 ;; 一个micro-state ，用来快速翻页
 (with-eval-after-load 'evil
-  (require 'multiple-micro-state)
   (mms|define-multiple-micro-state
    liu233w/view
    :use-minibuffer t
@@ -71,7 +70,6 @@
    ("f" evil-scroll-page-down)
    ("b" evil-scroll-page-up))
 
-  (require 'liu233w-util-funcs)
   (liu233w|bind-keys
    (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
     ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
