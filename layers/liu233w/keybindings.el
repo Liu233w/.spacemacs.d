@@ -80,3 +80,17 @@
 ;;; 求值一个表达式并打印结果
 (define-key emacs-lisp-mode-map (kbd "C-x j")
   (liu233w/get-command-with-evil-state #'eval-print-last-sexp))
+
+;;; 求值表达式并用结果替换原来的表达式
+;;; http://emacsredux.com/blog/2013/06/21/eval-and-replace/
+(defun liu233w/eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+(global-set-key (kbd "C-c j") (liu233w/get-command-with-evil-state
+                               #'liu233w/eval-and-replace))
