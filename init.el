@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   `(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -80,7 +80,9 @@ values."
             c-c++-enable-clang-support t
             )
      (chinese :variables
-              chinese-enable-youdao-dict t)
+              chinese-enable-youdao-dict t
+              chinese-enable-fcitx ,(or (spacemacs/system-is-linux)
+                                        (executable-find "fcitx-remote")))
      java
      emoji
      (python :variables python-enable-yapf-format-on-save t)
