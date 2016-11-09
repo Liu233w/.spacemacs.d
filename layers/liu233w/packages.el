@@ -347,7 +347,7 @@ Each entry is either:
        (t
         (tiny-expand))))
     ;;
-    (global-set-key (kbd "C-;") 'liu233w/tiny-expand-with-undo)
+    (global-set-key (kbd "C-c C-;") 'liu233w/tiny-expand-with-undo)
     (spacemacs/set-leader-keys "oe" 'liu233w/tiny-expand-with-undo)
     ))
 
@@ -533,7 +533,7 @@ Each entry is either:
       (set-input-method "chinese-pyim")
       (command-execute #'pyim-convert-pinyin-at-point))
     (define-key evil-insert-state-map
-      (kbd "M-k") #'liu233w/switch-to-pyim-and-convert))
+      (kbd "C-;") #'liu233w/switch-to-pyim-and-convert))
 
   (with-eval-after-load 'chinese-pyim
     ;; (require 'chinese-pyim-greatdict)
