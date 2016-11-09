@@ -56,6 +56,7 @@
     chinese-pyim-greatdict
     chinese-pyim-basedict
     chinese-pyim
+    evil-find-char-pinyin
     (python :location built-in)
     (dubcaps-mode :location local)
     (cc-mode :location built-in)
@@ -574,6 +575,16 @@ Each entry is either:
     (add-hook 'helm-minibuffer-set-up-hook #'liu233w/helm-pyim-enter)
     (add-hook 'helm-exit-minibuffer-hook #'liu233w/helm-pyim-exit)
     ;; ========================================================================
+    ))
+
+(defun liu233w/init-evil-find-char-pinyin ()
+  "可以使 evil 的f、t操作支持拼音的首字母，而且支持 evil-snipe"
+  (use-package evil-find-char-pinyin
+    :defer t
+    :init
+    (with-eval-after-load 'evil-snipe
+      (evil-find-char-pinyin-mode +1)
+      (evil-find-char-pinyin-toggle-snipe-integration t))
     ))
 
 (defun liu233w/pre-init-python ()
