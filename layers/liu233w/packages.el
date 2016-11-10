@@ -37,7 +37,11 @@
     slime
     paredit
     evil-cleverparens
-    ace-mc
+    ;; ace-mc
+    (ace-evil-mc :location
+                 (recipe
+                  :fetcher github
+                  :repo liu233w/ace-evil-mc))
     evil-vimish-fold
     ahk-mode
     fcitx
@@ -257,12 +261,19 @@ Each entry is either:
     (when (configuration-layer/layer-usedp 'evil-snipe)
       (setq evil-snipe-auto-disable-substitute t))))
 
-(defun liu233w/init-ace-mc ()
-  (use-package ace-mc
+;; (defun liu233w/init-ace-mc ()
+;;   (use-package ace-mc
+;;     :defer t
+;;     :init
+;;     (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
+;;     (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor)))
+
+(defun liu233w/init-ace-evil-mc ()
+  (use-package ace-evil-mc
     :defer t
     :init
-    (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
-    (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor)))
+    (define-key evil-visual-state-map (kbd "mm") 'ace-evil-mc-add-multiple-cursors)
+    (define-key evil-visual-state-map (kbd "ms") 'ace-evil-mc-add-single-cursor)))
 
 (defun liu233w/init-evil-vimish-fold ()
   ;;from zilongshanren
