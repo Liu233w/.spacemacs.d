@@ -35,6 +35,7 @@
 (defconst org-config-packages
   '(
     org
+    plantuml-mode
     ego
     )
   "The list of Lisp packages required by the org-config layer.
@@ -114,7 +115,7 @@ Each entry is either:
        ;; (ruby       . t)
        ;; (dot        . t)
        ;; (css        . t)
-       ;; (plantuml   . t)
+       (plantuml   . t)
        (C . t)
        ))
     ;; 执行src_block里的代码时不询问
@@ -135,6 +136,16 @@ Each entry is either:
                     result)))
     )
   )
+
+(defun org-config/init-plantuml-mode ()
+  "用于绘制类图"
+  (use-package plantuml-mode
+    :defer t
+    :config
+    (setq plantuml-jar-path (concat (f-parent dotspacemacs-filepath)
+                                    "/plantuml.jar"))
+    (setq org-plantuml-jar-path plantuml-jar-path)
+    ))
 
 (defun org-config/init-ego ()
   (use-package ego
