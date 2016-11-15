@@ -35,7 +35,7 @@
 (defconst org-config-packages
   '(
     org
-    ego
+    (ego :location (recipe :fetcher github :repo "liu233w/EGO-steady"))
     )
   "The list of Lisp packages required by the org-config layer.
 
