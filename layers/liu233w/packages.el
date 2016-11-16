@@ -543,8 +543,11 @@ Each entry is either:
       (interactive)
       (set-input-method "chinese-pyim")
       (command-execute #'pyim-convert-code-at-point))
-    (define-key evil-insert-state-map
-      (kbd "C-;") #'liu233w/switch-to-pyim-and-convert))
+    (evil-global-set-key 'insert
+                         (kbd "C-;") #'liu233w/switch-to-pyim-and-convert)
+    (evil-global-set-key 'normal
+                         (kbd "C-;") (liu233w/get-command-with-evil-state
+                                      #'liu233w/switch-to-pyim-and-convert)))
 
   (with-eval-after-load 'chinese-pyim
     ;; (require 'chinese-pyim-greatdict)
