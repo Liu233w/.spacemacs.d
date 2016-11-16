@@ -542,7 +542,7 @@ Each entry is either:
     (defun liu233w/switch-to-pyim-and-convert ()
       (interactive)
       (set-input-method "chinese-pyim")
-      (command-execute #'pyim-convert-pinyin-at-point))
+      (command-execute #'pyim-convert-code-at-point))
     (define-key evil-insert-state-map
       (kbd "C-;") #'liu233w/switch-to-pyim-and-convert))
 
