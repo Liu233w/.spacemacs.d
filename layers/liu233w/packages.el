@@ -70,6 +70,7 @@
     (emacs-lisp :location built-in)
     (word-count-for-chinese :location local)
     (run-current-file :location local)
+    try
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -732,5 +733,10 @@ Each entry is either:
     :init
     (spacemacs/set-leader-keys "or" #'rcf/run-current-file)
     ))
+
+(defun liu233w/init-try ()
+  "可以不安装插件而是直接尝试它"
+  (use-package try
+    :defer t))
 
 ;;; packages.el ends here
