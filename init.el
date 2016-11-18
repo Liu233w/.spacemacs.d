@@ -351,12 +351,13 @@ before packages are loaded. If you are unsure, you should try in setting them in
           ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
           ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
-  ;; 多大的buffer才算是大buffer，在buffer-size超过此大小之后会采取不同的策略
+  ;; 多大的 buffer 才算是大 buffer，在 buffer-size 超过此大小之后会采取不同的策略
   ;; 来提高运行效率
   (defvar *large-buffer-threshold* 300000
-    "Buffer whose size beyond it will have a different behavior for the efficiency")
+    "Buffer whose size beyond it will have a different behavior
+    for the efficiency")
 
-  ;; 将我的libs文件夹加进load-path
+  ;; 将我的 libs 文件夹加进 load-path
   (add-to-list 'load-path "~/.spacemacs.d/libs/")
   (require 'autoload-dotspacemacs-libs)
 
@@ -383,8 +384,9 @@ you should place you code here."
                  '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
                    ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
     (defun liu233w//python-encode-in-org-babel-execute (func body params)
-      "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆盖默认选项来编码文件。"
-      ;; 此问题的详细信息请参考： https://github.com/Liu233w/.spacemacs.d/issues/6
+      "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆
+盖默认选项来编码文件。"
+      ;; 此问题的详细信息请参考：https://github.com/Liu233w/.spacemacs.d/issues/6
       (let ((coding-system-for-write 'utf-8))
         (funcall func body params)))
     (advice-add #'org-babel-execute:python :around
@@ -394,8 +396,8 @@ you should place you code here."
     (set-language-environment "UTF-8")
     (prefer-coding-system 'utf-8)))
 
-  ;; 在所有编程语言里启动行号显示、hungry-delete-mode和80字符指示器
-  ;; 放在config里面没用
+  ;; 在所有编程语言里启动行号显示、hungry-delete-mode 和 80 字符指示器
+  ;; 放在 config 里面没用
   (add-hook 'prog-mode-hook (lambda ()
                               (linum-mode t)
                               (hungry-delete-mode)
@@ -407,7 +409,7 @@ you should place you code here."
   (liu233w/set-chinese-fonts)
   (add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
 
-  ;; 便于我写python讲义的函数
+  ;; 便于我写 python 讲义的函数
   (defun liu233w/py-acm-insert-src-block ()
     (interactive)
     (save-excursion

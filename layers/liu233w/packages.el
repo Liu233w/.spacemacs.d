@@ -129,7 +129,7 @@ Each entry is either:
       'evil-mc-make-all-cursors))
 
   (with-eval-after-load 'evil-mc
-    ;; 设置在evil-mc之下可以执行的命令，主要是删除操作
+    ;; 设置在 evil-mc 之下可以执行的命令，主要是删除操作
     (setq
      evil-mc-custom-known-commands
      '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
@@ -156,7 +156,7 @@ Each entry is either:
 ;;     (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 ;;     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;;     ;; 未完成，目前会在添加新cursors的时候询问是否在多个cursor上执行此命令
+;;     ;; 未完成，目前会在添加新 cursors 的时候询问是否在多个 cursor 上执行此命令
 ;;     (spacemacs|define-micro-state liu233w/mc-mark-next
 ;;       :bindings
 ;;       ("n" mc/mark-next-like-this))
@@ -241,7 +241,7 @@ Each entry is either:
     ))
 
 (defun liu233w/post-init-evil-cleverparens ()
-  "用来代替paredit"
+  "用来代替 paredit"
   (spacemacs/toggle-evil-cleverparens-on)
   (dolist (i '(emacs-lisp-mode-hook
                eval-expression-minibuffer-setup-hook
@@ -257,7 +257,7 @@ Each entry is either:
   )
 
 (defun liu233w/pre-init-evil-cleverparens ()
-  ;;首先赋值参数，防止本package覆盖s键位
+  ;;首先赋值参数，防止本 package 覆盖 s 键位
   (spacemacs|use-package-add-hook evil-cleverparens
     :post-init
     (when (configuration-layer/layer-usedp 'evil-snipe)
@@ -312,7 +312,7 @@ Each entry is either:
   (spacemacs|use-package-add-hook evil-visual-mark-mode
     :post-init
     (evil-visual-mark-mode))
-  ;; 在删除marks之后重置evil-visual-mark-mode来自动删除之前的标记
+  ;; 在删除 marks 之后重置 evil-visual-mark-mode 来自动删除之前的标记
   (advice-add #'evil-delete-marks :after
               (lambda (&rest _)
                 (evil-visual-mark-render))))
@@ -338,15 +338,17 @@ Each entry is either:
       "xvm" 'vr/mc-mark)))
 
 (defun liu233w/init-tiny ()
-  "tiny自动扩展范围
+  "tiny 自动扩展范围
 网址：http://oremacs.com/2014/12/26/the-little-package-that-could/"
   (use-package tiny
     :defer t
     :init
     (defun liu233w/tiny-expand-with-undo ()
-      "带undo的tiny-expand。在insert-state时直接调用进行扩展时可以undo
-回扩展之前的状态而不会直接清除扩展语句；在normal-state中将光标放在扩展语句
-的最后一个字母上调用此函数即可扩展；其他state下与tiny-expand一致。"
+      "带 undo 的 tiny-expand。
+
+在 insert-state 时直接调用进行扩展时可以 undo 回扩展之前的状态而
+不会直接清除扩展语句；在 normal-state 中将光标放在扩展语句的最后
+一个字母上调用此函数即可扩展；其他 state 下与 tiny-expand 一致。"
       (interactive)
       (cond
        ((evil-insert-state-p)
@@ -365,8 +367,9 @@ Each entry is either:
     ))
 
 (defun liu233w/pre-init-web-mode ()
-  "web-mode会与smartparents冲突，表现为在HTML模板中输入两个`{'的时候如果
-接着输入空格，会在右侧出现三个大括号，这里是解决方法：http://web-mode.org"
+  "web-mode 会与 smartparents 冲突，表现为在 HTML 模板中输入两个
+`{'的时候如果接着输入空格，会在右侧出现三个大括号，这里是解决方法：
+http://web-mode.org"
   ;; (defun my-web-mode-hook ()
   ;;   (setq web-mode-enable-auto-pairing nil))
 
@@ -386,8 +389,10 @@ Each entry is either:
   )
 
 (defun liu233w/init-pangu-spacing ()
-  "覆盖Chinese-layer中的设置。默认关闭pangu-spacing，只有在buffer比较小的时候才启动，
-如果是启动之后再关闭的话就开的太慢了。"
+  "覆盖 Chinese-layer 中的设置，并提供一些新功能。
+
+默认关闭 pangu-spacing，只有在 buffer 比较小的时候才启动，如果是
+启动之后再关闭的话就开的太慢了。"
   (use-package pangu-spacing
     :config
     (global-pangu-spacing-mode -1)
@@ -407,7 +412,7 @@ Each entry is either:
       (add-hook i 'liu233w/enable-pangu-spacing-when-buffer-not-large))
 
     (defun liu233w/pangu-spacing-space-the-buffer ()
-      "调用`pangu-spacing-mode'为当前buffer 分词，不会修改原有的设置。"
+      "调用`pangu-spacing-mode'为当前 buffer 分词，不会修改原有的设置。"
       (interactive)
       (let ((pangu-spacing-real-insert-separtor t))
         (pangu-spacing-modify-buffer)))
@@ -415,7 +420,7 @@ Each entry is either:
     ))
 
 (defun liu233w/init-number-lock ()
-  "启动number-lock，详见 https://github.com/Liu233w/number-lock.el"
+  "启动 number-lock，详见 https://github.com/Liu233w/number-lock.el"
   (use-package number-lock
     :init
     (spacemacs/set-leader-keys
@@ -425,7 +430,7 @@ Each entry is either:
   )
 
 (defun liu233w/init-flycheck-package ()
-  "可以检查package的编码是否符合规范。"
+  "可以检查 package 的编码是否符合规范。"
   (use-package flycheck-package
     :defer t
     :init
@@ -433,7 +438,7 @@ Each entry is either:
       '(flycheck-package-setup))))
 
 (defun liu233w/pre-init-skewer-mode ()
-  "交互式js, 不是node"
+  "交互式 js, 不是 node"
   (spacemacs|use-package-add-hook skewer-mode
     :post-config
     (evil-quick-sender-add-command
@@ -444,7 +449,7 @@ Each entry is either:
      'js2-mode #'spacemacs/skewer-eval-region 'visual)))
 
 ;; (defun liu233w/init-js-comint ()
-;;   "交互式运行Node.js"
+;;   "交互式运行 Node.js"
 ;;   (use-package js-comint
 ;;     :defer t
 ;;     :init
@@ -511,7 +516,7 @@ Each entry is either:
     (add-hook 'pug-mode-hook (lambda () (smartparens-mode 1)))))
 
 (defun liu233w/init-quickrun ()
-  "快速运行当前的buffer"
+  "快速运行当前的 buffer"
   ;; 缺陷：无法与运行的程序交互
   (use-package "quickrun"
     :defer t
@@ -521,11 +526,11 @@ Each entry is either:
       ;; "o k" #'liu233w/quickrun-kill-process-and-window
       )
     :config
-    ;; ;; 默认使用shell来打开，从而允许交互
+    ;; ;; 默认使用 shell 来打开，从而允许交互
     ;; (setf quickrun/run-in-shell t)
 
     ;; (defun liu233w/quickrun-kill-process-and-window ()
-    ;;   "关闭quickrun打开的buffer"
+    ;;   "关闭 quickrun 打开的 buffer"
     ;;   (interactive)
     ;;   (let* ((buf (get-buffer "*eshell-quickrun*"))
     ;;          (proc (get-buffer-process buf)))
@@ -582,7 +587,7 @@ Each entry is either:
                   '(pyim-probe-punctuation-line-beginning
                     pyim-probe-punctuation-after-punctuation))
 
-    ;; 进入helm 的时候自动关闭当前的输入法，退出时自动恢复到之前的状态 =======
+    ;; 进入 helm 的时候自动关闭当前的输入法，退出时自动恢复到之前的状态 =======
     (defvar liu233w//helm-pyim-switch--last-im
       nil
       "最后切换的输入法")
@@ -601,7 +606,7 @@ Each entry is either:
     ))
 
 (defun liu233w/init-evil-find-char-pinyin ()
-  "可以使 evil 的f、t操作支持拼音的首字母，而且支持 evil-snipe"
+  "可以使 evil 的 f、t 操作支持拼音的首字母，而且支持 evil-snipe"
   (use-package evil-find-char-pinyin
     :defer t
     :init
@@ -641,8 +646,8 @@ Each entry is either:
   ;;                             (semantic-add-system-include
   ;;                              "c:/Software/LLVM/include/")))
 
-  ;; 设置windows底下的company-clang
-  ;; 系统中必须要有 mingw64 ，请自行更改其目录位置
+  ;; 设置 windows 底下的 company-clang
+  ;; 系统中必须要有 mingw64，请自行更改其目录位置
   ;; (when (spacemacs/system-is-mswindows)
   ;;   (with-eval-after-load 'company-clang
   ;;     (require 'nadvice)
@@ -683,7 +688,7 @@ Each entry is either:
 
 (defun liu233w/pre-init-dired ()
   (with-eval-after-load 'dired
-    ;;在dired中使用enter时只使用同一个缓冲区
+    ;;在 dired 中使用 enter 时只使用同一个缓冲区
     (put 'dired-find-alternate-file 'disabled nil)
     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
   )
@@ -691,7 +696,7 @@ Each entry is either:
 (defun liu233w/pre-init-linum ()
   (spacemacs|use-package-add-hook linum
     :post-config
-    ;; 打开大文件的时候关闭linum，否则速度太慢
+    ;; 打开大文件的时候关闭 linum，否则速度太慢
     ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
     (defun spacemacs/check-large-file ()
       (when (> (buffer-size) *large-buffer-threshold*)
@@ -709,9 +714,9 @@ Each entry is either:
       'emacs-lisp-mode
       "e b" #'liu233w/eval-buffer-with-message)
     ;;
-    ;; emacs-lisp-mode下的quick-sender
+    ;; emacs-lisp-mode 下的 quick-sender
     (defun liu233w/evil-quick-sender-eval-last-sexp ()
-      "在normal state 下eval 光标后面的点")
+      "在 normal state 下 eval 光标后面的点")
     (evil-quick-sender-add-command
      'emacs-lisp-mode
      (liu233w/get-command-with-evil-state #'eval-last-sexp)
@@ -734,7 +739,7 @@ Each entry is either:
     ))
 
 (defun liu233w/init-run-current-file ()
-  "自动保存、编译、执行当前的文件。支持java、cpp、python等等"
+  "自动保存、编译、执行当前的文件。支持 java、cpp、python 等等"
   (use-package run-current-file
     :defer t
     :commands (rcf/run-current-file)

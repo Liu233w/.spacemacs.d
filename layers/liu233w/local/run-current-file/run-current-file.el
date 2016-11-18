@@ -21,9 +21,11 @@
 ;;; Commentary:
 
 ;; Execute the current file.
-;; For example, if the current buffer is the file x.py, then it'll call 「python x.py」 in a shell.
-;; The file can be Emacs Lisp, PHP, Perl, Python, Ruby, JavaScript, Bash, Ocaml, Visual Basic, TeX, Java, Clojure.
-;; File suffix is used to determine what program to run.
+
+;; For example, if the current buffer is the file x.py, then it'll call「python
+;; x.py」in a shell. The file can be Emacs Lisp, PHP, Perl, Python, Ruby,
+;; JavaScript, Bash, Ocaml, Visual Basic, TeX, Java, Clojure. File suffix is
+;; used to determine what program to run.
 
 ;; If the file is modified or not saved, save it automatically before run.
 
@@ -34,11 +36,14 @@
 
 (defun rcf/run-current-file ()
   "Execute the current file.
-For example, if the current buffer is the file x.py, then it'll call 「python x.py」 in a shell.
-The file can be Emacs Lisp, PHP, Perl, Python, Ruby, JavaScript, Bash, Ocaml, Visual Basic, TeX, Java, Clojure.
-File suffix is used to determine what program to run.
+For example, if the current buffer is the file x.py, then it'll
+call「python x.py」in a shell. The file can be Emacs Lisp, PHP,
+Perl, Python, Ruby, JavaScript, Bash, Ocaml, Visual Basic, TeX,
+Java, Clojure. File suffix is used to determine what program to
+run.
 
-If the file is modified or not saved, save it automatically before run.
+If the file is modified or not saved, save it automatically
+before run.
 
 URL `http://ergoemacs.org/emacs/elisp_run_current_file.html'
 version 2016-01-28"
@@ -101,7 +106,8 @@ version 2016-01-28"
   "Run cmp-cmd, if success, then run run-cmd and print the result.
 Or just print the error message.
 
-When it's compiling a file, this function may cause error behavior."
+When it's compiling a file, this function may cause error
+behavior."
   (setf rcf//compile-status (cons run-cmd compile-command))
   (compile cmp-cmd)
   )
@@ -113,9 +119,9 @@ When it's compiling a file, this function may cause error behavior."
          (string-match "compilation" (buffer-name buffer))
          (string-match "finished" string)
          rcf//compile-status)
-    ;; 防止rcf/bury-compile-buffer-if-successful删除compilation buffer
-    ;; 这样async-shell-command 命令就能覆盖compilation buffer 而不是源代码的
-    ;; buffer了。
+    ;; 防止 rcf/bury-compile-buffer-if-successful 删除 compilation buffer
+    ;; 这样 async-shell-command 命令就能覆盖 compilation buffer 而不是源代码的
+    ;; buffer 了。
     (with-current-buffer "*compilation*"
       (insert "warning LOL"))
     (async-shell-command (car rcf//compile-status)

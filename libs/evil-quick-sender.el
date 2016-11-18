@@ -20,19 +20,19 @@
 
 ;;; Commentary:
 
-;; 在normal状态下使用s来求值表达式，在不同的mode中会调用不同的函数。
-;; 比如，在emacs-lisp-mode中会调用eval-last-sexp，在org-mode中会调用
-;; org-ctrl-c-ctrl-c等等。您可以自己定制要激活的命令。
+;; 在 normal 状态下使用 s 来求值表达式，在不同的 mode 中会调用不同的函数。比如，
+;; 在 emacs-lisp-mode 中会调用 eval-last-sexp，在 org-mode 中会调用
+;; org-ctrl-c-ctrl-c 等等。您可以自己定制要激活的命令。
 
 ;;; Code:
 
 (defvar evil-quick-sender--normal-map
   (make-hash-table)
-  "在normal中执行的命令")
+  "在 normal 中执行的命令")
 
 (defvar evil-quick-sender--visual-map
   (make-hash-table)
-  "在visual中执行的命令")
+  "在 visual 中执行的命令")
 
 (defun evil-quick-sender ()
   (interactive)
@@ -46,18 +46,19 @@
 
 ;;;###autoload
 (defun evil-quick-sender-add-command (mode cmd state)
-  "在mode中按下s将执行cmd，state有normal和visual两种。"
+  "在 mode 中按下 s 将执行 cmd，state 有 normal 和 visual 两种。"
   (cond
    ((eql state 'normal)
     (puthash mode cmd evil-quick-sender--normal-map))
    ((eql state 'visual)
     (puthash mode cmd evil-quick-sender--visual-map))
    (t
-    (error "Only normal or visual can be use."))))
+    (error
+     "Only normal or visual state can use `evil-quick-sender-add-command'."))))
 
-(define-key evil-normal-state-map "q" 'evil-quick-sender)
-(define-key evil-visual-state-map "q" 'evil-quick-sender)
-(define-key evil-normal-state-map "Q" 'evil-record-macro)
+(evil-global-set-key 'normal "q" #'evil-quick-sender)
+(evil-global-set-key 'visual "q" #'evil-quick-sender)
+(evil-global-set-key 'normal "Q" #'evil-record-macro)
 
 (provide 'evil-quick-sender)
 ;;; evil-quick-sender.el ends here

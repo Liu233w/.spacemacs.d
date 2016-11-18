@@ -49,7 +49,8 @@ e.g. Sunday, September 17, 2000."
     (helm-projectile-find-file)))
 
 (defun liu233w/hidden-dos-eol ()
-  "Do not show ^M in files containing mixed UNIX and DOS line endings."
+  "Do not show ^M in files containing mixed UNIX and DOS line
+endings."
   (interactive)
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))
@@ -90,22 +91,24 @@ e.g. Sunday, September 17, 2000."
     (set-frame-height (selected-frame) 30)))
 
 (defun liu233w/ex-kill-buffer-and-close ()
-  "删除当前buffer并关闭窗口，如果buffer 删除失败（例如没有保存），则不会关闭窗口。"
+  "删除当前 buffer 并关闭窗口，如果 buffer 删除失败（例如没有保
+存），则不会关闭窗口。"
   (interactive)
-  ;; 如果当前的buffer 没有关联文件，则不删除当前buffer
+  ;; 如果当前的 buffer 没有关联文件，则不删除当前 buffer
   (if (buffer-file-name)
       (when (kill-buffer)
         (evil-quit))
     (evil-quit)))
 
 (defun liu233w/ex-save-kill-buffer-and-close ()
-  "保存当前buffer的内容，删除buffer，并关闭窗口，如果删除失败，则不会关闭窗口。"
+  "保存当前 buffer 的内容，删除 buffer，并关闭窗口，如果删除失败，
+则不会关闭窗口。"
   (interactive)
   (save-buffer)
   (when (kill-buffer)
     (evil-quit)))
 
 (defun liu233w/insert-user-name-and-email ()
-  "生成和package的元数据中格式相同的用户名和邮箱"
+  "生成和 package 的元数据中格式相同的用户名和邮箱"
   (interactive)
   (insert (format "%s <%s>" (user-full-name) user-mail-address)))

@@ -26,16 +26,18 @@
 
 ;;;###autoload
 (defmacro liu233w|bind-keys (binding-list &rest func-and-args)
-  "从列表自动生成多个键绑定命令
+  "从列表自动生成多个键绑定命令。
+
 语法为：
 \(liu233w|bind-keys ((\"mn\" 'func1) (\"mp\" 'func2))
                        define-key evil-visual-state-map)
-键绑定会自动添加，不会自动调用kbd。这个宏会生成多个键绑定函数的调用，
-每次都使用binding-list中的一项（去掉括号）放在函数调用的最后。
+
+键绑定会自动添加，不会自动调用kbd。这个宏会生成多个键绑定函数的调
+用，每次都使用binding-list中的一项（去掉括号）放在函数调用的最后。
 除了binding-list以外，请使用和直接调用键绑定函数时相同的语法"
   `(progn
      ,@(mapcar (lambda (item)
-                   (append func-and-args item))
+                 (append func-and-args item))
                binding-list)))
 
 ;;; from evil-plist-delete
@@ -77,8 +79,9 @@ changing the value of `foo'."
 
 ;;;###autoload
 (defmacro code-list (list &rest body)
-  "list 是一个有两项的列表，对第二项求值一次得到一个列表，然后将第一项做为符号
-分别绑定到列表的每一项中，返回一个以progn 打头的代码块。
+  "list 是一个有两项的列表，在编译时对第二项求值一次得到一个列表，
+然后将第一项做为符号分别绑定到列表的每一项中，返回一个以progn 打
+头的代码块。
 
 比如：
 \(code-list \(a '\(1 2))
@@ -96,7 +99,6 @@ changing the value of `foo'."
 
 (defun liu233w//command-with-evil-state (func)
   "如果是normal，则执行光标上的语句\(而不是光标前)"
-  (interactive)
   (if (evil-insert-state-p)
       (call-interactively func)
     (evil-save-state
@@ -107,7 +109,7 @@ changing the value of `foo'."
 (defun liu233w/get-command-with-evil-state (func)
   "将函数包装成调用 `liu233w//command-with-evil-state' 的模式"
   `(lambda ()
-     (interactive "")
+     (interactive)
      (liu233w//command-with-evil-state (function ,func))))
 
 (provide 'liu233w-util-funcs)

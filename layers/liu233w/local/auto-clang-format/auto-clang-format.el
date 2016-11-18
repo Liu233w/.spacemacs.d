@@ -29,11 +29,12 @@
 (defvar acf-clang-format-style
   "{BasedOnStyle: LLVM, IndentWidth: 4, BreakBeforeBraces: Allman,
     AllowShortFunctionsOnASingleLine: false}"
-  "默认的style，在找不到默认的style文件时提供")
+  "默认的 style，在找不到默认的 style 文件时提供")
 
 (defun acf--get-clang-format-config (source)
-  "source是源文件地址，为nil时表示没有地址。如果在源文件目录或其上级目录中可以找到
-clang-format配置文件，返回\"file\"，否则返回`acf-clang-format-style'的内容。"
+  "source 是源文件地址，为 nil 时表示没有地址。如果在源文件目录或
+其上级目录中可以找到clang-format 配置文件，返回\"file\"，否则返回
+`acf-clang-format-style'的内容。"
   (if (and source (or (locate-dominating-file source ".clang-format")
                       (locate-dominating-file source "_clang-format")))
       "file"
@@ -69,7 +70,7 @@ clang-format配置文件，返回\"file\"，否则返回`acf-clang-format-style'
 (defun acf-enable-auto-clang-format ()
   "启动 auto-clang-format"
   (when (executable-find acf-clang-format-executable)
-    ;;使用clang-format作为默认排版工具
+    ;;使用 clang-format 作为默认排版工具
     (local-set-key (kbd "C-M-\\")
                    #'(lambda (beg end)
                        (interactive "r")

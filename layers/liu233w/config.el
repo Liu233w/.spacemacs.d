@@ -1,8 +1,8 @@
-;;设置窗口大小
+;; 设置窗口大小
 (liu233w/reset-frame-size)
-;;在这里学到： https://github.com/syl20bnr/spacemacs/issues/4365 @raawaa
-;;可以使用这个hook来在加载frame之后调用制定的函数，frame将作为参数被传递给
-;;这个函数
+;; 在这里学到：https://github.com/syl20bnr/spacemacs/issues/4365 @raawaa
+;; 可以使用这个 hook 来在加载 frame 之后调用制定的函数，frame 将作为参数被传递给
+;; 这个函数
 (add-hook 'after-make-frame-functions 'liu233w/reset-frame-size)
 
 (display-time-mode 1)
@@ -10,11 +10,11 @@
 ;;显示时间的格式
 (setq display-time-format "%H:%M")
 
-;;双窗口模式显示gdb
+;; 双窗口模式显示 gdb
 (setq gdb-many-windows nil)
 
-;; when save a buffer, the directory is not exsits, it will ask you to create the directory
-;; from zilongshanren
+;; when save a buffer, the directory is not exsits, it will ask you to create
+;; the directory from zilongshanren
 (add-hook 'before-save-hook
           (lambda ()
             (when buffer-file-name
@@ -23,14 +23,14 @@
                            (y-or-n-p (format "Directory %s does not exist. Create it?" dir)))
                   (make-directory dir t))))))
 
-;;Don’t ask me when close emacs with process is running
-;;from zilongshanren
+;; Don’t ask me when close emacs with process is running
+;; from zilongshanren
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
   "Prevent annoying \"Active processes exist\" query when you quit Emacs."
   (cl-flet ((process-list ())) ad-do-it))
 
-;;Don’t ask me when kill process buffer
-;;from zilongshanren
+;; Don’t ask me when kill process buffer
+;; from zilongshanren
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
@@ -60,9 +60,10 @@
 
 (with-eval-after-load 'evil
   (defun override-evil-delete-marks (marks &optional force)
-    "覆盖原函数以修复bug。
-在https://bitbucket.org/lyro/evil/pull-requests/72/bugfix/diff 被合并之前会一
-直留在这里。"
+    "覆盖原函数以修复 bug。
+
+在 https://bitbucket.org/lyro/evil/pull-requests/72/bugfix/diff
+被合并之前会一直留在这里。"
     (cond
      ;; delete local marks except 0-9
      (force

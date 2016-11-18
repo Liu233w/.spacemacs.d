@@ -28,7 +28,8 @@
 ;;   `org-config/post-init-PACKAGE' to customize the package as it is loaded.
 
 ;;; Summary:
-;; 这是我用来管理org相关配置的layer。由于org过于庞大，可配置内容太多，故将此layer独立出来
+;; 这是我用来管理 org 相关配置的 layer。由于 org 过于庞大，可配置内容太多，故将
+;; 此layer 独立出来
 
 ;;; Code:
 
@@ -66,7 +67,7 @@ Each entry is either:
 
 (defun org-config/post-init-org ()
   (with-eval-after-load 'org
-    ;;org-mode和org-mobile的文件夹
+    ;;org-mode 和 org-mobile 的文件夹
     (setf org-directory "~/documents/org-mode/host/"
           ;; org-mobile-directory "~/documents/org-mode/"
           ;; org-mobile-inbox-for-pull "~/documents/org-mode/index.org"
@@ -77,14 +78,14 @@ Each entry is either:
           '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
             ))
 
-    ;; 用来检测md5的程序
+    ;; 用来检测 md5 的程序
     ;; (defcustom org-mobile-checksum-binary
     ;;   (or (executable-find "md5sums") (executable-find "md5sum"))
     ;;   ' "Executable used for computing checksums of agenda files."
     ;;     ':group 'org-mobile
     ;;     ' :type 'string)
 
-    ;;org的捕获列表
+    ;;org 的捕获列表
     (setq org-capture-templates
           '(("t" "TODO" entry (file+headline  "~/documents/org-mode/tasks.org" "_TODO")
              "* TODO %?\n %i\n %a")
@@ -93,15 +94,15 @@ Each entry is either:
             ("n" "Notes" entry (file+datetree "~/documents/org-mode/notes.org")
              "* %?\nEntered on %U\n %i\n %a")))
 
-    ;; org-agenda的全局文件
+    ;; org-agenda 的全局文件
     (setf org-agenda-files (list "~/documents/org-mode/tasks.org"
                                  "~/documents/org-mode/notes.org"))
 
-    ;; 在下一级任务的完成度达到100%时自动将上一级设置为DONE
+    ;; 在下一级任务的完成度达到 100%时自动将上一级设置为 DONE
     ;; from http://www.cnblogs.com/holbrook/archive/2012/04/14/2447754.html
     (add-hook 'org-after-todo-statistics-hook 'liu233w/org-summary-todo)
 
-    ;; 可以在org中自动加载的库（稍后可以直接在src_block里面执行代码）
+    ;; 可以在 org 中自动加载的库（稍后可以直接在 src_block 里面执行代码）
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((sh         . t)
@@ -117,13 +118,13 @@ Each entry is either:
        ;; (plantuml   . t)
        (C . t)
        ))
-    ;; 执行src_block里的代码时不询问
+    ;; 执行 src_block 里的代码时不询问
     (setq org-confirm-babel-evaluate nil)
 
-    ;; 使用super-sender来做org-ctrl-c-ctrl-c
+    ;; 使用 super-sender 来做 org-ctrl-c-ctrl-c
     (evil-quick-sender-add-command 'org-mode 'org-ctrl-c-ctrl-c 'normal)
 
-    ;; 防止fci-mode使得org输出HTML时在代码结尾处产生乱码
+    ;; 防止 fci-mode 使得 org 输出 HTML 时在代码结尾处产生乱码
     ;; learn from here:
     ;; https://github.com/alpaker/Fill-Column-Indicator/issues/45#issuecomment-108911964
     (defun fci-mode-override-advice (&rest args))
@@ -139,12 +140,12 @@ Each entry is either:
 (defun org-config/init-ego ()
   (use-package ego
     :defer t                            ;延迟加载
-    :init                               ;在package加载之前求值，用于设置快捷键
+    :init                               ;在 package 加载之前求值，用于设置快捷键
     (spacemacs/declare-prefix "op" "EGO")
     (spacemacs/set-leader-keys
       "opp" 'ego-do-publication
       "opn" 'ego-new-post)
-    :config                             ;在package加载之后才会求值
+    :config                             ;在 package 加载之后才会求值
     (progn
       (require 'ego)
       (ego-add-to-alist 'ego-project-config-alist
@@ -171,7 +172,7 @@ Each entry is either:
                            )
                           ;; 你可以在此添加更多的站点设置
                           ))
-      ;;设置category
+      ;;设置 category
       (setf ego--category-config-alist
             '(("blog"
                :show-meta t
@@ -204,7 +205,7 @@ Each entry is either:
               )))
 
     (require 'nadvice)
-    ;; 改变默认的元数据模板，使插入的URL为 "category/%y/%m/%d/%f/"
+    ;; 改变默认的元数据模板，使插入的 URL 为 "category/%y/%m/%d/%f/"
     (defun org-config//advice-of-ego--insert-options-template (args)
       (setf (second args)
             (replace-regexp-in-string "%t/ Or .*$" "%f/"
