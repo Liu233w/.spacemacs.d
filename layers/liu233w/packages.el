@@ -71,6 +71,7 @@
     (word-count-for-chinese :location local)
     (run-current-file :location local)
     try
+    aggressive-indent
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -738,5 +739,21 @@ Each entry is either:
   "可以不安装插件而是直接尝试它"
   (use-package try
     :defer t))
+
+(defun liu233w/init-aggressive-indent ()
+  "在每次操作\(输入、删除\)时都自动进行缩进。"
+  (use-package aggressive-indent
+    :defer t
+    :init
+    (dolist (hooks
+             '(
+               emacs-lisp-mode-hook
+               lisp-mode-hook
+               web-mode-hook
+               c++-mode-hook
+               js2-mode-hook
+               python-mode-hook
+               ))
+      (add-hook hooks #'aggressive-indent-mode))))
 
 ;;; packages.el ends here
