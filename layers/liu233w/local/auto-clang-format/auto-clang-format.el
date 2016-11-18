@@ -55,7 +55,7 @@ clang-format配置文件，返回\"file\"，否则返回`acf-clang-format-style'
   (interactive)
   (command-execute #'c-electric-brace)
   (let ((end-position (point))
-        begin-position (scan-lists (point) -1 0))
+        (begin-position (scan-lists (point) -1 0)))
     (clang-format-region begin-position
                          end-position
                          (acf--get-clang-format-config
