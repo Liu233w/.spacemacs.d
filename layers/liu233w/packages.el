@@ -405,6 +405,13 @@ Each entry is either:
 
     (dolist (i '(prog-mode-hook text-mode-hook))
       (add-hook i 'liu233w/enable-pangu-spacing-when-buffer-not-large))
+
+    (defun liu233w/pangu-spacing-space-the-buffer ()
+      "调用`pangu-spacing-mode'为当前buffer 分词，不会修改原有的设置。"
+      (interactive)
+      (let ((pangu-spacing-real-insert-separtor t))
+        (pangu-spacing-modify-buffer)))
+    (evil-ex-define-cmd "pangu" #'liu233w/pangu-spacing-space-the-buffer)
     ))
 
 (defun liu233w/init-number-lock ()
