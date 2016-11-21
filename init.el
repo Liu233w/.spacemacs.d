@@ -47,7 +47,8 @@ values."
      ;; better-defaults
      emacs-lisp
      common-lisp
-     org
+     (org :variables
+          org-enable-github-support t)
      (version-control :variables version-control-diff-tool 'git-gutter+
                       version-control-global-margin t)
      (shell :variables

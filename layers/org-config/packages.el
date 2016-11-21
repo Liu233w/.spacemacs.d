@@ -134,6 +134,15 @@ Each entry is either:
                   (let ((result  (apply fun args)))
                     (advice-remove 'fci-mode #'fci-mode-override-advice)
                     result)))
+
+    ;; 修改 org 中的标题图标
+    ;; from https://emacs-china.org/t/topic/250/3?u=liu233w
+    (setq org-bullets-bullet-list '("⓪" "①" "②" "③"
+                                    "④" "⑤" "⑥" "⑦"
+                                    "⑧" "⑨" "⑩" "⑪"
+                                    "⑫" "⑬" "⑭"
+                                    "⑮" "⑯" "⑰"
+                                    "⑱" "⑲" "⑳"))
     )
   )
 
