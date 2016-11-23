@@ -20,25 +20,34 @@
 
 ;;; Commentary:
 
-;; 这里保存一些零散的函数，这些函数不是用来增强emacs功能的，而是用来辅助编写elisp的
+;; 这里保存一些零散的函数，这些函数不是用来增强 emacs 功能的，而是用来辅助编写 elisp 的
 
 ;;; Code:
 
 ;;;###autoload
-(defmacro liu233w|bind-keys (binding-list &rest func-and-args)
+(defmacro liu233w|bind-keys (func-and-arg-list &rest bindings)
   "从列表自动生成多个键绑定命令。
 
 语法为：
-\(liu233w|bind-keys ((\"mn\" 'func1) (\"mp\" 'func2))
-                       define-key evil-visual-state-map)
+\(liu233w|bind-keys \(define-key evil-visual-state-map\)
+                   \"mn\" 'func1
+                   \"mp\" 'func2\)
 
-键绑定会自动添加，不会自动调用kbd。这个宏会生成多个键绑定函数的调
-用，每次都使用binding-list中的一项（去掉括号）放在函数调用的最后。
-除了binding-list以外，请使用和直接调用键绑定函数时相同的语法"
-  `(progn
-     ,@(mapcar (lambda (item)
-                 (append func-and-args item))
-               binding-list)))
+键绑定会自动添加，不会自动调用 kbd。这个宏会生成多个键绑定函数的调
+用，每次都使用 binding-list 中的两项放在函数调用的最后。除了
+binding-list 以外，请使用和直接调用键绑定函数时相同的语法"
+  (declare (indent 1))
+  (when (oddp (length bindings))
+    (error "请在 binding 处输入偶数个参数"))
+  (let ((result '(progn))
+        (binding-list bindings))
+    (loop while binding-list
+          do
+          (setq result
+                (append result
+                        `((,@func-and-arg-list
+                           ,(pop binding-list) ,(pop binding-list))))))
+    result))
 
 ;;; from evil-plist-delete
 ;;;###autoload
@@ -64,7 +73,7 @@ changing the value of `foo'."
 
 ;;;###autoload
 (defmacro run-the-form (form)
-  "form 必须返回一个列表。对form 求值一次，将得到的列表做为代码放进progn 中。
+  "form 必须返回一个列表。对 form 求值一次，将得到的列表做为代码放进 progn 中。
 
 比如：
 \(run-the-form
@@ -80,7 +89,7 @@ changing the value of `foo'."
 ;;;###autoload
 (defmacro code-list (list &rest body)
   "list 是一个有两项的列表，在编译时对第二项求值一次得到一个列表，
-然后将第一项做为符号分别绑定到列表的每一项中，返回一个以progn 打
+然后将第一项做为符号分别绑定到列表的每一项中，返回一个以 progn 打
 头的代码块。
 
 比如：
@@ -93,12 +102,12 @@ changing the value of `foo'."
          (symb (first list))
          (form (mapcar
                 (lambda (lst-symb)
-                    (cl-subst lst-symb symb (cons 'progn body)))
+                  (cl-subst lst-symb symb (cons 'progn body)))
                 lst)))
     `(progn ,@form)))
 
 (defun liu233w//command-with-evil-state (func)
-  "如果是normal，则执行光标上的语句\(而不是光标前)"
+  "如果是 normal，则执行光标上的语句\(而不是光标前)"
   (if (evil-insert-state-p)
       (call-interactively func)
     (evil-save-state

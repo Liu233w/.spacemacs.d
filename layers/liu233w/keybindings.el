@@ -78,12 +78,13 @@ window 并切换到 shell。否则关闭当前的 window。"
    ("f" evil-scroll-page-down)
    ("b" evil-scroll-page-up))
 
-  (liu233w|bind-keys
-   (((kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state)
-    ((kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state)
-    ((kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state)
-    ((kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state))
-   evil-global-set-key 'normal))
+  (liu233w|bind-keys (evil-global-set-key 'normal)
+    (kbd "C-f") 'liu233w/view:evil-scroll-page-down-then-enter-micro-state
+    (kbd "C-b") 'liu233w/view:evil-scroll-page-up-then-enter-micro-state
+    (kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state
+    (kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state
+    )
+  )
 
 ;;; 求值一个表达式并打印结果
 (define-key emacs-lisp-mode-map (kbd "C-x j")
