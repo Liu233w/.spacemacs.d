@@ -103,3 +103,11 @@ window 并切换到 shell。否则关闭当前的 window。"
            (insert (current-kill 0)))))
 (global-set-key (kbd "C-c j") (liu233w/get-command-with-evil-state
                                #'liu233w/eval-and-replace))
+
+;;; 用来快速定位 elisp 代码的快捷键
+;;; from https://github.com/emacs-china/hello-emacs/blob/master/Emacs_Redux/%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8DEmacs_Lisp%E6%BA%90%E4%BB%A3%E7%A0%81.org
+(dolist (state '(insert normal))
+  (liu233w|bind-keys (evil-global-set-key state)
+    (kbd "C-h C-l") #'find-library
+    (kbd "C-h C-v") #'find-variable
+    (kbd "C-h C-f") #'find-function))
