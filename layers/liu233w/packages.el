@@ -77,6 +77,7 @@
     electric-operator
     tern
     helm-pages
+    (org-slides-mode :location local)
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -834,5 +835,18 @@ owner 是 distribution-layer，因此不能使用 pre-init"
     :defer t
     :init
     (spacemacs/set-leader-keys "jp" #'helm-pages)))
+
+(defun liu233w/init-org-slides-mode ()
+  "用来演示org，在演示完之后需要手动恢复"
+  (use-package org-slides-mode
+    :defer t
+    :commands (org-slides-mode)
+    :config
+    (defun liu233w/exit-org-slides-mode ()
+      (interactive)
+      (org-slides-mode)
+      (liu233w/set-chinese-fonts))
+    (define-key org-slides-mode-keymap
+      (kbd "C-g") #'liu233w/set-chinese-fonts)))
 
 ;;; packages.el ends here
