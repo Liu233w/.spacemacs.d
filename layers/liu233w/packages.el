@@ -72,6 +72,7 @@
     (run-current-file :location local)
     try
     aggressive-indent
+    focus
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -766,5 +767,13 @@ http://web-mode.org"
                python-mode-hook
                ))
       (add-hook hooks #'aggressive-indent-mode))))
+
+(defun liu233w/init-focus ()
+  "高亮当前的段落，取消其他段落的高亮"
+  (use-package focus
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "otf" #'focus-mode)))
 
 ;;; packages.el ends here
