@@ -73,6 +73,7 @@
     try
     aggressive-indent
     focus
+    vline
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -775,5 +776,17 @@ http://web-mode.org"
     :init
     (spacemacs/set-leader-keys
       "otf" #'focus-mode)))
+
+(defun liu233w/init-vline ()
+  "高亮当前列"
+  (use-package vline
+    :defer t
+    :init
+    (spacemacs/set-leader-keys
+      "otc" #'vline-mode
+      "otC" #'vline-global-mode)
+    :config
+    ;; 与默认的行高亮的颜色相同
+    (set-face-background vline-face "#073642")))
 
 ;;; packages.el ends here
