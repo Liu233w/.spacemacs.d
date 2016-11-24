@@ -74,6 +74,7 @@
     aggressive-indent
     focus
     vline
+    electric-operator
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -788,5 +789,13 @@ http://web-mode.org"
     :config
     ;; 与默认的行高亮的颜色相同
     (set-face-background vline-face "#073642")))
+
+(defun liu233w/init-electric-operator ()
+  "在运算符两边自动添加空格"
+  (use-package electric-operator
+    :defer t
+    :init
+    (dolist (hook '(python-mode-hook js2-mode-hook))
+      (add-hook hook #'electric-operator-mode))))
 
 ;;; packages.el ends here
