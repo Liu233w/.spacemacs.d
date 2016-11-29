@@ -1,6 +1,6 @@
 
 ;;;### (autoloads nil "liu233w-util-funcs" "liu233w-util-funcs.el"
-;;;;;;  (22581 21313 0 0))
+;;;;;;  (22590 29319 0 0))
 ;;; Generated autoloads from liu233w-util-funcs.el
 
 (autoload 'liu233w|bind-keys "liu233w-util-funcs" "\
@@ -64,7 +64,7 @@ list 是一个有两项的列表，在编译时对第二项求值一次得到一
 ;;;***
 
 ;;;### (autoloads nil "evil-quick-sender" "evil-quick-sender.el"
-;;;;;;  (22575 8790 0 0))
+;;;;;;  (22575 41692 0 0))
 ;;; Generated autoloads from evil-quick-sender.el
 
 (autoload 'evil-quick-sender-add-command "evil-quick-sender" "\
@@ -74,8 +74,31 @@ list 是一个有两项的列表，在编译时对第二项求值一次得到一
 
 ;;;***
 
+;;;### (autoloads nil "multi-keys" "multi-keys.el" (22599 48342 0
+;;;;;;  0))
+;;; Generated autoloads from multi-keys.el
+
+(defvar multi-keys-two-keys-delay 0.1 "\
+Max time delay between two key press to be considered a key chord.")
+
+(autoload 'multi-keys-define-key "multi-keys" "\
+Define a key-chord of the two keys in KEYS starting a COMMAND.
+
+KEYS must be a two-letter-string.
+
+\(fn KEYS COMMAND)" nil nil)
+
+(autoload 'multi-keys-unset-key "multi-keys" "\
+Unset multi-keys in KEYS.
+
+Can't unset key defination in `key-translation-map'.
+
+\(fn KEYS)" nil nil)
+
+;;;***
+
 ;;;### (autoloads nil "multiple-micro-state" "multiple-micro-state.el"
-;;;;;;  (22575 9234 0 0))
+;;;;;;  (22575 41692 0 0))
 ;;; Generated autoloads from multiple-micro-state.el
 
 (autoload 'mms|define-multiple-micro-state "multiple-micro-state" "\
