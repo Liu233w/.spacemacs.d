@@ -769,7 +769,22 @@ http://web-mode.org"
                js2-mode-hook
                python-mode-hook
                ))
-      (add-hook hooks #'aggressive-indent-mode))))
+      (add-hook hooks #'aggressive-indent-mode))
+    :config
+    (defun liu233w/disable-aggressive-indent-mode-for-command (cmd &rest rest)
+      (let ((aggressive-indent-mode nil))
+        (command-execute cmd)))
+    (dolist (cmd '(undo-tree-undo
+                   undo-tree-redo))
+      (advice-add cmd :around
+                  #'liu233w/disable-aggressive-indent-mode-for-command))
+
+    (dolist (cmd '(evil-paste-after
+                   evil-paste-before
+                   evil-paste-pop
+                   evil-paste-pop-next))
+      (add-to-list 'aggressive-indent-protected-commands cmd))
+    ))
 
 (defun liu233w/init-focus ()
   "高亮当前的段落，取消其他段落的高亮"
