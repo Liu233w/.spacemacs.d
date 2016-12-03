@@ -379,8 +379,8 @@ you should place you code here."
   ;; 设置编码
   (cond
    ((spacemacs/system-is-mswindows)
-    (prefer-coding-system 'utf-8)
     (set-language-environment "chinese-gbk")
+    (prefer-coding-system 'utf-8)
     (set-default 'process-coding-system-alist
                  '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
                    ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
