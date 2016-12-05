@@ -379,11 +379,18 @@ you should place you code here."
   ;; 设置编码
   (cond
    ((spacemacs/system-is-mswindows)
+    ;;
     (set-language-environment "chinese-gbk")
     (prefer-coding-system 'utf-8)
-    (set-default 'process-coding-system-alist
-                 '(("[pP][lL][iI][nN][kK]" gbk-dos . gbk-dos)
-                   ("[cC][mM][dD][pP][rR][oO][xX][yY]" gbk-dos . gbk-dos)))
+    (set-terminal-coding-system 'gbk)
+    ;;
+    (modify-coding-system-alist 'process "*" 'gbk)
+    (defun liu233w/windows-shell-mode-coding ()
+      (set-buffer-file-coding-system 'gbk)
+      (set-buffer-process-coding-system 'gbk 'gbk))
+    (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
+    (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
+    ;;
     (defun liu233w//python-encode-in-org-babel-execute (func body params)
       "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆
 盖默认选项来编码文件。"
