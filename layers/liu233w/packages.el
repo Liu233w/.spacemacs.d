@@ -755,22 +755,23 @@ http://web-mode.org"
   (use-package try
     :defer t))
 
-(defun liu233w/init-aggressive-indent ()
-  "在每次操作\(输入、删除\)时都自动进行缩进。"
-  (use-package aggressive-indent
-    :defer t
-    :init
-    (dolist (hooks
-             '(
-               emacs-lisp-mode-hook
-               lisp-mode-hook
-               web-mode-hook
-               c++-mode-hook
-               js2-mode-hook
-               python-mode-hook
-               ))
-      (add-hook hooks #'aggressive-indent-mode))
-    :config
+(defun liu233w/post-init-aggressive-indent ()
+  "在每次操作\(输入、删除\)时都自动进行缩进。
+
+owner 是 distribution-layer，因此不能使用 pre-init"
+  ;; init
+  (dolist (hooks
+           '(
+             emacs-lisp-mode-hook
+             lisp-mode-hook
+             web-mode-hook
+             c++-mode-hook
+             js2-mode-hook
+             python-mode-hook
+             ))
+    (add-hook hooks #'aggressive-indent-mode))
+  ;; config
+  (with-eval-after-load 'aggressive-indent
     (defun liu233w/disable-aggressive-indent-mode-for-command (cmd &rest rest)
       (let ((aggressive-indent-mode nil))
         (command-execute cmd)))
