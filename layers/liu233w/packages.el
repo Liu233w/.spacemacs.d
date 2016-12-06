@@ -75,6 +75,7 @@
     focus
     vline
     electric-operator
+    tern
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -814,5 +815,14 @@ owner 是 distribution-layer，因此不能使用 pre-init"
     :init
     (dolist (hook '(python-mode-hook js2-mode-hook))
       (add-hook hook #'electric-operator-mode))))
+
+(defun liu233w/pre-init-tern ()
+  "for javascript"
+  (spacemacs|use-package-add-hook tern
+    :post-config
+    (defvar liu233w/windows-tern-location
+      "c:/Users/wwwlsmcom/AppData/Roaming/npm/node_modules/tern/bin/tern")
+    (when (spacemacs/system-is-mswindows)
+      (setq tern-command (list "node" liu233w/windows-tern-location)))))
 
 ;;; packages.el ends here
