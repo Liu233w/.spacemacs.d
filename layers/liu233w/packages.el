@@ -448,22 +448,7 @@ http://web-mode.org"
      (liu233w/get-command-with-evil-state #'skewer-eval-last-expression)
      'normal)
     (evil-quick-sender-add-command
-     'js2-mode #'spacemacs/skewer-eval-region 'visual)
-
-    (defun liu233w/skewer-load-buffer ()
-      "`skewer-load-buffer' 的替代品。
-
-使用和 `skewer-eval-last-expression' 相同的方式，用以解决中文乱码问题。"
-      (interactive)
-      (spacemacs/skewer-eval-region (point-min) (point-max)))
-    (defun liu233w/skewer-load-buffer-and-focus ()
-      "see `liu233w/skewer-load-buffer'"
-      (interactive)
-      (spacemacs/skewer-eval-region-and-focus (point-min) (point-max)))
-    (spacemacs/set-leader-keys-for-major-mode 'js2-mode
-      "sb" #'liu233w/skewer-load-buffer
-      "sB" #'liu233w/skewer-load-buffer-and-focus)
-    ))
+     'js2-mode #'spacemacs/skewer-eval-region 'visual)))
 
 ;; (defun liu233w/init-js-comint ()
 ;;   "交互式运行 Node.js"
