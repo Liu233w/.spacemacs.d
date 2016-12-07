@@ -84,6 +84,20 @@ window 并切换到 shell。否则关闭当前的 window。"
     (kbd "C-u") 'liu233w/view:evil-scroll-up-then-enter-micro-state
     (kbd "C-d") 'liu233w/view:evil-scroll-down-then-enter-micro-state
     )
+
+  (mms|define-multiple-micro-state
+   liu233w/page
+   :use-minibuffer t
+   :doc "`\[' backword-page `\]' forward-page"
+   :with-full-arguments t
+   :bindings
+   ("[" backward-page)
+   ("]" forward-page))
+
+  (dolist (state '(normal visual))
+    (liu233w|bind-keys (evil-global-set-key state)
+      (kbd "g [") #'liu233w/page:backward-page-then-enter-micro-state
+      (kbd "g ]") #'liu233w/page:forward-page-then-enter-micro-state))
   )
 
 ;;; 求值一个表达式并打印结果
