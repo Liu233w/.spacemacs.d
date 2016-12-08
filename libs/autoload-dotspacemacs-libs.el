@@ -1,6 +1,6 @@
 
 ;;;### (autoloads nil "liu233w-util-funcs" "liu233w-util-funcs.el"
-;;;;;;  (22590 29319 0 0))
+;;;;;;  (22599 54164 0 0))
 ;;; Generated autoloads from liu233w-util-funcs.el
 
 (autoload 'liu233w|bind-keys "liu233w-util-funcs" "\
@@ -64,7 +64,7 @@ list 是一个有两项的列表，在编译时对第二项求值一次得到一
 ;;;***
 
 ;;;### (autoloads nil "evil-quick-sender" "evil-quick-sender.el"
-;;;;;;  (22575 41692 0 0))
+;;;;;;  (22581 22031 0 0))
 ;;; Generated autoloads from evil-quick-sender.el
 
 (autoload 'evil-quick-sender-add-command "evil-quick-sender" "\
@@ -74,12 +74,39 @@ list 是一个有两项的列表，在编译时对第二项求值一次得到一
 
 ;;;***
 
-;;;### (autoloads nil "multi-keys" "multi-keys.el" (22599 48342 0
+;;;### (autoloads nil "multi-keys" "multi-keys.el" (22607 64941 0
 ;;;;;;  0))
 ;;; Generated autoloads from multi-keys.el
 
 (defvar multi-keys-two-keys-delay 0.1 "\
 Max time delay between two key press to be considered a key chord.")
+
+(autoload 'multi-keys-mode "multi-keys" "\
+Like key-chord.el but without input-method dependent.
+
+\(fn &optional ARG)" t nil)
+
+(defvar global-multi-keys-mode nil "\
+Non-nil if Global Multi-Keys mode is enabled.
+See the `global-multi-keys-mode' command
+for a description of this minor mode.
+Setting this variable directly does not take effect;
+either customize it (see the info node `Easy Customization')
+or call the function `global-multi-keys-mode'.")
+
+(custom-autoload 'global-multi-keys-mode "multi-keys" nil)
+
+(autoload 'global-multi-keys-mode "multi-keys" "\
+Toggle Multi-Keys mode in all buffers.
+With prefix ARG, enable Global Multi-Keys mode if ARG is positive;
+otherwise, disable it.  If called from Lisp, enable the mode if
+ARG is omitted or nil.
+
+Multi-Keys mode is enabled in all buffers where
+`(lambda nil (multi-keys-mode 1))' would do it.
+See `multi-keys-mode' for more information on Multi-Keys mode.
+
+\(fn &optional ARG)" t nil)
 
 (autoload 'multi-keys-define-key "multi-keys" "\
 Define a key-chord of the two keys in KEYS starting a COMMAND.
@@ -98,7 +125,7 @@ Can't unset key defination in `key-translation-map'.
 ;;;***
 
 ;;;### (autoloads nil "multiple-micro-state" "multiple-micro-state.el"
-;;;;;;  (22575 41692 0 0))
+;;;;;;  (22581 22031 0 0))
 ;;; Generated autoloads from multiple-micro-state.el
 
 (autoload 'mms|define-multiple-micro-state "multiple-micro-state" "\

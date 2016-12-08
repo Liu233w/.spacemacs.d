@@ -567,7 +567,10 @@ http://web-mode.org"
     (evil-global-set-key 'normal
                          (kbd "C-;") (liu233w/get-command-with-evil-state
                                       #'liu233w/switch-to-pyim-and-convert))
-    (multi-keys-define-key "kl" #'liu233w/switch-to-pyim-and-convert))
+
+    (global-multi-keys-mode 1)
+    (spacemacs|hide-lighter multi-keys-mode)
+    (multi-keys-define-global "kl" #'liu233w/switch-to-pyim-and-convert))
 
   (with-eval-after-load 'chinese-pyim
     ;; (require 'chinese-pyim-greatdict)
