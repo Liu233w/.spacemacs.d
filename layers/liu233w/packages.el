@@ -76,6 +76,7 @@
     vline
     electric-operator
     tern
+    helm-pages
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -825,5 +826,12 @@ owner 是 distribution-layer，因此不能使用 pre-init"
       "c:/Users/wwwlsmcom/AppData/Roaming/npm/node_modules/tern/bin/tern")
     (when (spacemacs/system-is-mswindows)
       (setq tern-command (list "node" liu233w/windows-tern-location)))))
+
+(defun liu233w/init-helm-pages ()
+  "使用 helm 列出以分页符分隔的段落"
+  (use-package helm-pages
+    :defer t
+    :init
+    (spacemacs/set-leader-keys "jp" #'helm-pages)))
 
 ;;; packages.el ends here

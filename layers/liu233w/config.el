@@ -109,3 +109,14 @@
   (advice-add #'evil-delete-marks :override
               #'override-evil-delete-marks)
   )
+
+;;; from http://endlessparentheses.com/improving-page-navigation.html
+(defun liu233w/ad-focus-top-of-page (&rest _)
+  "Recenter to page start."
+  (when (called-interactively-p 'any)
+    (recenter 5)))
+;; Requires Emacs 24.5
+(advice-add #'backward-page :after
+            #'liu233w/ad-focus-top-of-page)
+(advice-add #'forward-page  :after
+            #'liu233w/ad-focus-top-of-page)
