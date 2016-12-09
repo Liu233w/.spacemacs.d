@@ -98,6 +98,20 @@ window 并切换到 shell。否则关闭当前的 window。"
     (liu233w|bind-keys (evil-global-set-key state)
       (kbd "g [") #'liu233w/page:backward-page-then-enter-micro-state
       (kbd "g ]") #'liu233w/page:forward-page-then-enter-micro-state))
+
+  (mms|define-multiple-micro-state
+   liu233w/other
+   :use-minibuffer t
+   :doc auto
+   :with-full-arguments t
+   :bindings
+   ("f" scroll-other-window)
+   ("b" scroll-other-window-down))
+
+  (dolist (state '(normal visual insert))
+    (liu233w|bind-keys (evil-global-set-key state)
+      (kbd "C-S-f") #'liu233w/other:scroll-other-window-then-enter-micro-state
+      (kbd "C-S-b") #'liu233w/other:scroll-other-window-down-then-enter-micro-state))
   )
 
 ;;; 求值一个表达式并打印结果
