@@ -618,6 +618,8 @@ http://web-mode.org"
     (with-eval-after-load 'evil-snipe
       (evil-find-char-pinyin-mode +1)
       (evil-find-char-pinyin-toggle-snipe-integration t))
+    :config
+    (spacemacs|hide-lighter evil-find-char-pinyin-mode)
     ))
 
 (defun liu233w/pre-init-python ()

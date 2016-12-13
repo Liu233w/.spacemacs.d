@@ -102,10 +102,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(
-                                    (when (spacemacs/system-is-mswindows)
-                                      'gnuplot)
-                                    )
+   dotspacemacs-excluded-packages '()
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -411,19 +408,16 @@ you should place you code here."
                               (hungry-delete-mode)
                               (turn-on-fci-mode)))
 
+  ;; hide lighter
+  (spacemacs|diminish yas-minor-mode)
+  (spacemacs|diminish spacemacs-whitespace-cleanup-mode)
+  (spacemacs|diminish which-key-mode)
+
   (load user-config-file t)
 
   ;;放到加载配置之后，防止覆盖默认选项
   (liu233w/set-chinese-fonts)
   (add-hook 'after-make-frame-functions 'liu233w/set-chinese-fonts)
-
-  ;; 便于我写 python 讲义的函数
-  (defun liu233w/py-acm-insert-src-block ()
-    (interactive)
-    (save-excursion
-      (insert "#+begin_src python :exports both
-#+end_src")))
-  (evil-ex-define-cmd "pys" #'liu233w/py-acm-insert-src-block)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
