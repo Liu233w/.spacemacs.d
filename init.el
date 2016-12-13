@@ -409,7 +409,6 @@ you should place you code here."
                               (turn-on-fci-mode)))
 
   ;; hide lighter
-  (spacemacs|diminish yas-minor-mode)
   (spacemacs|diminish spacemacs-whitespace-cleanup-mode)
   (spacemacs|diminish which-key-mode)
 
