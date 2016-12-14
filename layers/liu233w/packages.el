@@ -844,9 +844,10 @@ owner 是 distribution-layer，因此不能使用 pre-init"
     :config
     (defun liu233w/exit-org-slides-mode ()
       (interactive)
-      (org-slides-mode)
+      (org-slides-mode -1)
+      (widen)
       (liu233w/set-chinese-fonts))
     (define-key org-slides-mode-keymap
-      (kbd "C-g") #'liu233w/set-chinese-fonts)))
+      (kbd "<home>") #'liu233w/exit-org-slides-mode)))
 
 ;;; packages.el ends here

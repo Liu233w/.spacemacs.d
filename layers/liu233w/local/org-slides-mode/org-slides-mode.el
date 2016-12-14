@@ -1,8 +1,9 @@
 ;;; org-slides-mode.el --- 用来演示org               -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015  Nat Knight
+;;               2016  Liu233w
 
-;; Author: Nat Knight
+;; Author: Liu233w <wwwlsmcom@outlook.com>
 ;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -63,10 +64,13 @@
   "View org-mode sub-trees as slides."
   :lighter " Slides"
   :keymap org-slides-mode-keymap
-  (progn
+  (when org-slides-mode                 ;; when enable the mode
     (set-face-attribute 'default nil :height 300) ;; big font
     (set-variable 'left-margin-width '2 t) ;; little margin
-    (set-window-buffer (selected-window) (current-buffer)))) ;; don't change windows
+    (set-window-buffer (selected-window) (current-buffer)) ;; don't change windows
+    (command-execute #'beginning-of-buffer) ;; move to buffer beginning
+    (org-next-slide)                    ;; begin
+    ))
 
 (provide 'org-slides-mode)
 ;;; org-slides-mode.el ends here
