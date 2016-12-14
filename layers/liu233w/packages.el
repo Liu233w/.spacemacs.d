@@ -701,15 +701,13 @@ http://web-mode.org"
     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
   )
 
-(defun liu233w/pre-init-linum ()
-  (spacemacs|use-package-add-hook linum
-    :post-config
-    ;; 打开大文件的时候关闭 linum，否则速度太慢
-    ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
-    (defun spacemacs/check-large-file ()
-      (when (> (buffer-size) *large-buffer-threshold*)
-        (linum-mode -1)))
-    (add-hook 'find-file-hook 'spacemacs/check-large-file))
+(defun liu233w/post-init-linum ()
+  ;; 打开大文件的时候关闭 linum，否则速度太慢
+  ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
+  (defun liu233w/linum-check-large-file ()
+    (when (> (buffer-size) *large-buffer-threshold*)
+      (linum-mode -1)))
+  (add-hook 'find-file-hook 'liu233w/linum-check-large-file)
   )
 
 (defun liu233w/post-init-emacs-lisp ()
