@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: pyexp
-# key: pyexp
-# --
-例程 [[../src/${1:file}.py][$1.py]]
-#+begin_src python :tangle ../src/$1.py
-$2
-#+end_src
-$0
