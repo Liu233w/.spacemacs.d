@@ -37,6 +37,7 @@
   '(
     org
     (ego :location (recipe :fetcher github :repo "liu233w/EGO-steady"))
+    ob-ipython
     )
   "The list of Lisp packages required by the org-config layer.
 
@@ -112,6 +113,7 @@ Each entry is either:
        ;; (scala      . t)
        ;; (clojure    . t)
        (python     . t)
+       (ipython . t)
        ;; (ruby       . t)
        ;; (dot        . t)
        ;; (css        . t)
@@ -224,6 +226,12 @@ Each entry is either:
     (advice-add 'ego--insert-options-template :filter-args
                 'org-config//advice-of-ego--insert-options-template
                 )
+    ))
+
+(defun org-config/init-ob-ipython ()
+  "在 org 中使用 ipython"
+  (use-package ob-ipython
+    :defer t
     ))
 
 ;;; packages.el ends here
