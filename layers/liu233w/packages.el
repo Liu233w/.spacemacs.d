@@ -82,6 +82,10 @@
                 (recipe
                  :fetcher github
                  :repo "Liu233w/multi-keys.el"))
+    (elisp-format :location
+                  (recipe
+                   :fetcher github
+                   :repo "Yuki-Inoue/elisp-format"))
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -860,5 +864,12 @@ owner 是 distribution-layer，因此不能使用 pre-init"
     (global-multi-keys-mode 1)
     (multi-keys-define-global "kl" #'liu233w/switch-to-pyim-and-convert)
     ))
+
+(defun liu233w/init-elisp-format ()
+  "给 elisp 提供自动折行。"
+  ;; see https://github.com/Yuki-Inoue/elisp-format
+  ;; and https://www.emacswiki.org/emacs/ElispFormat
+  (use-package elisp-format
+    :defer t))
 
 ;;; packages.el ends here
