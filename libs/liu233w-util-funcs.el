@@ -39,10 +39,11 @@ binding-list 以外，请使用和直接调用键绑定函数时相同的语法"
   (declare (indent 1))
   (when (oddp (length bindings))
     (error "请在 binding 处输入偶数个参数"))
-  (append '(progn)
-          (loop for (key . rest) on bindings by #'cddr
-                collect (append func-and-arg-list
-                                (list key (car rest))))))
+  (loop for (key . (cmd . rest)) on bindings by #'cddr
+        collect (append func-and-arg-list
+                        (list key cmd))
+        into expressions
+        finally return (nconc '(progn) expressions)))
 
 ;;; from evil-plist-delete
 ;;;###autoload
