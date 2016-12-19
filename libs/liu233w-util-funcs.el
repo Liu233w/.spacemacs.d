@@ -43,7 +43,7 @@ binding-list 以外，请使用和直接调用键绑定函数时相同的语法"
         collect (append func-and-arg-list
                         (list key cmd))
         into expressions
-        finally return (nconc '(progn) expressions)))
+        finally return (append '(progn) expressions)))
 
 ;;; from evil-plist-delete
 ;;;###autoload
