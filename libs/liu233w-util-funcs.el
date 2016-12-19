@@ -30,8 +30,8 @@
 
 语法为：
 \(liu233w|bind-keys \(define-key evil-visual-state-map\)
-                   \"mn\" 'func1
-                   \"mp\" 'func2\)
+  \"mn\" 'func1
+  \"mp\" 'func2\)
 
 键绑定会自动添加，不会自动调用 kbd。这个宏会生成多个键绑定函数的调
 用，每次都使用 binding-list 中的两项放在函数调用的最后。除了
@@ -39,15 +39,10 @@ binding-list 以外，请使用和直接调用键绑定函数时相同的语法"
   (declare (indent 1))
   (when (oddp (length bindings))
     (error "请在 binding 处输入偶数个参数"))
-  (let ((result '(progn))
-        (binding-list bindings))
-    (loop while binding-list
-          do
-          (setq result
-                (append result
-                        `((,@func-and-arg-list
-                           ,(pop binding-list) ,(pop binding-list))))))
-    result))
+  (append '(progn)
+          (loop for (key . rest) on bindings by #'cddr
+                collect (append func-and-arg-list
+                                (list key (car rest))))))
 
 ;;; from evil-plist-delete
 ;;;###autoload
