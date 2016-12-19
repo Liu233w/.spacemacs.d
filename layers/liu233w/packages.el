@@ -78,6 +78,10 @@
     tern
     helm-pages
     (org-slides-mode :location local)
+    (multi-keys :location
+                (recipe
+                 :fetcher github
+                 :repo "Liu233w/multi-keys.el"))
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -568,9 +572,7 @@ http://web-mode.org"
                          (kbd "C-;") (liu233w/get-command-with-evil-state
                                       #'liu233w/switch-to-pyim-and-convert))
 
-    (global-multi-keys-mode 1)
-    (spacemacs|hide-lighter multi-keys-mode)
-    (multi-keys-define-global "kl" #'liu233w/switch-to-pyim-and-convert))
+    (spacemacs|hide-lighter multi-keys-mode))
 
   (with-eval-after-load 'chinese-pyim
     ;; (require 'chinese-pyim-greatdict)
@@ -850,5 +852,13 @@ owner 是 distribution-layer，因此不能使用 pre-init"
       (liu233w/set-chinese-fonts))
     (define-key org-slides-mode-keymap
       (kbd "<home>") #'liu233w/exit-org-slides-mode)))
+
+(defun liu233w/init-multi-keys ()
+  "代替 key-chord.el"
+  (use-package multi-keys
+    :config
+    (global-multi-keys-mode 1)
+    (multi-keys-define-global "kl" #'liu233w/switch-to-pyim-and-convert)
+    ))
 
 ;;; packages.el ends here
