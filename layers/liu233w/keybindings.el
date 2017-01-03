@@ -139,3 +139,5 @@ window 并切换到 shell。否则关闭当前的 window。"
     (kbd "C-h C-l") #'find-library
     (kbd "C-h C-v") #'find-variable
     (kbd "C-h C-f") #'find-function))
+
+(spacemacs/set-leader-keys "oti" #'highlight-indentation-mode)
