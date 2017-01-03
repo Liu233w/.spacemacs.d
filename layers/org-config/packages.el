@@ -38,6 +38,7 @@
     org
     (ego :location (recipe :fetcher github :repo "liu233w/EGO-steady"))
     ob-ipython
+    (org-table-move-single-cell :location local)
     )
   "The list of Lisp packages required by the org-config layer.
 
@@ -233,5 +234,33 @@ Each entry is either:
   (use-package ob-ipython
     :defer t
     ))
+
+(defun org-config/init-org-table-move-single-cell ()
+  "用于在org文件中移动单元格。
+
+参考：https://emacs-china.org/t/org-mode/1925/4?u=liu233w"
+  (use-package org-table-move-single-cell
+    :defer t
+    :commands (org-table-move-single-cell-up
+               org-table-move-single-cell-down
+               org-table-move-single-cell-left
+               org-table-move-single-cell-right)
+    :init
+    (with-eval-after-load 'org
+      (mms|define-multiple-micro-state
+       liu233w/org-table-move
+       :doc auto
+       :bindings
+       ("<up>" org-table-move-single-cell-up)
+       ("<down>" org-table-move-single-cell-down)
+       ("<left>" org-table-move-single-cell-left)
+       ("<right>" org-table-move-single-cell-right))
+      (spacemacs/set-leader-keys-for-minor-mode 'org-mode
+        "t <up>" #'liu233w/org-table-move:org-table-move-single-cell-up-then-enter-micro-state
+        "t <down>" #'liu233w/org-table-move:org-table-move-single-cell-down-then-enter-micro-state
+        "t <left>" #'liu233w/org-table-move:org-table-move-single-cell-left-then-enter-micro-state
+        "t <right>" #'liu233w/org-table-move:org-table-move-single-cell-right-then-enter-micro-state
+        )
+      )))
 
 ;;; packages.el ends here
