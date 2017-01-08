@@ -120,3 +120,24 @@
             #'liu233w/ad-focus-top-of-page)
 (advice-add #'forward-page  :after
             #'liu233w/ad-focus-top-of-page)
+
+;;; 设置 custom layout
+(with-eval-after-load 'persp-mode
+  (spacemacs|define-custom-layout "@personal-config"
+    :binding "p"
+    :body
+    (lexical-let* ((layer-name '("liu233w" "org-config"))
+                   (file-list '("~/.spacemacs.d/init.el"
+                                "~/.spacemacs.d/layers/%s/packages.el"
+                                "~/.spacemacs.d/layers/%s/config.el"
+                                "~/.spacemacs.d/layers/%s/keybindings.el"
+                                "~/.spacemacs.d/layers/%s/funcs.el"))
+                   (results (-table-flat
+                             (lambda (file layer) (format file layer))
+                             file-list
+                             layer-name)))
+      (dolist (file results)
+        (condition-case nil ; 如果文件不存在，不抛出异常
+            (find-file-existing file)
+          (error nil)))
+      results)))
