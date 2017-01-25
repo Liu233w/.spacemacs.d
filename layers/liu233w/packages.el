@@ -586,10 +586,10 @@ http://web-mode.org"
 
     ;; 选词框样式
     (if (spacemacs/system-is-mswindows)
-        (setq pyim-use-tooltip nil)
-      (setq pyim-use-tooltip 'popup)
+        (setq-default pyim-page-tooltip nil)
+      (setq-default pyim-page-tooltip 'popup)
       (when (spacemacs/system-is-linux)
-        (setq x-gtk-use-system-tooltips t)))
+        (setq-default x-gtk-use-system-tooltips t)))
 
     ;; 根据上下文来确定当前是否使用中文
     (setq-default pyim-english-input-switch-functions
