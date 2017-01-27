@@ -64,7 +64,7 @@
     (python :location built-in)
     (dubcaps-mode :location local)
     (cc-mode :location built-in)
-    (auto-clang-format :location local)
+    ;; (auto-clang-format :location local)
     (dired :location built-in)
     (linum :location built-in)
     (emacs-lisp :location built-in)
@@ -86,6 +86,7 @@
                   (recipe
                    :fetcher github
                    :repo "Yuki-Inoue/elisp-format"))
+    (auto-align :location local)
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -688,20 +689,20 @@ http://web-mode.org"
   ;;                      (list liu233w//company-clang-additional-clang-args-after))))))
   )
 
-(defun liu233w/init-auto-clang-format ()
-  "在输入分号或右大括号的时候自动排版。"
-  (use-package auto-clang-format
-    :defer t
-    :commands acf-enable-auto-clang-format
-    :init
-    (add-hook 'c++-mode-hook #'acf-enable-auto-clang-format)
-    :config
-    (when (spacemacs/system-is-mswindows)
-      (defun liu233w//utf-8-dos-as-coding-system-for-write (func &rest rest)
-        (let ((coding-system-for-write 'utf-8-dos))
-          (apply func rest)))
-      (advice-add #'clang-format-region :around
-                  #'liu233w//utf-8-dos-as-coding-system-for-write))))
+;; (defun liu233w/init-auto-clang-format ()
+;;   "在输入分号或右大括号的时候自动排版。"
+;;   (use-package auto-clang-format
+;;     :defer t
+;;     :commands acf-enable-auto-clang-format
+;;     :init
+;;     (add-hook 'c++-mode-hook #'acf-enable-auto-clang-format)
+;;     :config
+;;     (when (spacemacs/system-is-mswindows)
+;;       (defun liu233w//utf-8-dos-as-coding-system-for-write (func &rest rest)
+;;         (let ((coding-system-for-write 'utf-8-dos))
+;;           (apply func rest)))
+;;       (advice-add #'clang-format-region :around
+;;                   #'liu233w//utf-8-dos-as-coding-system-for-write))))
 
 (defun liu233w/pre-init-dired ()
   (with-eval-after-load 'dired
@@ -871,5 +872,14 @@ owner 是 distribution-layer，因此不能使用 pre-init"
   ;; and https://www.emacswiki.org/emacs/ElispFormat
   (use-package elisp-format
     :defer t))
+
+(defun liu233w/init-auto-align ()
+  "在键入分号或右大括号时自动调用内置的 align 函数进行格式化。"
+  (use-package auto-align
+    :defer t
+    :commands auto-align-setup
+    :init
+    (dolist (hook '(c++-mode-hook js2-mode-hook))
+      (add-hook hook #'auto-align-setup))))
 
 ;;; packages.el ends here
