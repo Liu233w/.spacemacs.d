@@ -509,8 +509,8 @@ http://web-mode.org"
     (setq-default js2-auto-indent-p t)
 
     (setq-default js2-bounce-indent nil)
-    (setq-default js-indent-level 4)
-    (setq-default js2-basic-offset 4)
+    (setq-default js-indent-level 2)
+    (setq-default js2-basic-offset 2)
     (setq-default js-switch-indent-offset 2)
     ;; Let flycheck handle parse errors
     (setq-default js2-mode-show-parse-errors nil)
