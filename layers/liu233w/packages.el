@@ -220,6 +220,8 @@ Each entry is either:
      (liu233w/get-command-with-evil-state #'slime-eval-last-expression)
      'normal)
     (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
+    (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
+      "ge" #'slime-edit-definition)
 
     ;; 设置默认的 lisp 程序
     (setq inferior-lisp-program
