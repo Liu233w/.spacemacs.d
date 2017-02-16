@@ -221,7 +221,8 @@ Each entry is either:
      'normal)
     (evil-quick-sender-add-command 'lisp-mode #'slime-eval-region 'visual)
     (spacemacs/set-leader-keys-for-major-mode 'lisp-mode
-      "ge" #'slime-edit-definition)
+      "ge" #'slime-edit-definition
+      "d" #'slime-documentation)
 
     ;; 设置默认的 lisp 程序
     (setq inferior-lisp-program
