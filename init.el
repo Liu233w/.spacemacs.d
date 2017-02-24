@@ -91,6 +91,7 @@ values."
      javascript
      evil-snipe
      evil-cleverparens
+     racket
      liu233w
      org-config
      )
