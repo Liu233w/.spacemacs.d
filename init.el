@@ -92,6 +92,7 @@ values."
      evil-snipe
      evil-cleverparens
      racket
+     sql
      liu233w
      org-config
      )
