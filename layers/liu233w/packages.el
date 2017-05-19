@@ -783,7 +783,6 @@ owner 是 distribution-layer，因此不能使用 pre-init"
              web-mode-hook
              c++-mode-hook
              js2-mode-hook
-             python-mode-hook
              ))
     (add-hook hooks #'aggressive-indent-mode))
   ;; config
