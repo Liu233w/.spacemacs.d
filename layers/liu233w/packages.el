@@ -640,7 +640,18 @@ http://web-mode.org"
   (spacemacs|use-package-add-hook python
     :post-config
     ;; fix: https://github.com/gregsexton/ob-ipython/issues/28
-    (setq python-shell-completion-native-enable nil))
+    (setq python-shell-completion-native-enable nil)
+
+    (defun liu233w/python-shell-send-line ()
+      "send current line to python shell"
+      (interactive)
+      (python-shell-send-region (line-beginning-position) (line-end-position)))
+    (evil-quick-sender-add-command 'python-mode
+                                   #'liu233w/python-shell-send-line
+                                   'normal)
+    (evil-quick-sender-add-command 'python-mode
+                                   #'python-shell-send-region
+                                   'visual))
   )
 
 (defun liu233w/init-dubcaps-mode ()
