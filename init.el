@@ -92,6 +92,8 @@ values."
      evil-snipe
      evil-cleverparens
      windows-scripts
+     racket
+     sql
      liu233w
      org-config
      )
@@ -185,7 +187,7 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `("Source Code Pro"
                                :size ,(if (> (x-display-pixel-height) 1200)
-                                        30 18)
+                                          30 18)
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
