@@ -86,6 +86,7 @@
                   (recipe
                    :fetcher github
                    :repo "Yuki-Inoue/elisp-format"))
+    vue-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -874,5 +875,9 @@ owner 是 distribution-layer，因此不能使用 pre-init"
   ;; and https://www.emacswiki.org/emacs/ElispFormat
   (use-package elisp-format
     :defer t))
+
+(defun liu233w/init-vue-mode ()
+  (use-package vue-mode
+    :mode ("\\.vue\\'" . vue-mode)))
 
 ;;; packages.el ends here
