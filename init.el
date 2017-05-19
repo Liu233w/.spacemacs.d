@@ -91,6 +91,7 @@ values."
      javascript
      evil-snipe
      evil-cleverparens
+     windows-scripts
      liu233w
      org-config
      )
