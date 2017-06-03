@@ -66,7 +66,7 @@
     (cc-mode :location built-in)
     (auto-clang-format :location local)
     (dired :location built-in)
-    (linum :location built-in)
+    nlinum
     (emacs-lisp :location built-in)
     (word-count-for-chinese :location local)
     (run-current-file :location local)
@@ -310,7 +310,7 @@ Each entry is either:
     :defer t
     :config
     (add-hook 'ahk-mode-hook
-              (lambda () (linum-mode t)))))
+              (lambda () (nlinum-mode t)))))
 
 (defun liu233w/post-init-fcitx ()
   "可以在输入快捷键时自动切换输入法"
@@ -725,13 +725,13 @@ http://web-mode.org"
     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
   )
 
-(defun liu233w/post-init-linum ()
-  ;; 打开大文件的时候关闭 linum，否则速度太慢
+(defun liu233w/post-init-nlinum ()
+  ;; 打开大文件的时候关闭 nlinum，否则速度太慢
   ;; from https://github.com/zilongshanren/spacemacs-private/blob/develop/layers/zilongshanren-better-defaults/config.el#L132
-  (defun liu233w/linum-check-large-file ()
+  (defun liu233w/nlinum-check-large-file ()
     (when (> (buffer-size) *large-buffer-threshold*)
-      (linum-mode -1)))
-  (add-hook 'find-file-hook 'liu233w/linum-check-large-file)
+      (nlinum-mode -1)))
+  (add-hook 'find-file-hook 'liu233w/nlinum-check-large-file)
   )
 
 (defun liu233w/post-init-emacs-lisp ()

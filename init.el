@@ -94,6 +94,7 @@ values."
      windows-scripts
      racket
      sql
+     nlinum
      liu233w
      org-config
      )
@@ -407,7 +408,7 @@ you should place you code here."
   ;; 在所有编程语言里启动行号显示、hungry-delete-mode 和 80 字符指示器
   ;; 放在 config 里面没用
   (add-hook 'prog-mode-hook (lambda ()
-                              (linum-mode t)
+                              (nlinum-mode t)
                               (hungry-delete-mode)
                               (turn-on-fci-mode)))
 
