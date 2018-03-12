@@ -87,6 +87,7 @@
                    :fetcher github
                    :repo "Yuki-Inoue/elisp-format"))
     vue-mode
+    sml-mode
     )
   "The list of Lisp packages required by the liu233w layer.
 
@@ -889,5 +890,11 @@ owner 是 distribution-layer，因此不能使用 pre-init"
 (defun liu233w/init-vue-mode ()
   (use-package vue-mode
     :mode ("\\.vue\\'" . vue-mode)))
+
+(defun liu233w/pre-init-sml-mode ()
+  (spacemacs|use-package-add-hook sml-mode
+    :post-init
+    (evil-quick-sender-add-command 'sml-mode #'sml-send-function 'normal)
+    (evil-quick-sender-add-command 'sml-mode #'sml-prog-proc-send-region 'visual)))
 
 ;;; packages.el ends here
