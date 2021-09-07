@@ -57,9 +57,9 @@
     js2-mode
     pug-mode
     quickrun
-    chinese-pyim-greatdict
-    chinese-pyim-basedict
-    chinese-pyim
+    pyim-greatdict
+    pyim-basedict
+    pyim
     evil-find-char-pinyin
     (python :location built-in)
     (dubcaps-mode :location local)

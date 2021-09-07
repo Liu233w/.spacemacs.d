@@ -32,7 +32,7 @@
   "接受一个 plist，返回一个在:bindings 中的列表里面每个子列表的前两
 项组成的形如 `(键绑定 . 函数名)' 的列表"
   (mapcar (lambda (item) (cons (first item) (second item)))
-          (spacemacs/mplist-get lst :bindings)))
+          (spacemacs/mplist-get-values lst :bindings)))
 
 (defun mms//generate-document (lst)
   "接受一个含有键绑定和函数名的 cons 的列表，返回一个字符串，含有键
