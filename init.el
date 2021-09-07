@@ -349,10 +349,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq package-check-signature nil)
 
   ;;清华大学的国内源：https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
-  (setq configuration-layer--elpa-archives
-        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+  ; (setq configuration-layer--elpa-archives
+  ;       '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+  ;         ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+  ;         ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
   ;; 多大的 buffer 才算是大 buffer，在 buffer-size 超过此大小之后会采取不同的策略
   ;; 来提高运行效率
@@ -382,16 +382,16 @@ you should place you code here."
   (cond
    ((spacemacs/system-is-mswindows)
     ;;
-    (set-language-environment "chinese-gbk")
+    ; (set-language-environment "chinese-gbk")
     (prefer-coding-system 'utf-8)
-    (set-terminal-coding-system 'gbk)
+    ; (set-terminal-coding-system 'gbk)
     ;;
-    (modify-coding-system-alist 'process "*" 'gbk)
-    (defun liu233w/windows-shell-mode-coding ()
-      (set-buffer-file-coding-system 'gbk)
-      (set-buffer-process-coding-system 'gbk 'gbk))
-    (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
-    (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
+    ; (modify-coding-system-alist 'process "*" 'gbk)
+    ; (defun liu233w/windows-shell-mode-coding ()
+    ;   (set-buffer-file-coding-system 'gbk)
+    ;   (set-buffer-process-coding-system 'gbk 'gbk))
+    ; (add-hook 'shell-mode-hook #'liu233w/windows-shell-mode-coding)
+    ; (add-hook 'inferior-python-mode-hook #'liu233w/windows-shell-mode-coding)
     ;;
     (defun liu233w//python-encode-in-org-babel-execute (func body params)
       "org-babel 执行代码时不会自动编码文件，这里通过动态作用域覆
