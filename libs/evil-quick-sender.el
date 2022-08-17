@@ -26,35 +26,27 @@
 
 ;;; Code:
 
-(defvar evil-quick-sender--normal-map
-  (make-hash-table)
-  "在 normal 中执行的命令")
-
-(defvar evil-quick-sender--visual-map
-  (make-hash-table)
-  "在 visual 中执行的命令")
-
 (defun evil-quick-sender ()
   (interactive)
-  (let* ((table (cond
-                 ((evil-normal-state-p) evil-quick-sender--normal-map)
-                 ((evil-visual-state-p) evil-quick-sender--visual-map)
-                 (t nil)))
-         (func (and table (gethash major-mode table))))
+  (let ((func (get major-mode
+                   (case evil-state
+                     ('normal :evil-quick-sender-normal-state)
+                     ('visual :evil-quick-sender-visual-state)
+                     (t nil)))))
     (when func
       (call-interactively func))))
 
 ;;;###autoload
 (defun evil-quick-sender-add-command (mode cmd state)
-  "在 mode 中按下 s 将执行 cmd，state 有 normal 和 visual 两种。"
-  (cond
-   ((eql state 'normal)
-    (puthash mode cmd evil-quick-sender--normal-map))
-   ((eql state 'visual)
-    (puthash mode cmd evil-quick-sender--visual-map))
-   (t
-    (error
-     "Only normal or visual state can use `evil-quick-sender-add-command'."))))
+  "在 MODE 中按下 q 将执行 CMD，STATE 有 normal 和 visual 两种。"
+  (case state
+    ('normal
+     (put mode :evil-quick-sender-normal-state cmd))
+    ('visual
+     (put mode :evil-quick-sender-visual-state cmd))
+    (t
+     (error
+      "Only normal or visual state can use `evil-quick-sender-add-command'."))))
 
 (evil-global-set-key 'normal "q" #'evil-quick-sender)
 (evil-global-set-key 'visual "q" #'evil-quick-sender)
